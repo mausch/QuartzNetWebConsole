@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title>Quartz.Net console - Job group $model.group</title>
+	</head>
+	<body>
+	    Jobs:
+	    <table>
+	        <tr>
+	            <th>Name</th>
+	            <th>Description</th>
+	            <th>Type</th>
+	            <th>Durable</th>
+	            <th>Stateful</th>
+	            <th>Volatile</th>
+	            <th>Requests recovery</th>
+	            <th>Listeners</th>
+	        </tr>
+	        #foreach ($i in $model.jobs)
+	        <tr>
+	            <td>$i.Name</td>
+	            <td>$!i.Description</td>
+	            <td>$i.JobType</td>
+	            <td>$i.Durable</td>
+	            <td>$i.Stateful</td>
+	            <td>$i.Volatile</td>
+	            <td>$i.RequestsRecovery</td>
+	            <td>$i.JobListenerNames.Length</td>
+	        </tr>
+	        #end
+	    </table>
+	</body>
+</html>
