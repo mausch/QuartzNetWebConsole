@@ -4,6 +4,44 @@
 		<title>Quartz.Net Console</title>
 	</head>
 	<body>
-	
+	    Scheduler: $model.SchedulerName
+	    <br />
+	    Stand-by: $model.InStandbyMode<br />
+	    Shutdown: $model.IsShutdown<br />
+	    Started: $model.IsStarted<br />
+	    Job groups:
+	    <ul>
+	        #foreach ($i in $model.JobGroupNames)
+	        <li>$i</li>
+	        #end
+	    </ul>
+	    <br />
+	    Calendars:
+	    <ul>
+	        #foreach ($i in $model.CalendarNames)
+	        <li>$i</li>
+	        #end
+	    </ul>
+	    <br />
+	    Job listeners:
+	    <ul>
+	        #foreach ($i in $model.JobListenerNames)
+	        <li>$i</li>
+	        #end
+	    </ul>
+	    <br />
+	    Trigger groups:
+	    <ul>
+	        #foreach ($i in $model.TriggerGroupNames)
+	        <li>$i</li>
+	        #end
+	    </ul>
+	    <br />
+	    Trigger listeners:
+	    <ul>
+	        #foreach ($i in $model.TriggerListenerNames)
+	        <li>$i</li>
+	        #end
+	    </ul>
 	</body>
 </html>
