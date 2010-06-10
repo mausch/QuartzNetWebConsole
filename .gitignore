@@ -1,0 +1,8 @@
+*.suo
+*.bak
+*.user
+*.cache
+*/bin
+*/obj
+_ReSharper.*
+*/Build/*
