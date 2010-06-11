@@ -17,6 +17,7 @@
 	            <th>End time UTC</th>
 	            <th>Final fire time UTC</th>
 	            <th>Calendar</th>
+	            <th>State</th>
 	        </tr>
 	        #foreach ($i in $model.triggers)
 	        <tr>
@@ -29,6 +30,7 @@
 	            <td>$!i.trigger.EndTimeUtc</td>
 	            <td>$!i.trigger.FinalFireTimeUtc</td>
 	            <td>$!i.trigger.Calendar</td>
+	            <td>$!i.state</td>
 	        </tr>
 	        #end
 	    </table>
