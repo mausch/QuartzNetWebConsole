@@ -57,11 +57,18 @@
 	    </ul>
 	    <br />
 	    Trigger groups:
-	    <ul>
-	        #foreach ($i in $model.scheduler.TriggerGroupNames)
-	        <li><a href="triggerGroup.ashx?group=$i">$i</a></li>
+	    <table>
+	        <tr>
+	            <th>Name</th>
+	            <th>Paused</th>
+	        </tr>
+	        #foreach ($i in $model.triggerGroups)
+	        <tr>
+	            <td><a href="triggerGroup.ashx?group=$i.Name">$i.Name</a></td>
+	            <td>$i.Paused</td>
+	        </tr>
 	        #end
-	    </ul>
+	    </table>
 	    <br />
 	    Trigger listeners:
 	    <ul>
