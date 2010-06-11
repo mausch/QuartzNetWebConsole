@@ -1,10 +1,10 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 	<head>
-		<title>Quartz.Net console - Trigger group $model.group</title>
+		<title>Quartz.Net console - Trigger group $!model.group</title>
 	</head>
 	<body>
-	    <h1>Trigger group $model.group</h1>
+	    <h1>Trigger group $!model.group</h1>
 	    Paused: $model.paused
 	    #if (!$model.paused)
             <form method="post" action="scheduler.ashx?method=PauseTriggerGroup&groupName=$model.group&next=$helper.UrlEncode($model.thisUrl)">
