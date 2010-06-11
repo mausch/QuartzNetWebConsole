@@ -8,7 +8,7 @@ namespace QuartzNetWebConsole {
         private readonly IScheduler scheduler = Setup.Scheduler();
 
         public override IResult Execute(HttpContextBase context) {
-            return new ViewResult(scheduler, ViewName);
+            return new ViewResult(new {scheduler}, ViewName);
         }
     }
 }

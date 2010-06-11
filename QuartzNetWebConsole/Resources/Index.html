@@ -4,10 +4,10 @@
 		<title>Quartz.Net Console</title>
 	</head>
 	<body>
-	    Scheduler: $model.SchedulerName
+	    Scheduler: $model.scheduler.SchedulerName
 	    <br />
-	    Stand-by: $model.InStandbyMode
-	    #if (!$model.InStandbyMode)
+	    Stand-by: $model.scheduler.InStandbyMode
+	    #if (!$model.scheduler.InStandbyMode)
 	        <form method="post" action="scheduler.ashx?method=Standby">
 	            <input type="submit" value="Stand by" />
 	        </form>
@@ -17,8 +17,8 @@
             <input type="submit" value="Shut down" />
         </form>
 	    <br />
-	    Started: $model.IsStarted
-	    #if (!$model.IsStarted)
+	    Started: $model.scheduler.IsStarted
+	    #if (!$model.scheduler.IsStarted)
 	        <form method="post" action="scheduler.ashx?method=Start">
 	            <input type="submit" value="Start" />
 	        </form>
@@ -34,35 +34,35 @@
         <br />
 	    Job groups:
 	    <ul>
-	        #foreach ($i in $model.JobGroupNames)
+	        #foreach ($i in $model.scheduler.JobGroupNames)
 	        <li><a href="jobGroup.ashx?group=$i">$i</a></li>
 	        #end
 	    </ul>
 	    <br />
 	    Calendars:
 	    <ul>
-	        #foreach ($i in $model.CalendarNames)
+	        #foreach ($i in $model.scheduler.CalendarNames)
 	        <li>$i</li>
 	        #end
 	    </ul>
 	    <br />
 	    Job listeners:
 	    <ul>
-	        #foreach ($i in $model.JobListenerNames)
+	        #foreach ($i in $model.scheduler.JobListenerNames)
 	        <li>$i</li>
 	        #end
 	    </ul>
 	    <br />
 	    Trigger groups:
 	    <ul>
-	        #foreach ($i in $model.TriggerGroupNames)
+	        #foreach ($i in $model.scheduler.TriggerGroupNames)
 	        <li>$i</li>
 	        #end
 	    </ul>
 	    <br />
 	    Trigger listeners:
 	    <ul>
-	        #foreach ($i in $model.TriggerListenerNames)
+	        #foreach ($i in $model.scheduler.TriggerListenerNames)
 	        <li>$i</li>
 	        #end
 	    </ul>
