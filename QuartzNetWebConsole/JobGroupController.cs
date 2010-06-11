@@ -13,7 +13,8 @@ namespace QuartzNetWebConsole {
             var jobNames = scheduler.GetJobNames(group);
             var jobs = jobNames.Select(j => scheduler.GetJobDetail(j, group));
             var paused = scheduler.IsJobGroupPaused(group);
-            return new ViewResult(new {jobs, group, paused}, ViewName);
+            var thisUrl = context.Request.RawUrl;
+            return new ViewResult(new {jobs, group, paused, thisUrl}, ViewName);
         }
     }
 }
