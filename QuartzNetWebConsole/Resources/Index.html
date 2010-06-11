@@ -22,8 +22,16 @@
 	        <form method="post" action="scheduler.ashx?method=Start">
 	            <input type="submit" value="Start" />
 	        </form>
-	    #end
+	    #end	    
 	    <br />
+        <form method="post" action="scheduler.ashx?method=PauseAll">
+            <input type="submit" value="Pause all triggers" />
+        </form>
+        <br />
+        <form method="post" action="scheduler.ashx?method=ResumeAll">
+            <input type="submit" value="Resume all triggers" />
+        </form>
+        <br />
 	    Job groups:
 	    <ul>
 	        #foreach ($i in $model.JobGroupNames)
