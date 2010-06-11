@@ -26,30 +26,32 @@
 	            <th>Stateful</th>
 	            <th>Volatile</th>
 	            <th>Requests recovery</th>
+	            <th>Running since</th>
 	            <th>Listeners</th>
 	            <th></th>
 	        </tr>
 	        #foreach ($i in $model.jobs)
 	        <tr>
-	            <td>$i.Name</td>
-	            <td>$!i.Description</td>
-	            <td>$i.JobType</td>
-	            <td>$i.Durable</td>
-	            <td>$i.Stateful</td>
-	            <td>$i.Volatile</td>
-	            <td>$i.RequestsRecovery</td>
-	            <td>$i.JobListenerNames.Length</td>
+	            <td>$i.job.Name</td>
+	            <td>$!i.job.Description</td>
+	            <td>$i.job.JobType</td>
+	            <td>$i.job.Durable</td>
+	            <td>$i.job.Stateful</td>
+	            <td>$i.job.Volatile</td>
+	            <td>$i.job.RequestsRecovery</td>
+	            <td>$!i.jobContext.FireTimeUtc</td>
+	            <td>$i.job.JobListenerNames.Length</td>
 	            <td>
-	                <form method="post" action="scheduler.ashx?method=DeleteJob&jobName=$i.Name&groupName=$model.group&next=$helper.UrlEncode($model.thisUrl)">
+	                <form method="post" action="scheduler.ashx?method=DeleteJob&jobName=$i.job.Name&groupName=$i.job.group&next=$helper.UrlEncode($model.thisUrl)">
 	                    <input type="submit" value="Delete" />
 	                </form>
-	                <form method="post" action="scheduler.ashx?method=PauseJob&jobName=$i.Name&groupName=$model.group&next=$helper.UrlEncode($model.thisUrl)">
+	                <form method="post" action="scheduler.ashx?method=PauseJob&jobName=$i.job.Name&groupName=$i.job.group&next=$helper.UrlEncode($model.thisUrl)">
 	                    <input type="submit" value="Pause" />
 	                </form>
-	                <form method="post" action="scheduler.ashx?method=ResumeJob&jobName=$i.Name&groupName=$model.group&next=$helper.UrlEncode($model.thisUrl)">
+	                <form method="post" action="scheduler.ashx?method=ResumeJob&jobName=$i.job.Name&groupName=$i.job.group&next=$helper.UrlEncode($model.thisUrl)">
 	                    <input type="submit" value="Resume" />
 	                </form>
-	                <form method="post" action="scheduler.ashx?method=TriggerJob&jobName=$i.Name&groupName=$model.group&next=$helper.UrlEncode($model.thisUrl)">
+	                <form method="post" action="scheduler.ashx?method=TriggerJob&jobName=$i.job.Name&groupName=$i.job.group&next=$helper.UrlEncode($model.thisUrl)">
 	                    <input type="submit" value="Trigger" />
 	                </form>
 	                <form method="post" action="scheduler.ashx?method=TriggerJobWithVolatileTrigger&jobName=$i.Name&groupName=$model.group&next=$helper.UrlEncode($model.thisUrl)">

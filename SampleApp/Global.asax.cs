@@ -13,13 +13,13 @@ namespace SampleApp {
             scheduler.AddGlobalJobListener(new GlobalJobListener());
             scheduler.AddGlobalTriggerListener(new GlobalTriggerListener());
 
-            var trigger = TriggerUtils.MakeSecondlyTrigger(5);
+            var trigger = TriggerUtils.MakeSecondlyTrigger(6);
             trigger.StartTimeUtc = DateTime.UtcNow;
             trigger.Name = "myTrigger";
             scheduler.ScheduleJob(new JobDetail("myJob", null, typeof(HelloJob)), trigger);
 
             var cron = new CronTrigger("myCronTrigger") {
-                CronExpression = new CronExpression("0/3 * * * * ?"), // every 3 seconds
+                CronExpression = new CronExpression("0/10 * * * * ?"), // every 3 seconds
             };
             scheduler.ScheduleJob(new JobDetail("anotherJob", null, typeof(HelloJob)), cron);
 
