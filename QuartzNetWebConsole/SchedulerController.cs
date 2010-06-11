@@ -15,7 +15,10 @@ namespace QuartzNetWebConsole {
             var qs = context.Request.QueryString;
             var methodName = qs["method"].ToLowerInvariant();
             var redirect = qs["next"] ?? "index.ashx";
-            var parameterNames = qs.AllKeys.Except(new[] {"method", "next"}).Select(a => a.ToLowerInvariant()).ToArray();
+            var parameterNames = qs.AllKeys
+                .Except(new[] {"method", "next"})
+                .Select(a => a.ToLowerInvariant())
+                .ToArray();
             var method = methods
                 .Where(n => n.Name.ToLowerInvariant() == methodName)
                 .Single(m => m.GetParameters()
