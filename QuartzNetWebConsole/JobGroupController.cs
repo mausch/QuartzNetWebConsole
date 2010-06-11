@@ -14,8 +14,9 @@ namespace QuartzNetWebConsole {
             var runningJobs = scheduler.GetCurrentlyExecutingJobs().Cast<JobExecutionContext>();
             var jobs = jobNames.Select(j => {
                 var job = scheduler.GetJobDetail(j, group);
+                var interruptible = typeof (IInterruptableJob).IsAssignableFrom(job.JobType);
                 var jobContext = runningJobs.FirstOrDefault(r => r.JobDetail.FullName == job.FullName);
-                return new { job, jobContext, };
+                return new { job, jobContext, interruptible, };
             });
             var paused = scheduler.IsJobGroupPaused(group);
             var thisUrl = context.Request.RawUrl;
