@@ -35,12 +35,31 @@
             <input type="submit" value="Resume all triggers" />
         </form>
         <br />
-	    Job groups:
-	    <ul>
-	        #foreach ($i in $model.scheduler.JobGroupNames)
-	        <li><a href="jobGroup.ashx?group=$i">$i</a></li>
+        Job groups:
+	    <table>
+	        <tr>
+	            <th>Name</th>
+	            <th>Paused</th>
+	            <th></th>
+	        </tr>
+	        #foreach ($i in $model.jobGroups)
+	        <tr>
+	            <td><a href="jobGroup.ashx?group=$i.Name">$i.Name</a></td>
+	            <td>$i.Paused</td>
+	            <td>
+	                #if (!$i.Paused)
+                        <form method="post" action="scheduler.ashx?method=PauseJobGroup&groupName=$i.Name">
+                            <input type="submit" value="Pause" />
+                        </form>
+                    #else
+                        <form method="post" action="scheduler.ashx?method=ResumeJobGroup&groupName=$i.Name">
+                            <input type="submit" value="Resume" />
+                        </form>
+	                #end
+	            </td>
+	        </tr>
 	        #end
-	    </ul>
+	    </table>
 	    <br />
 	    Calendars:
 	    <ul>
