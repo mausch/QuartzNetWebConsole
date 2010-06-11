@@ -61,11 +61,23 @@
 	        <tr>
 	            <th>Name</th>
 	            <th>Paused</th>
+	            <th></th>
 	        </tr>
 	        #foreach ($i in $model.triggerGroups)
 	        <tr>
 	            <td><a href="triggerGroup.ashx?group=$i.Name">$i.Name</a></td>
 	            <td>$i.Paused</td>
+	            <td>
+	                #if (!$i.Paused)
+                        <form method="post" action="scheduler.ashx?method=PauseTriggerGroup&groupName=$i.Name">
+                            <input type="submit" value="Pause" />
+                        </form>
+                    #else
+                        <form method="post" action="scheduler.ashx?method=ResumeTriggerGroup&groupName=$i.Name">
+                            <input type="submit" value="Resume" />
+                        </form>
+	                #end
+	            </td>
 	        </tr>
 	        #end
 	    </table>
