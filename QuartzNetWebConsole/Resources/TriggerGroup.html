@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title>Quartz.Net console - Trigger group $model.group</title>
+	</head>
+	<body>
+	    <h1>Trigger group $model.group</h1>
+	    Triggers:
+	    <table>
+	        <tr>
+	            <th>Name</th>
+	            <th>Description</th>
+	            <th>Priority</th>
+	            <th>Job group</th>
+	            <th>Job name</th>
+	            <th>Start time UTC</th>
+	            <th>End time UTC</th>
+	            <th>Final fire time UTC</th>
+	            <th>Calendar</th>
+	        </tr>
+	        #foreach ($i in $model.triggers)
+	        <tr>
+	            <td>$i.trigger.Name</td>
+	            <td>$!i.trigger.Description</td>
+	            <td>$i.trigger.Priority</td>
+	            <td>$i.trigger.Group</td>
+	            <td>$i.trigger.JobName</td>
+	            <td>$i.trigger.StartTimeUtc</td>
+	            <td>$!i.trigger.EndTimeUtc</td>
+	            <td>$!i.trigger.FinalFireTimeUtc</td>
+	            <td>$!i.trigger.Calendar</td>
+	        </tr>
+	        #end
+	    </table>
+	</body>
+</html>

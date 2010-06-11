@@ -59,7 +59,7 @@
 	    Trigger groups:
 	    <ul>
 	        #foreach ($i in $model.scheduler.TriggerGroupNames)
-	        <li>$i</li>
+	        <li><a href="triggerGroup.ashx?group=$i">$i</a></li>
 	        #end
 	    </ul>
 	    <br />

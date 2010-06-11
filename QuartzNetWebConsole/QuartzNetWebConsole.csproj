@@ -67,12 +67,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SchedulerController.cs" />
     <Compile Include="Setup.cs" />
+    <Compile Include="TriggerGroupController.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Index.html" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\JobGroup.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\TriggerGroup.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="Merge">
