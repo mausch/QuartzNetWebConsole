@@ -5,6 +5,17 @@
 	</head>
 	<body>
 	    <h1>Trigger group $model.group</h1>
+	    Paused: $model.paused
+	    #if (!$model.paused)
+            <form method="post" action="scheduler.ashx?method=PauseTriggerGroup&groupName=$model.group&next=$helper.UrlEncode($model.thisUrl)">
+                <input type="submit" value="Pause this trigger group" />
+            </form>
+        #else
+            <form method="post" action="scheduler.ashx?method=ResumeTriggerGroup&groupName=$model.group&next=$helper.UrlEncode($model.thisUrl)">
+                <input type="submit" value="Resume this trigger group" />
+            </form>
+	    #end
+	    <br />
 	    Triggers:
 	    <table>
 	        <tr>
@@ -18,6 +29,7 @@
 	            <th>Final fire time UTC</th>
 	            <th>Calendar</th>
 	            <th>State</th>
+	            <th></th>
 	        </tr>
 	        #foreach ($i in $model.triggers)
 	        <tr>
@@ -30,7 +42,18 @@
 	            <td>$!i.trigger.EndTimeUtc</td>
 	            <td>$!i.trigger.FinalFireTimeUtc</td>
 	            <td>$!i.trigger.Calendar</td>
-	            <td>$!i.state</td>
+	            <td>$i.state</td>
+	            <td>
+	                #if ($i.IsPaused)
+	                <form method="post" action="scheduler.ashx?method=ResumeTrigger&triggerName=$i.Name&groupName=$model.group&next=$helper.UrlEncode($model.thisUrl)">
+	                    <input type="submit" value="Resume" />
+	                </form>
+	                #else
+	                <form method="post" action="scheduler.ashx?method=PauseTrigger&triggerName=$i.Name&groupName=$model.group&next=$helper.UrlEncode($model.thisUrl)">
+	                    <input type="submit" value="Pause" />
+	                </form>
+	                #end
+	            </td>
 	        </tr>
 	        #end
 	    </table>

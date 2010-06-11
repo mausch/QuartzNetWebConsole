@@ -18,7 +18,8 @@ namespace QuartzNetWebConsole {
                     return new TriggerWithState(trigger, state);
                 });
             var thisUrl = context.Request.RawUrl;
-            return new ViewResult(new {triggers, thisUrl, group}, ViewName);
+            var paused = scheduler.IsTriggerGroupPaused(group);
+            return new ViewResult(new {triggers, thisUrl, group, paused}, ViewName);
         }
 
         public struct TriggerWithState {
@@ -36,6 +37,10 @@ namespace QuartzNetWebConsole {
 
             public TriggerState State {
                 get { return state; }
+            }
+
+            public bool IsPaused {
+                get { return state == TriggerState.Paused; }
             }
         }
     }
