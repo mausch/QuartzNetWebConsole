@@ -12,14 +12,17 @@ namespace SampleApp {
             scheduler.Start();
             scheduler.AddGlobalJobListener(new GlobalJobListener());
             scheduler.AddGlobalTriggerListener(new GlobalTriggerListener());
-            // construct job info
-            var jobDetail = new JobDetail("myJob", null, typeof(HelloJob));
-            // fire every hour
-            var trigger = TriggerUtils.MakeHourlyTrigger();
-            // start on the next even hour
-            trigger.StartTimeUtc = TriggerUtils.GetEvenHourDate(DateTime.UtcNow);
+
+            var trigger = TriggerUtils.MakeSecondlyTrigger(5);
+            trigger.StartTimeUtc = DateTime.UtcNow;
             trigger.Name = "myTrigger";
-            scheduler.ScheduleJob(jobDetail, trigger);
+            scheduler.ScheduleJob(new JobDetail("myJob", null, typeof(HelloJob)), trigger);
+
+            var cron = new CronTrigger("myCronTrigger") {
+                CronExpression = new CronExpression("0/3 * * * * ?"), // every 3 seconds
+            };
+            scheduler.ScheduleJob(new JobDetail("anotherJob", null, typeof(HelloJob)), cron);
+
             Setup.Scheduler = () => scheduler;
         }
 
