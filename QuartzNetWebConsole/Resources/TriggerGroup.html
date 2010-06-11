@@ -61,6 +61,9 @@
 	                    <input type="submit" value="Pause" />
 	                </form>
 	                #end
+	                <form method="post" action="scheduler.ashx?method=UnscheduleJob&triggerName=$i.Name&groupName=$model.group&next=$helper.UrlEncode($model.thisUrl)">
+	                    <input type="submit" value="Delete" />
+	                </form>
 	            </td>
 	        </tr>
 	        #end
