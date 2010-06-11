@@ -6,9 +6,27 @@
 	<body>
 	    Scheduler: $model.SchedulerName
 	    <br />
-	    Stand-by: $model.InStandbyMode<br />
-	    Shutdown: $model.IsShutdown<br />
-	    Started: $model.IsStarted<br />
+	    Stand-by: $model.InStandbyMode
+	    #if (!$model.InStandbyMode)
+	        <form method="post" action="scheduler.ashx?method=Standby">
+	            <input type="submit" value="Stand by" />
+	        </form>
+	    #end
+	    <br />
+	    Shutdown: $model.IsShutdown
+	    #if (!$model.IsShutdown)
+	        <form method="post" action="scheduler.ashx?method=Shutdown">
+	            <input type="submit" value="Shut down" />
+	        </form>
+	    #end
+	    <br />
+	    Started: $model.IsStarted
+	    #if (!$model.IsStarted)
+	        <form method="post" action="scheduler.ashx?method=Start">
+	            <input type="submit" value="Start" />
+	        </form>
+	    #end
+	    <br />
 	    Job groups:
 	    <ul>
 	        #foreach ($i in $model.JobGroupNames)
