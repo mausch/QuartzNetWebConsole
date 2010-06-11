@@ -4,8 +4,11 @@
 		<title>Quartz.Net Console</title>
 	</head>
 	<body>
-	    Scheduler: $model.scheduler.SchedulerName
-	    <br />
+	    Scheduler: $model.scheduler.SchedulerName<br />
+	    Job store: $model.metadata.JobStoreType<br />
+	    Supports persistence: $model.metadata.JobStoreSupportsPersistence<br />
+	    Number of jobs executed: $model.metadata.NumJobsExecuted<br />
+	    Running since: $model.metadata.RunningSince<br />
 	    Stand-by: $model.scheduler.InStandbyMode
 	    #if (!$model.scheduler.InStandbyMode)
 	        <form method="post" action="scheduler.ashx?method=Standby">
