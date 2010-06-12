@@ -20,8 +20,9 @@ namespace SampleApp {
 
             var cron = new CronTrigger("myCronTrigger") {
                 CronExpression = new CronExpression("0/10 * * * * ?"), // every 3 seconds
+                JobName = "myJob",
             };
-            scheduler.ScheduleJob(new JobDetail("anotherJob", null, typeof(HelloJob)), cron);
+            scheduler.ScheduleJob(cron);
 
             Setup.Scheduler = () => scheduler;
         }
