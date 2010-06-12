@@ -2,7 +2,6 @@
 using System.Web;
 using Quartz;
 using Quartz.Impl;
-using QuartzNetWebConsole;
 
 namespace SampleApp {
     public class Global : HttpApplication {
@@ -24,7 +23,9 @@ namespace SampleApp {
             };
             scheduler.ScheduleJob(cron);
 
-            Setup.Scheduler = () => scheduler;
+            QuartzNetWebConsole.Setup.Scheduler = () => scheduler;
+            var engine = new MiniMVC.ExternalVelocityEngine();
+            MiniMVC.Setup.TemplateEngine = () => engine;
         }
 
         protected void Session_Start(object sender, EventArgs e) {}
