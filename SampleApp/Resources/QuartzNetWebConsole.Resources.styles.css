@@ -1,0 +1,31 @@
+body {
+	line-height: 130%;
+}
+div.group {
+	padding: 7px;
+	float: left;
+	width: 45%;
+	margin: 10px;
+}
+form {
+	float: right;
+	margin: 5px;
+}
+h2 {
+	font-size: 120%;
+	margin: 0px;
+	padding: 5px;
+	margin-bottom: 8px;
+	border-bottom: solid 1px #444;
+	background-color: #f5f5f5;
+}
+table, th, td {
+	border: solid 1px #444;
+	border-collapse: collapse;
+}
+th, td {
+	padding: 2px 5px;
+}
+th {
+	background-color: #f3f3f3;
+}
