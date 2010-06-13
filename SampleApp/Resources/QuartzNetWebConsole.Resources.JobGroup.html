@@ -6,7 +6,12 @@
 	</head>
 	<body>
 	    <h1>Job group $!model.group</h1>
-	    Paused: $model.paused
+		Status:
+		#if ($model.paused)
+			paused
+		#else
+			running
+		#end
 	    #if (!$model.paused)
             <form method="post" action="scheduler.ashx?method=PauseJobGroup&groupName=$model.group&next=$helper.UrlEncode($model.thisUrl)">
                 <input type="submit" value="Pause this job group" />

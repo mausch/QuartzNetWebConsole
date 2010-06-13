@@ -12,7 +12,12 @@
 				Supports persistence: $model.metadata.JobStoreSupportsPersistence<br />
 				Number of jobs executed: $model.metadata.NumJobsExecuted<br />
 				Running since: $model.metadata.RunningSince<br />
-				Stand-by: $model.scheduler.InStandbyMode
+				Status:
+				#if ($model.scheduler.InStandbyMode)
+					stand-by
+				#else
+					running
+				#end
 			</div>
 			<div style="float: right">
 				<form method="post" action="scheduler.ashx?method=Shutdown">
@@ -49,13 +54,19 @@
 			<table>
 				<tr>
 					<th>Name</th>
-					<th>Paused</th>
+					<th>Status</th>
 					<th></th>
 				</tr>
 				#foreach ($i in $model.jobGroups)
 				<tr>
 					<td><a href="jobGroup.ashx?group=$i.Name">$i.Name</a></td>
-					<td>$i.Paused</td>
+					<td>
+						#if ($i.Paused)
+							Paused
+						#else
+							Running
+						#end
+					</td>
 					<td>
 						#if (!$i.Paused)
 							<form method="post" action="scheduler.ashx?method=PauseJobGroup&groupName=$i.Name">
@@ -76,13 +87,19 @@
 			<table>
 				<tr>
 					<th>Name</th>
-					<th>Paused</th>
+					<th>Status</th>
 					<th></th>
 				</tr>
 				#foreach ($i in $model.triggerGroups)
 				<tr>
 					<td><a href="triggerGroup.ashx?group=$i.Name">$i.Name</a></td>
-					<td>$i.Paused</td>
+					<td>
+						#if ($i.Paused)
+							Paused
+						#else
+							Running
+						#end					
+					</td>
 					<td>
 						#if (!$i.Paused)
 							<form method="post" action="scheduler.ashx?method=PauseTriggerGroup&groupName=$i.Name">

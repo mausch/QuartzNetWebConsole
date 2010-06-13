@@ -1,5 +1,6 @@
 body {
-	line-height: 130%;
+	line-height: 140%;
+	font-size: 0.8em;
 }
 div.group {
 	padding: 7px;
@@ -12,7 +13,7 @@ form {
 	margin: 5px;
 }
 h2 {
-	font-size: 120%;
+	font-size: 130%;
 	margin: 0px;
 	padding: 5px;
 	margin-bottom: 8px;
