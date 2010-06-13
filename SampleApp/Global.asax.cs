@@ -22,6 +22,7 @@ namespace SampleApp {
                 JobName = "myJob",
             };
             scheduler.ScheduleJob(cron);
+            scheduler.AddCalendar("myCalendar", new DummyCalendar {Description = "dummy calendar"}, false, false);
 
             QuartzNetWebConsole.Setup.Scheduler = () => scheduler;
             var engine = new MiniMVC.ExternalVelocityEngine();

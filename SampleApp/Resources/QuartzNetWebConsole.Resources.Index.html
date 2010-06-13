@@ -42,11 +42,18 @@
         </div>
 		<div class="group">
 			<h2>Calendars</h2>
-			<ul>
-				#foreach ($i in $model.scheduler.CalendarNames)
-				<li>$i</li>
+			<table>
+				<tr>
+					<th>Name</th>
+					<th>Description</th>
+				</tr>
+				#foreach ($i in $model.calendars)
+				<tr>
+					<td>$i.name</td>
+					<td>$i.description</td>
+				</tr>
 				#end
-			</ul>
+			</table>
 		</div>		
 	    <br style="clear:both" />
 		<div class="group">

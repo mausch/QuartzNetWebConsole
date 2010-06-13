@@ -15,11 +15,15 @@ namespace QuartzNetWebConsole {
             var jobGroups = scheduler.JobGroupNames
                 .Select(j => new GroupWithStatus(j, scheduler.IsJobGroupPaused(j)))
                 .ToArray();
+            var calendars = scheduler.CalendarNames
+                .Select(name => new {name, description = scheduler.GetCalendar(name).Description})
+                .ToArray();
             return new ViewResult(new {
                 scheduler,
                 metadata = scheduler.GetMetaData(),
                 triggerGroups,
                 jobGroups,
+                calendars,
             }, ViewName);
         }
 
