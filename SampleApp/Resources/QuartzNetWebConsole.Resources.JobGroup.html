@@ -55,7 +55,7 @@
 	                <form method="post" action="scheduler.ashx?method=TriggerJob&jobName=$i.job.Name&groupName=$i.job.group&next=$helper.UrlEncode($model.thisUrl)">
 	                    <input type="submit" value="Trigger" />
 	                </form>
-	                <form method="post" action="scheduler.ashx?method=TriggerJobWithVolatileTrigger&jobName=$i.Name&groupName=$i.job.group&next=$helper.UrlEncode($model.thisUrl)">
+	                <form method="post" action="scheduler.ashx?method=TriggerJobWithVolatileTrigger&jobName=$i.job.Name&groupName=$i.job.group&next=$helper.UrlEncode($model.thisUrl)">
 	                    <input type="submit" value="Trigger volatile" />
 	                </form>
 	                #if ($i.interruptible)
