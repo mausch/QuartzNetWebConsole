@@ -48,7 +48,13 @@
 					<th>Description</th>
 				</tr>
 				#foreach ($i in $model.calendars)
-				<tr>
+				#before
+				<tr
+				#odd
+					>
+				#even
+					class="alt">
+				#each
 					<td>$i.name</td>
 					<td>$i.description</td>
 				</tr>
@@ -65,7 +71,13 @@
 					<th></th>
 				</tr>
 				#foreach ($i in $model.jobGroups)
-				<tr>
+				#before
+				<tr
+				#odd
+					>
+				#even
+					class="alt">
+				#each
 					<td><a href="jobGroup.ashx?group=$i.Name">$i.Name</a></td>
 					<td>
 						#if ($i.Paused)
@@ -98,7 +110,13 @@
 					<th></th>
 				</tr>
 				#foreach ($i in $model.triggerGroups)
-				<tr>
+				#before
+				<tr
+				#odd
+					>
+				#even
+					class="alt">
+				#each
 					<td><a href="triggerGroup.ashx?group=$i.Name">$i.Name</a></td>
 					<td>
 						#if ($i.Paused)
@@ -125,19 +143,27 @@
 	    <br style="clear:both" />
 		<div class="group">
 			<h2>Job listeners</h2>
-			<ul>
-				#foreach ($i in $model.scheduler.JobListenerNames)
-				<li>$i</li>
-				#end
-			</ul>
+			#if ($model.scheduler.TriggerListenerNames.Count == 0)
+				No job listeners
+			#else
+				<ul>
+					#foreach ($i in $model.scheduler.JobListenerNames)
+					<li>$i</li>
+					#end
+				</ul>
+			#end
 		</div>
 		<div class="group">
 			<h2>Trigger listeners</h2>
-			<ul>
-				#foreach ($i in $model.scheduler.TriggerListenerNames)
-				<li>$i</li>
-				#end
-			</ul>
+			#if ($model.scheduler.TriggerListenerNames.Count == 0)
+				No trigger listeners
+			#else
+				<ul>
+					#foreach ($i in $model.scheduler.TriggerListenerNames)
+					<li>$i</li>
+					#end
+				</ul>
+			#end
 		</div>
 	</body>
 </html>

@@ -30,3 +30,6 @@ th, td {
 th {
 	background-color: #f3f3f3;
 }
+tr.alt {
+	background-color: #fafafa;
+}

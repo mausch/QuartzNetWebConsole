@@ -37,7 +37,13 @@
 	            <th></th>
 	        </tr>
 	        #foreach ($i in $model.jobs)
-	        <tr>
+			#before
+	        <tr
+			#odd
+				>
+			#even
+				class="alt">
+			#each
 	            <td>$i.job.Name</td>
 	            <td>$!i.job.Description</td>
 	            <td>$i.job.JobType</td>

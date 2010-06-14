@@ -42,7 +42,13 @@
 	            <th></th>
 	        </tr>
 	        #foreach ($i in $model.triggers)
-	        <tr>
+			#before
+	        <tr
+			#odd
+				>
+			#even
+				class="alt">
+			#each
 	            <td>$i.trigger.Name</td>
 	            <td>$!i.trigger.Description</td>
 	            <td>$i.trigger.Priority</td>
