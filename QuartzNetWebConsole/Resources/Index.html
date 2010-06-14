@@ -2,49 +2,22 @@
 <html>
 	<head>
 		<title>Quartz.Net Console</title>
-		<style>
-			body {
-				line-height: 130%;
-			}
-			div.group {
-				padding: 7px;
-				float: left;
-				width: 45%;
-				margin: 10px;
-			}
-			form {
-				float: right;
-				margin: 5px;
-			}
-			h2 {
-				font-size: 120%;
-				margin: 0px;
-				padding: 5px;
-				margin-bottom: 8px;
-				border-bottom: solid 1px #444;
-				background-color: #f5f5f5;
-			}
-			table, th, td {
-				border: solid 1px #444;
-				border-collapse: collapse;
-			}
-			th, td {
-				padding: 2px 5px;
-			}
-			th {
-				background-color: #f3f3f3;
-			}
-		</style>
+		<link rel="stylesheet" type="text/css" href="static.ashx?r=styles.css&t=text%2Fcss" />
 	</head>
 	<body>
 	    <div class="group">
 	        <h2>Scheduler name: $model.scheduler.SchedulerName</h2>
 			<div style="float: left">
 				Job store: $model.metadata.JobStoreType<br />
-				Supports persistence: $model.metadata.JobStoreSupportsPersistence<br />
+				Supports persistence: #if ($model.metadata.JobStoreSupportsPersistence) Yes #else No #end<br />
 				Number of jobs executed: $model.metadata.NumJobsExecuted<br />
 				Running since: $model.metadata.RunningSince<br />
-				Stand-by: $model.scheduler.InStandbyMode
+				Status:
+				#if ($model.scheduler.InStandbyMode)
+					stand-by
+				#else
+					running
+				#end
 			</div>
 			<div style="float: right">
 				<form method="post" action="scheduler.ashx?method=Shutdown">
@@ -68,12 +41,44 @@
 			</div>
         </div>
 		<div class="group">
-			<h2>Calendars</h2>
-			<ul>
-				#foreach ($i in $model.scheduler.CalendarNames)
-				<li>$i</li>
+			<h2>Scheduler listeners</h2>
+			<table>
+				<tr>
+					<th>Type</th>
+				</tr>
+				#foreach ($i in $model.scheduler.SchedulerListeners)
+				#before
+				<tr
+				#odd
+					>
+				#even
+					class="alt">
+				#each
+					<td>$i</td>
+				</tr>
 				#end
-			</ul>
+			</table>
+		</div>
+		<div class="group">
+			<h2>Calendars</h2>
+			<table>
+				<tr>
+					<th>Name</th>
+					<th>Description</th>
+				</tr>
+				#foreach ($i in $model.calendars)
+				#before
+				<tr
+				#odd
+					>
+				#even
+					class="alt">
+				#each
+					<td>$i.name</td>
+					<td>$i.description</td>
+				</tr>
+				#end
+			</table>
 		</div>		
 	    <br style="clear:both" />
 		<div class="group">
@@ -81,13 +86,25 @@
 			<table>
 				<tr>
 					<th>Name</th>
-					<th>Paused</th>
+					<th>Status</th>
 					<th></th>
 				</tr>
 				#foreach ($i in $model.jobGroups)
-				<tr>
+				#before
+				<tr
+				#odd
+					>
+				#even
+					class="alt">
+				#each
 					<td><a href="jobGroup.ashx?group=$i.Name">$i.Name</a></td>
-					<td>$i.Paused</td>
+					<td>
+						#if ($i.Paused)
+							Paused
+						#else
+							Running
+						#end
+					</td>
 					<td>
 						#if (!$i.Paused)
 							<form method="post" action="scheduler.ashx?method=PauseJobGroup&groupName=$i.Name">
@@ -108,13 +125,25 @@
 			<table>
 				<tr>
 					<th>Name</th>
-					<th>Paused</th>
+					<th>Status</th>
 					<th></th>
 				</tr>
 				#foreach ($i in $model.triggerGroups)
-				<tr>
+				#before
+				<tr
+				#odd
+					>
+				#even
+					class="alt">
+				#each
 					<td><a href="triggerGroup.ashx?group=$i.Name">$i.Name</a></td>
-					<td>$i.Paused</td>
+					<td>
+						#if ($i.Paused)
+							Paused
+						#else
+							Running
+						#end					
+					</td>
 					<td>
 						#if (!$i.Paused)
 							<form method="post" action="scheduler.ashx?method=PauseTriggerGroup&groupName=$i.Name">
@@ -133,19 +162,67 @@
 	    <br style="clear:both" />
 		<div class="group">
 			<h2>Job listeners</h2>
-			<ul>
-				#foreach ($i in $model.scheduler.JobListenerNames)
-				<li>$i</li>
-				#end
-			</ul>
+			#if ($model.jobListeners.Count == 0)
+				No job listeners
+			#else
+				<table>
+					<tr>
+						<th>Name</th>
+						<th>Global</th>
+						<th></th>
+					</tr>
+					#foreach ($i in $model.jobListeners)
+					#before
+					<tr
+					#odd
+						>
+					#even
+						class="alt">
+					#each
+						<td>$i.name</td>
+						<td>#if ($i.global) Yes #else No #end</td>
+						<td>
+							#set($g = "#if($i.global)Global#end")
+							<form method="post" action="scheduler.ashx?name=$i.name&method=Remove${g}JobListener">
+								<input type="submit" value="Delete"/>
+							</form>
+						</td>
+					</tr>
+					#end
+				</table>
+			#end
 		</div>
 		<div class="group">
 			<h2>Trigger listeners</h2>
-			<ul>
-				#foreach ($i in $model.scheduler.TriggerListenerNames)
-				<li>$i</li>
-				#end
-			</ul>
+			#if ($model.triggerListeners.Count == 0)
+				No trigger listeners
+			#else
+				<table>
+					<tr>
+						<th>Name</th>
+						<th>Global</th>
+						<th></th>
+					</tr>
+					#foreach ($i in $model.triggerListeners)
+					#before
+					<tr
+					#odd
+						>
+					#even
+						class="alt">
+					#each
+						<td>$i.name</td>
+						<td>#if ($i.global) Yes #else No #end</td>
+						<td>
+							#set($g = "#if($i.global)Global#end")
+							<form method="post" action="scheduler.ashx?name=$i.name&method=Remove${g}TriggerListener">
+								<input type="submit" value="Delete"/>
+							</form>
+						</td>
+					</tr>
+					#end
+				</table>
+			#end
 		</div>
 	</body>
 </html>

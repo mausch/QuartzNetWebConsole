@@ -25,8 +25,8 @@ namespace SampleApp {
             scheduler.AddCalendar("myCalendar", new DummyCalendar {Description = "dummy calendar"}, false, false);
 
             QuartzNetWebConsole.Setup.Scheduler = () => scheduler;
-            var engine = new MiniMVC.ExternalVelocityEngine();
-            MiniMVC.Setup.TemplateEngine = () => engine;
+            //var engine = new MiniMVC.ExternalVelocityEngine();
+            //MiniMVC.Setup.TemplateEngine = () => engine;
         }
 
         protected void Session_Start(object sender, EventArgs e) {}

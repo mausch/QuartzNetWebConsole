@@ -2,10 +2,16 @@
 <html>
 	<head>
 		<title>Quartz.Net console - Trigger group $!model.group</title>
+		<link rel="stylesheet" type="text/css" href="static.ashx?r=styles.css&t=text%2Fcss" />
 	</head>
 	<body>
 	    <h1>Trigger group $!model.group</h1>
-	    Paused: $model.paused
+		Status:
+		#if ($model.paused)
+			paused
+		#else
+			running
+		#end
 	    #if (!$model.paused)
             <form method="post" action="scheduler.ashx?method=PauseTriggerGroup&groupName=$model.group&next=$helper.UrlEncode($model.thisUrl)">
                 <input type="submit" value="Pause this trigger group" />
@@ -15,8 +21,8 @@
                 <input type="submit" value="Resume this trigger group" />
             </form>
 	    #end
-	    <br />
-	    Triggers:
+	    <br style="clear:both" />
+	    <h2>Triggers</h2>
 	    <table>
 	        <tr>
 	            <th>Name</th>
@@ -36,7 +42,13 @@
 	            <th></th>
 	        </tr>
 	        #foreach ($i in $model.triggers)
-	        <tr>
+			#before
+	        <tr
+			#odd
+				>
+			#even
+				class="alt">
+			#each
 	            <td>$i.trigger.Name</td>
 	            <td>$!i.trigger.Description</td>
 	            <td>$i.trigger.Priority</td>
@@ -48,7 +60,7 @@
 	            <td>$!i.trigger.RepeatCount</td>
 	            <td>$!i.trigger.RepeatInterval</td>
 	            <td>$!i.trigger.TimesTriggered</td>
-	            <td>$!i.trigger.CronExpressionString</td>
+	            <td>$!helper.Nbsp($!i.trigger.CronExpressionString)</td>
 	            <td>$!i.trigger.Calendar</td>
 	            <td>$i.state</td>
 	            <td>
