@@ -2,6 +2,7 @@
 using System.Web;
 using MiniMVC;
 using Quartz;
+using QuartzNetWebConsole.Models;
 
 namespace QuartzNetWebConsole.Controllers {
     public class TriggerGroupController : Controller {
@@ -19,28 +20,6 @@ namespace QuartzNetWebConsole.Controllers {
             var thisUrl = context.Request.RawUrl;
             var paused = scheduler.IsTriggerGroupPaused(group);
             return new ViewResult(new {triggers, thisUrl, group, paused}, ViewName);
-        }
-
-        public struct TriggerWithState {
-            private readonly Trigger trigger;
-            private readonly TriggerState state;
-
-            public TriggerWithState(Trigger trigger, TriggerState state) {
-                this.trigger = trigger;
-                this.state = state;
-            }
-
-            public Trigger Trigger {
-                get { return trigger; }
-            }
-
-            public TriggerState State {
-                get { return state; }
-            }
-
-            public bool IsPaused {
-                get { return state == TriggerState.Paused; }
-            }
         }
     }
 }
