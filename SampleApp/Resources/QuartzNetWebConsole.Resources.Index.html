@@ -9,7 +9,7 @@
 	        <h2>Scheduler name: $model.scheduler.SchedulerName</h2>
 			<div style="float: left">
 				Job store: $model.metadata.JobStoreType<br />
-				Supports persistence: #if ($model.metadata.JobStoreSupportsPersistence) Yes #else No #end<br />
+				Supports persistence: $helper.YesNo($model.metadata.JobStoreSupportsPersistence)<br />
 				Number of jobs executed: $model.metadata.NumJobsExecuted<br />
 				Running since: $model.metadata.RunningSince<br />
 				Status:
@@ -180,7 +180,7 @@
 						class="alt">
 					#each
 						<td>$i.name</td>
-						<td>#if ($i.global) Yes #else No #end</td>
+						<td>$helper.YesNo($i.global)</td>
 						<td>
 							#set($g = "#if($i.global)Global#end")
 							<form method="post" action="scheduler.ashx?name=$i.name&method=Remove${g}JobListener">

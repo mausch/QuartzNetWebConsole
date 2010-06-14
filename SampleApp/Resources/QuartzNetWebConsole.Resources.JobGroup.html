@@ -47,10 +47,10 @@
 	            <td>$i.job.Name</td>
 	            <td>$!i.job.Description</td>
 	            <td>$i.job.JobType</td>
-	            <td>$i.job.Durable</td>
-	            <td>$i.job.Stateful</td>
-	            <td>$i.job.Volatile</td>
-	            <td>$i.job.RequestsRecovery</td>
+	            <td>$helper.YesNo($i.job.Durable)</td>
+	            <td>$helper.YesNo($i.job.Stateful)</td>
+	            <td>$helper.YesNo($i.job.Volatile)</td>
+	            <td>$helper.YesNo($i.job.RequestsRecovery)</td>
 	            <td>$!i.jobContext.FireTimeUtc</td>
 	            <td>$i.job.JobListenerNames.Length</td>
 	            <td>
