@@ -9,7 +9,7 @@
 	        <h2>Scheduler name: $model.scheduler.SchedulerName</h2>
 			<div style="float: left">
 				Job store: $model.metadata.JobStoreType<br />
-				Supports persistence: $model.metadata.JobStoreSupportsPersistence<br />
+				Supports persistence: #if ($model.metadata.JobStoreSupportsPersistence) Yes #else No #end<br />
 				Number of jobs executed: $model.metadata.NumJobsExecuted<br />
 				Running since: $model.metadata.RunningSince<br />
 				Status:
