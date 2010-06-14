@@ -41,6 +41,25 @@
 			</div>
         </div>
 		<div class="group">
+			<h2>Scheduler listeners</h2>
+			<table>
+				<tr>
+					<th>Type</th>
+				</tr>
+				#foreach ($i in $model.scheduler.SchedulerListeners)
+				#before
+				<tr
+				#odd
+					>
+				#even
+					class="alt">
+				#each
+					<td>$i</td>
+				</tr>
+				#end
+			</table>
+		</div>
+		<div class="group">
 			<h2>Calendars</h2>
 			<table>
 				<tr>
