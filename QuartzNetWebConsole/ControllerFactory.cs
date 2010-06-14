@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web;
+using QuartzNetWebConsole.Controllers;
 
 namespace QuartzNetWebConsole {
     public class ControllerFactory : IHttpHandlerFactory {
@@ -8,7 +9,7 @@ namespace QuartzNetWebConsole {
             var name = context.Request.RawUrl.Split('/').Last().Split('?')[0].Split('.')[0];
             if (name.ToLowerInvariant() == "scheduler")
                 return new SchedulerController();
-            string typeName = string.Format("QuartzNetWebConsole.{0}Controller", name);
+            string typeName = string.Format("QuartzNetWebConsole.Controllers.{0}Controller", name);
             var type = Type.GetType(typeName, true, true);
             if (type == null)
                 throw new Exception(string.Format("Type '{0}' not found", type));

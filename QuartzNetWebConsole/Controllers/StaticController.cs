@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using MiniMVC;
 
-namespace QuartzNetWebConsole {
+namespace QuartzNetWebConsole.Controllers {
     public class StaticController : Controller {
         public override IResult Execute(HttpContextBase context) {
             var resource = context.Request.QueryString["r"];

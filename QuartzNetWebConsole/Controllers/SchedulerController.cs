@@ -6,7 +6,7 @@ using System.Web;
 using MiniMVC;
 using Quartz;
 
-namespace QuartzNetWebConsole {
+namespace QuartzNetWebConsole.Controllers {
     public class SchedulerController : Controller {
         private readonly IScheduler scheduler = Setup.Scheduler();
         private static readonly MethodInfo[] methods = typeof (IScheduler).GetMethods();

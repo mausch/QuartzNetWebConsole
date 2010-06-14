@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web;
 using MiniMVC;
 using Quartz;
 
-namespace QuartzNetWebConsole {
+namespace QuartzNetWebConsole.Controllers {
     public class JobGroupController : Controller {
         private readonly IScheduler scheduler = Setup.Scheduler();
 

@@ -62,13 +62,13 @@
   <ItemGroup>
     <Compile Include="ControllerFactory.cs" />
     <Compile Include="EnumerableExtensions.cs" />
-    <Compile Include="IndexController.cs" />
-    <Compile Include="JobGroupController.cs" />
+    <Compile Include="Controllers\IndexController.cs" />
+    <Compile Include="Controllers\JobGroupController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SchedulerController.cs" />
+    <Compile Include="Controllers\SchedulerController.cs" />
     <Compile Include="Setup.cs" />
-    <Compile Include="StaticController.cs" />
-    <Compile Include="TriggerGroupController.cs" />
+    <Compile Include="Controllers\StaticController.cs" />
+    <Compile Include="Controllers\TriggerGroupController.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Index.html" />
