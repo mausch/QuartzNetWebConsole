@@ -40,15 +40,15 @@
 		<td>$i.state</td>
 		<td>
 			#if ($i.IsPaused)
-			<form method="post" action="scheduler.ashx?method=ResumeTrigger&triggerName=$i.Name&groupName=$i.Group&next=$helper.UrlEncode($model.thisUrl)">
+			<form method="post" action="scheduler.ashx?method=ResumeTrigger&triggerName=$i.trigger.Name&groupName=$i.trigger.Group&next=$helper.UrlEncode($thisUrl)">
 				<input type="submit" value="Resume" />
 			</form>
 			#else
-			<form method="post" action="scheduler.ashx?method=PauseTrigger&triggerName=$i.Name&groupName=$i.Group&next=$helper.UrlEncode($model.thisUrl)">
+			<form method="post" action="scheduler.ashx?method=PauseTrigger&triggerName=$i.trigger.Name&groupName=$i.trigger.Group&next=$helper.UrlEncode($thisUrl)">
 				<input type="submit" value="Pause" />
 			</form>
 			#end
-			<form method="post" action="scheduler.ashx?method=UnscheduleJob&triggerName=$i.Name&groupName=$i.Group&next=$helper.UrlEncode($model.thisUrl)">
+			<form method="post" action="scheduler.ashx?method=UnscheduleJob&triggerName=$i.trigger.Name&groupName=$i.trigger.Group&next=$helper.UrlEncode($thisUrl)">
 				<input type="submit" value="Delete" />
 			</form>
 		</td>
