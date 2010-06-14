@@ -54,6 +54,7 @@
 	            <td>$!i.jobContext.FireTimeUtc</td>
 	            <td>$i.job.JobListenerNames.Length</td>
 	            <td>
+					<a href="triggersbyjob.ashx?group=$i.job.group&job=$i.job.Name">Triggers</a>
 	                <form method="post" action="scheduler.ashx?method=DeleteJob&jobName=$i.job.Name&groupName=$i.job.group&next=$helper.UrlEncode($model.thisUrl)">
 	                    <input type="submit" value="Delete" />
 	                </form>

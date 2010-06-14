@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControllerFactory.cs" />
+    <Compile Include="Controllers\TriggersByJobController.cs" />
     <Compile Include="Models\TriggerWithState.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Controllers\IndexController.cs" />

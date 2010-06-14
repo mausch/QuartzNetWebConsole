@@ -23,6 +23,6 @@
 	    #end
 	    <br style="clear:both" />
 	    <h2>Triggers</h2>
-		$helper.RenderTemplate("QuartzNetWebConsole.Resources.triggerTable.html", "%{model=$model.triggers}")
+		$helper.RenderTemplate("QuartzNetWebConsole.Resources.triggerTable.html", "%{model=$model.triggers, thisUrl=$model.thisUrl}")
 	</body>
 </html>
