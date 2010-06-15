@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0">
+  <channel>
+    <title>Quartz.NET log</title>
+    <description>Quartz.NET log</description>
+    <link>$model.thisUrl</link>
+    <pubDate>$helper.Now.ToString("R")</pubDate>
+    #foreach ($r in $model.logs)
+    <item>
+      <title>$r.Timestamp</title>
+      <description>$helper.XmlEncode($r.Description)</description>
+	  <pubDate>$.Timestamp.ToString("R")</pubDate>
+    </item>
+    #end
+  </channel>
+</rss>

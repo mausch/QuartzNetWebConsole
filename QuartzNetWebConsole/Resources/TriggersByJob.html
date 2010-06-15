@@ -1,0 +1,13 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title>Quartz.Net console - Triggers for job ${model.group}.${model.job}</title>
+		<link rel="stylesheet" type="text/css" href="static.ashx?r=styles.css&t=text%2Fcss" />
+	</head>
+	<body>
+	    <h1>Triggers for job ${model.group}.${model.job}</h1>
+	    <br style="clear:both" />
+	    <h2>Triggers</h2>
+		$helper.RenderTemplate("QuartzNetWebConsole.Resources.triggerTable.html", "%{model=$model.triggers, thisUrl=$model.thisUrl}")
+	</body>
+</html>

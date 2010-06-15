@@ -9,7 +9,7 @@
 	        <h2>Scheduler name: $model.scheduler.SchedulerName</h2>
 			<div style="float: left">
 				Job store: $model.metadata.JobStoreType<br />
-				Supports persistence: #if ($model.metadata.JobStoreSupportsPersistence) Yes #else No #end<br />
+				Supports persistence: $helper.YesNo($model.metadata.JobStoreSupportsPersistence)<br />
 				Number of jobs executed: $model.metadata.NumJobsExecuted<br />
 				Running since: $model.metadata.RunningSince<br />
 				Status:
@@ -102,7 +102,7 @@
 						#if ($i.Paused)
 							Paused
 						#else
-							Running
+							Started
 						#end
 					</td>
 					<td>
@@ -141,7 +141,7 @@
 						#if ($i.Paused)
 							Paused
 						#else
-							Running
+							Started
 						#end					
 					</td>
 					<td>
@@ -161,14 +161,13 @@
 		</div>
 	    <br style="clear:both" />
 		<div class="group">
-			<h2>Job listeners</h2>
+			<h2>Global job listeners</h2>
 			#if ($model.jobListeners.Count == 0)
 				No job listeners
 			#else
 				<table>
 					<tr>
 						<th>Name</th>
-						<th>Global</th>
 						<th></th>
 					</tr>
 					#foreach ($i in $model.jobListeners)
@@ -180,10 +179,8 @@
 						class="alt">
 					#each
 						<td>$i.name</td>
-						<td>#if ($i.global) Yes #else No #end</td>
 						<td>
-							#set($g = "#if($i.global)Global#end")
-							<form method="post" action="scheduler.ashx?name=$i.name&method=Remove${g}JobListener">
+							<form method="post" action="scheduler.ashx?name=$i.name&method=RemoveGlobalJobListener">
 								<input type="submit" value="Delete"/>
 							</form>
 						</td>
@@ -193,14 +190,13 @@
 			#end
 		</div>
 		<div class="group">
-			<h2>Trigger listeners</h2>
+			<h2>Global trigger listeners</h2>
 			#if ($model.triggerListeners.Count == 0)
 				No trigger listeners
 			#else
 				<table>
 					<tr>
 						<th>Name</th>
-						<th>Global</th>
 						<th></th>
 					</tr>
 					#foreach ($i in $model.triggerListeners)
@@ -212,10 +208,8 @@
 						class="alt">
 					#each
 						<td>$i.name</td>
-						<td>#if ($i.global) Yes #else No #end</td>
 						<td>
-							#set($g = "#if($i.global)Global#end")
-							<form method="post" action="scheduler.ashx?name=$i.name&method=Remove${g}TriggerListener">
+							<form method="post" action="scheduler.ashx?name=$i.name&method=RemoveGlobalTriggerListener">
 								<input type="submit" value="Delete"/>
 							</form>
 						</td>

@@ -10,7 +10,7 @@
 		#if ($model.paused)
 			paused
 		#else
-			running
+			started
 		#end
 	    #if (!$model.paused)
             <form method="post" action="scheduler.ashx?method=PauseJobGroup&groupName=$model.group&next=$helper.UrlEncode($model.thisUrl)">
@@ -47,13 +47,14 @@
 	            <td>$i.job.Name</td>
 	            <td>$!i.job.Description</td>
 	            <td>$i.job.JobType</td>
-	            <td>$i.job.Durable</td>
-	            <td>$i.job.Stateful</td>
-	            <td>$i.job.Volatile</td>
-	            <td>$i.job.RequestsRecovery</td>
+	            <td>$helper.YesNo($i.job.Durable)</td>
+	            <td>$helper.YesNo($i.job.Stateful)</td>
+	            <td>$helper.YesNo($i.job.Volatile)</td>
+	            <td>$helper.YesNo($i.job.RequestsRecovery)</td>
 	            <td>$!i.jobContext.FireTimeUtc</td>
 	            <td>$i.job.JobListenerNames.Length</td>
 	            <td>
+					<a href="triggersbyjob.ashx?group=$i.job.group&job=$i.job.Name">Triggers</a>
 	                <form method="post" action="scheduler.ashx?method=DeleteJob&jobName=$i.job.Name&groupName=$i.job.group&next=$helper.UrlEncode($model.thisUrl)">
 	                    <input type="submit" value="Delete" />
 	                </form>

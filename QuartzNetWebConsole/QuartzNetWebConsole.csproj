@@ -90,6 +90,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\styles.css" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Log.html" />
+    <EmbeddedResource Include="Resources\Rss.html" />
+    <EmbeddedResource Include="Resources\TriggersByJob.html" />
+    <EmbeddedResource Include="Resources\triggerTable.html" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="Merge">
     <ItemGroup>
