@@ -5,11 +5,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace QuartzNetWebConsole.Utils {
-    public class CircularBuffer<T> : IEnumerable<T> {
+    public class LimitedList<T> : IEnumerable<T> {
         private LazyList<T> list = LazyList<T>.Empty;
         private readonly int capacity;
 
-        public CircularBuffer(int capacity) {
+        public LimitedList(int capacity) {
             this.capacity = capacity;
         }
 

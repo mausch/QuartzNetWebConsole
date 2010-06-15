@@ -6,7 +6,7 @@ using QuartzNetWebConsole.Utils;
 
 namespace QuartzNetWebConsole {
     public class MemoryLogger : ILogger {
-        private readonly CircularBuffer<LogEntry> entries;
+        private readonly LimitedList<LogEntry> entries;
         private readonly string partialQuartzConsoleUrl;
 
         public MemoryLogger(int capacity, string partialQuartzConsoleUrl): this(capacity) {
@@ -14,7 +14,7 @@ namespace QuartzNetWebConsole {
         }
 
         public MemoryLogger(int capacity) {
-            entries = new CircularBuffer<LogEntry>(capacity);
+            entries = new LimitedList<LogEntry>(capacity);
         }
 
         public void JobScheduled(Trigger trigger) {

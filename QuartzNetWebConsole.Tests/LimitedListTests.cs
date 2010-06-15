@@ -5,10 +5,10 @@ using QuartzNetWebConsole.Utils;
 
 namespace QuartzNetWebConsole.Tests {
     [TestFixture]
-    public class CircularBufferTests {
+    public class LimitedListTests {
         [Test]
         public void tt() {
-            var b = new CircularBuffer<int>(5);
+            var b = new LimitedList<int>(5);
             foreach (var i in Enumerable.Range(0, 1000))
                 b.Add(i);
             var a = b.ToArray();
