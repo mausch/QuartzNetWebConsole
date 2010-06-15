@@ -10,6 +10,8 @@ namespace SampleApp {
             var schedulerFactory = new StdSchedulerFactory();
             var scheduler = schedulerFactory.GetScheduler();
             scheduler.Start();
+            Setup.Scheduler = () => scheduler;
+            Setup.SetLogger(new MemoryLogger(1000));
             scheduler.AddGlobalJobListener(new GlobalJobListener());
             scheduler.AddGlobalTriggerListener(new GlobalTriggerListener());
 
@@ -25,8 +27,6 @@ namespace SampleApp {
             scheduler.ScheduleJob(cron);
             scheduler.AddCalendar("myCalendar", new DummyCalendar {Description = "dummy calendar"}, false, false);
 
-            Setup.Scheduler = () => scheduler;
-            Setup.SetLogger(new MemoryLogger(1000));
             var engine = new MiniMVC.ExternalVelocityEngine();
             MiniMVC.Setup.TemplateEngine = () => engine;
         }
