@@ -7,6 +7,11 @@ using QuartzNetWebConsole.Utils;
 namespace QuartzNetWebConsole {
     public class MemoryLogger : ILogger {
         private readonly CircularBuffer<LogEntry> entries;
+        private readonly string partialQuartzConsoleUrl;
+
+        public MemoryLogger(int capacity, string partialQuartzConsoleUrl): this(capacity) {
+            this.partialQuartzConsoleUrl = partialQuartzConsoleUrl;
+        }
 
         public MemoryLogger(int capacity) {
             entries = new CircularBuffer<LogEntry>(capacity);
@@ -18,7 +23,7 @@ namespace QuartzNetWebConsole {
         }
 
         private string Link(string href, string text) {
-            return string.Format("<a href='{0}'>{1}</a>", href, text);
+            return string.Format("<a href='{0}{1}'>{2}</a>", partialQuartzConsoleUrl, href, text);
         }
 
         private string LinkTriggerGroup(string group) {

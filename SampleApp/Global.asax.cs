@@ -11,7 +11,8 @@ namespace SampleApp {
             var scheduler = schedulerFactory.GetScheduler();
             scheduler.Start();
             Setup.Scheduler = () => scheduler;
-            Setup.SetLogger(new MemoryLogger(1000));
+            var partialQuartzConsoleUrl = string.Format("http://{0}:{1}/quartz/", Context.Request.Url.Host, Context.Request.Url.Port);
+            Setup.SetLogger(new MemoryLogger(10, partialQuartzConsoleUrl));
             scheduler.AddGlobalJobListener(new GlobalJobListener());
             scheduler.AddGlobalTriggerListener(new GlobalTriggerListener());
 
@@ -21,7 +22,7 @@ namespace SampleApp {
             scheduler.ScheduleJob(new JobDetail("myJob", null, typeof(HelloJob)), trigger);
 
             var cron = new CronTrigger("myCronTrigger") {
-                CronExpression = new CronExpression("0/10 * * * * ?"), // every 3 seconds
+                CronExpression = new CronExpression("0/10 * * * * ?"), // every 10 seconds
                 JobName = "myJob",
             };
             scheduler.ScheduleJob(cron);
