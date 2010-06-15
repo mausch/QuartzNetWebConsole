@@ -2,6 +2,7 @@
 using System.Web;
 using Quartz;
 using Quartz.Impl;
+using QuartzNetWebConsole;
 
 namespace SampleApp {
     public class Global : HttpApplication {
@@ -24,7 +25,8 @@ namespace SampleApp {
             scheduler.ScheduleJob(cron);
             scheduler.AddCalendar("myCalendar", new DummyCalendar {Description = "dummy calendar"}, false, false);
 
-            QuartzNetWebConsole.Setup.Scheduler = () => scheduler;
+            Setup.Scheduler = () => scheduler;
+            Setup.SetLogger(new MemoryLogger(1000));
             var engine = new MiniMVC.ExternalVelocityEngine();
             MiniMVC.Setup.TemplateEngine = () => engine;
         }
