@@ -2,10 +2,10 @@
 
 namespace QuartzNetWebConsole {
     public class LogEntry {
-        private readonly DateTime timestamp;
+        private readonly DateTimeOffset timestamp;
         private readonly string description;
 
-        public DateTime Timestamp {
+        public DateTimeOffset Timestamp {
             get { return timestamp; }
         }
 
@@ -14,7 +14,7 @@ namespace QuartzNetWebConsole {
         }
 
         public LogEntry(string description) {
-            timestamp = DateTime.Now;
+            timestamp = DateTimeOffset.Now;
             this.description = description;
         }
     }
