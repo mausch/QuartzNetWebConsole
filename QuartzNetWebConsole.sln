@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuartzNetWebConsole", "Quar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp", "SampleApp\SampleApp.csproj", "{F2832947-64D9-4B0A-A0BD-DDE7E90AC968}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuartzNetWebConsole.Tests", "QuartzNetWebConsole.Tests\QuartzNetWebConsole.Tests.csproj", "{05021F00-C4D1-45C3-92EC-92C467B74F67}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{F2832947-64D9-4B0A-A0BD-DDE7E90AC968}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2832947-64D9-4B0A-A0BD-DDE7E90AC968}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2832947-64D9-4B0A-A0BD-DDE7E90AC968}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05021F00-C4D1-45C3-92EC-92C467B74F67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05021F00-C4D1-45C3-92EC-92C467B74F67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05021F00-C4D1-45C3-92EC-92C467B74F67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05021F00-C4D1-45C3-92EC-92C467B74F67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
