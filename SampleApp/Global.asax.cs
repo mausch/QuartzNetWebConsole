@@ -27,9 +27,6 @@ namespace SampleApp {
             };
             scheduler.ScheduleJob(cron);
             scheduler.AddCalendar("myCalendar", new DummyCalendar {Description = "dummy calendar"}, false, false);
-
-            var engine = new MiniMVC.ExternalVelocityEngine();
-            //MiniMVC.Setup.TemplateEngine = () => engine;
         }
 
         protected void Session_Start(object sender, EventArgs e) {}
