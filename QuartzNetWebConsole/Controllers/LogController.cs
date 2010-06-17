@@ -30,7 +30,7 @@ namespace QuartzNetWebConsole.Controllers {
                 TotalItemCount = logsQ.Count(),
                 PageUrl = "log.ashx?start=!0&max=" + pageSize,
             };
-            var logs = logsQ.Skip(pagination.FirstItemIndex).Take(pagination.PageSize);
+            var logs = logsQ.Skip(pagination.FirstItemIndex).Take(pagination.PageSize).ToList();
             return new ViewResult(new {logs, pagination, thisUrl}, ViewName) {
                 ContentType = contentType,
             };
