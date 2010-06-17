@@ -20,7 +20,7 @@ namespace QuartzNetWebConsole.Models {
             get {
                 var pageCount = LastPage;
                 var pageFrom = Math.Max(1, CurrentPage - PageSlide);
-                var pageTo = Math.Min(pageCount - 1, CurrentPage + PageSlide);
+                var pageTo = Math.Min(pageCount, CurrentPage + PageSlide);
                 pageFrom = Math.Max(1, Math.Min(pageTo - 2*PageSlide, pageFrom));
                 pageTo = Math.Min(pageCount, Math.Max(pageFrom + 2*PageSlide, pageTo));
                 return Enumerable.Range(pageFrom, pageTo - pageFrom + 1);
