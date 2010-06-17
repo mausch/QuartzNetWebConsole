@@ -66,6 +66,7 @@
     <Compile Include="ILogger.cs" />
     <Compile Include="LogEntry.cs" />
     <Compile Include="MemoryLogger.cs" />
+    <Compile Include="Models\PaginationInfo.cs" />
     <Compile Include="Models\TriggerWithState.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Controllers\IndexController.cs" />

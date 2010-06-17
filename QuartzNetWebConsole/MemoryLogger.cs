@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using Quartz;
 using QuartzNetWebConsole.Utils;
 
@@ -124,6 +126,24 @@ namespace QuartzNetWebConsole {
 
         IEnumerator IEnumerable.GetEnumerator() {
             return GetEnumerator();
+        }
+
+        public Expression Expression {
+            get {
+                return entries.AsQueryable().Expression;
+            }
+        }
+
+        public Type ElementType {
+            get {
+                return typeof (LogEntry);
+            }
+        }
+
+        public IQueryProvider Provider {
+            get {
+                return entries.AsQueryable().Provider;
+            }
         }
     }
 }

@@ -33,3 +33,43 @@ th {
 tr.alt {
 	background-color: #f6f6f6;
 }
+
+/* pagination */
+.pagination 
+{
+	margin: 5px;
+	float: left;
+}
+.pagination a, .pagination span 
+{
+	border: solid 1px #888888;
+	padding: 2px 5px;
+	margin: 2px;
+}
+.pagination a 
+{
+	text-decoration: none;
+}
+.pagination a:hover
+{
+	background-color: #FFFFCC;
+}
+.pagination .currentPage
+{
+	font-weight: bold;
+	background-color: #888888;
+	color: White;
+}
+.pagination .disabledPage 
+{
+	color: #aaaaaa;
+}
+/* page size */
+.pagesize 
+{
+	text-align: right;
+}
+.pagesize span 
+{
+	font-weight: bold;
+}

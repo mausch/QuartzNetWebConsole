@@ -25,5 +25,29 @@
 			</tr>
 			#end
 		</table>
+		<br />
+		<div class="pagination">
+		    Showing $model.pagination.FirstItemIndex - $model.pagination.LastItemIndex of $model.pagination.TotalItemCount
+		    
+		#if ($model.pagination.HasPrevPage)
+		    <a href="$model.pagination.PrevPageUrl">&laquo; Previous</a>
+		#else
+		    <span class="disabledPage">&laquo; Previous</span>
+		#end
+		
+		#foreach ($p in $model.pagination.Pages)
+		    #if ($p == $model.pagination.CurrentPage)
+		        <span class="currentPage">$p</span>
+		    #else
+		        <a href="$model.pagination.PageUrlFor($p)">$p</a>
+		    #end
+		#end
+		
+		#if ($model.pagination.HasNextPage)
+		    <a href="$model.pagination.NextPageUrl">&raquo; Next</a>
+		#else
+		    <span class="disabledPage">&raquo; Next</span>
+		#end
+		</div>
 	</body>
 </html>
