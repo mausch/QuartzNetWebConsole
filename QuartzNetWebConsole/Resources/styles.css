@@ -36,6 +36,12 @@ tr.alt {
 tr.highlight {
 	background-color: #FFFFCC;
 }
+table a {
+	text-decoration: none;
+}
+table a:hover {
+	text-decoration: underline;
+}
 
 /* pagination */
 .pagination 
