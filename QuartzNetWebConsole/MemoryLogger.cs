@@ -20,7 +20,7 @@ namespace QuartzNetWebConsole {
         }
 
         public void JobScheduled(Trigger trigger) {
-            var desc = string.Format("Job {0}.{1} scheduled with trigger {2}", LinkJobGroup(trigger.JobGroup), trigger.JobName, Describe(trigger));
+            var desc = string.Format("Job {0}.{1} scheduled with trigger {2}", LinkJobGroup(trigger.JobGroup), LinkJob(trigger.JobGroup, trigger.JobName), Describe(trigger));
             entries.Add(new LogEntry(desc));
         }
 
@@ -36,12 +36,20 @@ namespace QuartzNetWebConsole {
             return Link(string.Format("jobGroup.ashx?group={0}", group), group);
         }
 
+        private string LinkTrigger(string group, string name) {
+            return Link(string.Format("triggerGroup.ashx?group={0}&highlight={0}.{1}", group, name), name);
+        }
+
+        private string LinkJob(string group, string name) {
+            return Link(string.Format("jobGroup.ashx?group={0}&highlight={0}.{1}", group, name), name);
+        }
+
         private string Describe(Trigger trigger) {
-            return string.Format("{0}.{1}", LinkTriggerGroup(trigger.Group), trigger.Name);
+            return string.Format("{0}.{1}", LinkTriggerGroup(trigger.Group), LinkTrigger(trigger.Group, trigger.Name));
         }
 
         public void JobUnscheduled(string triggerName, string triggerGroup) {
-            entries.Add(new LogEntry(string.Format("Trigger removed: {0}.{1}", LinkTriggerGroup(triggerGroup), triggerName)));
+            entries.Add(new LogEntry(string.Format("Trigger removed: {0}.{1}", LinkTriggerGroup(triggerGroup), LinkTrigger(triggerGroup, triggerName))));
         }
 
         public void TriggerFinalized(Trigger trigger) {
@@ -57,11 +65,11 @@ namespace QuartzNetWebConsole {
         }
 
         public void JobsPaused(string jobName, string jobGroup) {
-            entries.Add(new LogEntry(string.Format("Job paused: {0}.{1}", LinkJobGroup(jobGroup), jobName)));
+            entries.Add(new LogEntry(string.Format("Job paused: {0}.{1}", LinkJobGroup(jobGroup), LinkJob(jobGroup, jobName))));
         }
 
         public void JobsResumed(string jobName, string jobGroup) {
-            entries.Add(new LogEntry(string.Format("Job resumed: {0}.{1}", LinkJobGroup(jobGroup), jobName)));
+            entries.Add(new LogEntry(string.Format("Job resumed: {0}.{1}", LinkJobGroup(jobGroup), LinkJob(jobGroup, jobName))));
         }
 
         public void SchedulerError(string msg, SchedulerException cause) {
@@ -77,7 +85,8 @@ namespace QuartzNetWebConsole {
         }
 
         private string Describe(JobExecutionContext context) {
-            return string.Format("{0}.{1} (trigger {2})", LinkJobGroup(context.JobDetail.Group), context.JobDetail.Name, Describe(context.Trigger));
+            var job = context.JobDetail;
+            return string.Format("{0}.{1} (trigger {2})", LinkJobGroup(job.Group), LinkJob(job.Group, job.Name), Describe(context.Trigger));
         }
 
         public void JobExecutionVetoed(JobExecutionContext context) {
