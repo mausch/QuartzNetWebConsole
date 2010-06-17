@@ -77,7 +77,6 @@
     <Compile Include="Controllers\StaticController.cs" />
     <Compile Include="Controllers\TriggerGroupController.cs" />
     <Compile Include="Utils\LimitedList.cs" />
-    <Compile Include="Utils\LazyList.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Index.html" />

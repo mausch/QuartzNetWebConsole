@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace QuartzNetWebConsole.Utils {
     public class LimitedList<T> : IEnumerable<T> {
-        private LazyList<T> list = LazyList<T>.Empty;
+        private readonly LinkedList<T> list = new LinkedList<T>();
         private readonly int capacity;
 
         public LimitedList(int capacity) {
@@ -15,7 +14,9 @@ namespace QuartzNetWebConsole.Utils {
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void Add(T e) {
-            list = new LazyList<T>(e, list.Take(capacity-1));
+            list.AddFirst(e);
+            if (list.Count > capacity)
+                list.RemoveLast();
         }
 
         public IEnumerator<T> GetEnumerator() {
