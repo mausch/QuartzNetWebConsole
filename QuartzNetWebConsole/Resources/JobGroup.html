@@ -38,12 +38,12 @@
 	        </tr>
 	        #foreach ($i in $model.jobs)
 			#before
-	        <tr
-			#odd
-				>
-			#even
-				class="alt">
-			#each
+	        <tr class="#if ($model.highlight == $i.job.FullName) highlight #end
+	        #odd
+		        ">
+	        #even
+		        alt">
+	        #each
 	            <td>$i.job.Name</td>
 	            <td>$!i.job.Description</td>
 	            <td>$i.job.JobType</td>

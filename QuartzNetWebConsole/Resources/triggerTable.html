@@ -18,11 +18,11 @@
 	</tr>
 	#foreach ($i in $model)
 	#before
-	<tr
+	<tr class="#if ($highlight == $i.trigger.FullName) highlight #end
 	#odd
-		>
+		">
 	#even
-		class="alt">
+		alt">
 	#each
 		<td>$i.trigger.Name</td>
 		<td>$!i.trigger.Description</td>

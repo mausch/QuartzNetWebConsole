@@ -19,7 +19,8 @@ namespace QuartzNetWebConsole.Controllers {
                 });
             var thisUrl = context.Request.RawUrl;
             var paused = scheduler.IsTriggerGroupPaused(group);
-            return new ViewResult(new {triggers, thisUrl, group, paused}, ViewName);
+            var highlight = context.Request.QueryString["highlight"];
+            return new ViewResult(new {triggers, thisUrl, group, paused, highlight}, ViewName);
         }
     }
 }

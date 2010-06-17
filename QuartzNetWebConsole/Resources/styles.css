@@ -33,6 +33,9 @@ th {
 tr.alt {
 	background-color: #f6f6f6;
 }
+tr.highlight {
+	background-color: #FFFFCC;
+}
 
 /* pagination */
 .pagination 

@@ -19,7 +19,8 @@ namespace QuartzNetWebConsole.Controllers {
             });
             var paused = scheduler.IsJobGroupPaused(group);
             var thisUrl = context.Request.RawUrl;
-            return new ViewResult(new {jobs, group, paused, thisUrl}, ViewName);
+            var highlight = context.Request.QueryString["highlight"];
+            return new ViewResult(new {jobs, group, paused, thisUrl, highlight}, ViewName);
         }
     }
 }

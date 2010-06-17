@@ -18,7 +18,8 @@ namespace QuartzNetWebConsole.Controllers {
                     var state = scheduler.GetTriggerState(t.Name, t.Group);
                     return new TriggerWithState(t, state);
                 });
-            return new ViewResult(new {triggers, thisUrl, group, job}, ViewName);
+            var highlight = context.Request.QueryString["highlight"];
+            return new ViewResult(new {triggers, thisUrl, group, job, highlight}, ViewName);
         }
     }
 }
