@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractLogger.cs" />
     <Compile Include="ControllerFactory.cs" />
     <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Controllers\TriggersByJobController.cs" />
