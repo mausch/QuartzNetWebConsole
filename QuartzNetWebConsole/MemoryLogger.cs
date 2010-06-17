@@ -37,12 +37,7 @@ namespace QuartzNetWebConsole {
         }
 
         private string Describe(Trigger trigger) {
-            var cronTrigger = trigger as CronTrigger;
-            var cronDesc = cronTrigger == null ? null : cronTrigger.CronExpressionString;
-
-            var simpleTrigger = trigger as SimpleTrigger;
-            var simpleDesc = simpleTrigger == null ? null : string.Format("interval {0}, repeat count {1}", simpleTrigger.RepeatInterval, simpleTrigger.RepeatCount);
-            return string.Format("{0}.{1} ({2}) {3}{4}", LinkTriggerGroup(trigger.Group), trigger.Name, trigger.GetType(), cronDesc, simpleDesc);
+            return string.Format("{0}.{1}", LinkTriggerGroup(trigger.Group), trigger.Name);
         }
 
         public void JobUnscheduled(string triggerName, string triggerGroup) {
