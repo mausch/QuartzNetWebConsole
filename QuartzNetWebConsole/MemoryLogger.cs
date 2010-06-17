@@ -19,8 +19,71 @@ namespace QuartzNetWebConsole {
         }
 
         public override void JobScheduled(Trigger trigger) {
-            var desc = string.Format("Job {0}.{1} scheduled with trigger {2}", LinkJobGroup(trigger.JobGroup), LinkJob(trigger.JobGroup, trigger.JobName), Describe(trigger));
+            var desc = string.Format("Job {0} scheduled with trigger {1}", DescribeJob(trigger.JobGroup, trigger.JobName), Describe(trigger));
             entries.Add(new LogEntry(desc));
+        }
+
+        public override void JobUnscheduled(string triggerName, string triggerGroup) {
+            entries.Add(new LogEntry("Trigger removed: " + DescribeTrigger(triggerGroup, triggerName)));
+        }
+
+        public override void TriggerFinalized(Trigger trigger) {
+            entries.Add(new LogEntry("Trigger finalized: " + Describe(trigger)));
+        }
+
+        public override void TriggersPaused(string triggerName, string triggerGroup) {
+            entries.Add(new LogEntry("Trigger paused: " + DescribeTrigger(triggerGroup, triggerName)));
+        }
+
+        public override void TriggersResumed(string triggerName, string triggerGroup) {
+            entries.Add(new LogEntry("Trigger resumed: " + DescribeTrigger(triggerGroup, triggerName)));
+        }
+
+        public override void JobsPaused(string jobName, string jobGroup) {
+            entries.Add(new LogEntry("Job paused: " + DescribeJob(jobGroup, jobName)));
+        }
+
+        public override void JobsResumed(string jobName, string jobGroup) {
+            entries.Add(new LogEntry("Job resumed: " + DescribeJob(jobGroup, jobName)));
+        }
+
+        public override void SchedulerError(string msg, SchedulerException cause) {
+            entries.Add(new LogEntry(string.Format("Scheduler error: {0}\n{1}", msg, cause)));
+        }
+
+        public override void SchedulerShutdown() {
+            entries.Add(new LogEntry("Scheduler shutdown"));
+        }
+
+        public override void JobToBeExecuted(JobExecutionContext context) {
+            entries.Add(new LogEntry("Job to be executed: " + Describe(context)));
+        }
+
+        public override void JobExecutionVetoed(JobExecutionContext context) {
+            entries.Add(new LogEntry("Job execution vetoed: " + Describe(context)));
+        }
+
+        public override void JobWasExecuted(JobExecutionContext context, JobExecutionException jobException) {
+            var description = "Job was executed: " + Describe(context);
+            if (jobException != null)
+                description += "\nwith exception: " + jobException;
+            entries.Add(new LogEntry(description));
+        }
+
+        public override void TriggerFired(Trigger trigger, JobExecutionContext context) {
+            entries.Add(new LogEntry("Job fired: " + Describe(context)));
+        }
+
+        public override void TriggerMisfired(Trigger trigger) {
+            entries.Add(new LogEntry("Job misfired: " + Describe(trigger)));
+        }
+
+        public override void TriggerComplete(Trigger trigger, JobExecutionContext context, SchedulerInstruction triggerInstructionCode) {
+            entries.Add(new LogEntry("Job complete: " + Describe(context)));
+        }
+
+        private string DescribeJob(string group, string name) {
+            return string.Format("{0}.{1}", LinkJobGroup(group), LinkJob(group, name));
         }
 
         private string Link(string href, string text) {
@@ -47,69 +110,15 @@ namespace QuartzNetWebConsole {
             return string.Format("{0}.{1}", LinkTriggerGroup(trigger.Group), LinkTrigger(trigger.Group, trigger.Name));
         }
 
-        public override void JobUnscheduled(string triggerName, string triggerGroup) {
-            entries.Add(new LogEntry(string.Format("Trigger removed: {0}.{1}", LinkTriggerGroup(triggerGroup), LinkTrigger(triggerGroup, triggerName))));
-        }
-
-        public override void TriggerFinalized(Trigger trigger) {
-            entries.Add(new LogEntry(string.Format("Trigger finalized: {0}", Describe(trigger))));
-        }
-
-        public override void TriggersPaused(string triggerName, string triggerGroup) {
-            entries.Add(new LogEntry(string.Format("Trigger paused: {0}.{1}", LinkTriggerGroup(triggerGroup), triggerName)));
-        }
-
-        public override void TriggersResumed(string triggerName, string triggerGroup) {
-            entries.Add(new LogEntry(string.Format("Trigger resumed: {0}.{1}", LinkTriggerGroup(triggerGroup), triggerName)));
-        }
-
-        public override void JobsPaused(string jobName, string jobGroup) {
-            entries.Add(new LogEntry(string.Format("Job paused: {0}.{1}", LinkJobGroup(jobGroup), LinkJob(jobGroup, jobName))));
-        }
-
-        public override void JobsResumed(string jobName, string jobGroup) {
-            entries.Add(new LogEntry(string.Format("Job resumed: {0}.{1}", LinkJobGroup(jobGroup), LinkJob(jobGroup, jobName))));
-        }
-
-        public override void SchedulerError(string msg, SchedulerException cause) {
-            entries.Add(new LogEntry(string.Format("Scheduler error: {0}\n{1}", msg, cause)));
-        }
-
-        public override void SchedulerShutdown() {
-            entries.Add(new LogEntry("Scheduler shutdown"));
-        }
-
-        public override void JobToBeExecuted(JobExecutionContext context) {
-            entries.Add(new LogEntry(string.Format("Job to be executed: {0}", Describe(context))));
-        }
-
         private string Describe(JobExecutionContext context) {
             var job = context.JobDetail;
             return string.Format("{0}.{1} (trigger {2})", LinkJobGroup(job.Group), LinkJob(job.Group, job.Name), Describe(context.Trigger));
         }
 
-        public override void JobExecutionVetoed(JobExecutionContext context) {
-            entries.Add(new LogEntry(string.Format("Job execution vetoed: {0}", Describe(context))));
+        private string DescribeTrigger(string group, string name) {
+            return string.Format("{0}.{1}", LinkTriggerGroup(group), LinkTrigger(group, name));
         }
 
-        public override void JobWasExecuted(JobExecutionContext context, JobExecutionException jobException) {
-            var description = string.Format("Job was executed: {0}", Describe(context));
-            if (jobException != null)
-                description += "\nwith exception: " + jobException;
-            entries.Add(new LogEntry(description));
-        }
-
-        public override void TriggerFired(Trigger trigger, JobExecutionContext context) {
-            entries.Add(new LogEntry(string.Format("Trigger fired: {0}", Describe(context))));
-        }
-
-        public override void TriggerMisfired(Trigger trigger) {
-            entries.Add(new LogEntry(string.Format("Trigger misfired: {0}", Describe(trigger))));
-        }
-
-        public override void TriggerComplete(Trigger trigger, JobExecutionContext context, SchedulerInstruction triggerInstructionCode) {
-            entries.Add(new LogEntry(string.Format("Trigger complete: {0}", Describe(context))));
-        }
 
         public override IEnumerator<LogEntry> GetEnumerator() {
             return entries.GetEnumerator();
