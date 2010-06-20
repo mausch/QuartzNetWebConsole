@@ -63,6 +63,9 @@
 		</div>
 		<div class="group">
 			<h2>Calendars</h2>
+			#if ($model.calendars.Count == 0)
+			    No calendars
+			#else
 			<table>
 				<tr>
 					<th>Name</th>
@@ -81,6 +84,7 @@
 				</tr>
 				#end
 			</table>
+			#end
 		</div>		
 	    <br style="clear:both" />
 		<div class="group">
