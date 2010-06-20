@@ -5,25 +5,26 @@ namespace QuartzNetWebConsole {
     public static class Setup {
         public static Func<IScheduler> Scheduler { get; set; }
 
-        public static void SetLogger(ILogger logger) {
-            var scheduler = Scheduler();
-            if (Logger != null) {
-                scheduler.RemoveGlobalJobListener(logger);
-                scheduler.RemoveGlobalTriggerListener(logger);
-                scheduler.RemoveSchedulerListener(logger);
+        private static ILogger logger;
+
+        public static ILogger Logger {
+            get { return logger; }
+            set {
+                var scheduler = Scheduler();
+                if (logger != null) {
+                    scheduler.RemoveGlobalJobListener(logger);
+                    scheduler.RemoveGlobalTriggerListener(logger);
+                    scheduler.RemoveSchedulerListener(logger);
+                }
+                scheduler.AddGlobalJobListener(value);
+                scheduler.AddGlobalTriggerListener(value);
+                scheduler.AddSchedulerListener(value);
+                logger = value;
             }
-            scheduler.AddGlobalJobListener(logger);
-            scheduler.AddGlobalTriggerListener(logger);
-            scheduler.AddSchedulerListener(logger);
-            Logger = logger;
         }
 
-        public static ILogger Logger { get; private set; }
-
         static Setup() {
-            Scheduler = () => {
-                throw new Exception("Define QuartzNetWebConsole.Setup.Scheduler");
-            };
+            Scheduler = () => { throw new Exception("Define QuartzNetWebConsole.Setup.Scheduler"); };
         }
     }
 }

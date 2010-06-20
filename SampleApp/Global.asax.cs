@@ -12,7 +12,7 @@ namespace SampleApp {
             scheduler.Start();
             Setup.Scheduler = () => scheduler;
             var partialQuartzConsoleUrl = string.Format("http://{0}:{1}/quartz/", Context.Request.Url.Host, Context.Request.Url.Port);
-            Setup.SetLogger(new MemoryLogger(1000, partialQuartzConsoleUrl));
+            Setup.Logger = new MemoryLogger(1000, partialQuartzConsoleUrl);
             scheduler.AddGlobalJobListener(new GlobalJobListener());
             scheduler.AddGlobalTriggerListener(new GlobalTriggerListener());
 
