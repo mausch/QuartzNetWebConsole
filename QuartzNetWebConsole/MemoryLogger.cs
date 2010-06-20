@@ -99,11 +99,11 @@ namespace QuartzNetWebConsole {
         }
 
         private string LinkTrigger(string group, string name) {
-            return Link(string.Format("triggerGroup.ashx?group={0}&highlight={0}.{1}", group, name), name);
+            return Link(string.Format("triggerGroup.ashx?group={0}&highlight={0}.{1}#{0}.{1}", group, name), name);
         }
 
         private string LinkJob(string group, string name) {
-            return Link(string.Format("jobGroup.ashx?group={0}&highlight={0}.{1}", group, name), name);
+            return Link(string.Format("jobGroup.ashx?group={0}&highlight={0}.{1}#{0}.{1}", group, name), name);
         }
 
         private string Describe(Trigger trigger) {

@@ -39,7 +39,7 @@
 	        </tr>
 	        #foreach ($i in $model.jobs)
 			#before
-	        <tr class="#if ($model.highlight == $i.job.FullName) highlight #end
+	        <tr id="$i.job.FullName" class="#if ($model.highlight == $i.job.FullName) highlight #end
 	        #odd
 		        ">
 	        #even
