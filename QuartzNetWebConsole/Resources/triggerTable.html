@@ -28,7 +28,7 @@
 		<td>$!i.trigger.Description</td>
 		<td>$i.trigger.Priority</td>
 		<td><a href="jobGroup.ashx?group=$i.trigger.JobGroup">$i.trigger.JobGroup</a></td>
-		<td>$i.trigger.JobName</td>
+		<td><a href="jobGroup.ashx?group=$i.trigger.JobGroup&highlight=${i.trigger.JobGroup}.$i.trigger.JobName">$i.trigger.JobName</a></td>
 		<td>$i.trigger.StartTimeUtc</td>
 		<td>$!i.trigger.EndTimeUtc</td>
 		<td>$!i.trigger.FinalFireTimeUtc</td>
