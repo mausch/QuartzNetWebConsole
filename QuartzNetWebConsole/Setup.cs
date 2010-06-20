@@ -16,9 +16,11 @@ namespace QuartzNetWebConsole {
                     scheduler.RemoveGlobalTriggerListener(logger);
                     scheduler.RemoveSchedulerListener(logger);
                 }
-                scheduler.AddGlobalJobListener(value);
-                scheduler.AddGlobalTriggerListener(value);
-                scheduler.AddSchedulerListener(value);
+                if (value != null) {
+                    scheduler.AddGlobalJobListener(value);
+                    scheduler.AddGlobalTriggerListener(value);
+                    scheduler.AddSchedulerListener(value);
+                }
                 logger = value;
             }
         }
