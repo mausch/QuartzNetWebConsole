@@ -1,0 +1,1 @@
+msbuild /m QuartzNetWebConsole.sln
