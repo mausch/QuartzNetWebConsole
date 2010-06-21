@@ -83,6 +83,8 @@ namespace QuartzNetWebConsole {
         }
 
         private string DescribeJob(string group, string name) {
+            if (group == null && name == null)
+                return "All";
             return string.Format("{0}.{1}", LinkJobGroup(group), LinkJob(group, name));
         }
 
@@ -116,6 +118,8 @@ namespace QuartzNetWebConsole {
         }
 
         private string DescribeTrigger(string group, string name) {
+            if (group == null && name == null)
+                return "All";
             return string.Format("{0}.{1}", LinkTriggerGroup(group), LinkTrigger(group, name));
         }
 
