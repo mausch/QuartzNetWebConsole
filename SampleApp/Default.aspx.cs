@@ -11,7 +11,7 @@ namespace SampleApp
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            Response.Redirect("/quartz/index.ashx");
         }
     }
 }
