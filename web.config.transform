@@ -1,0 +1,12 @@
+<configuration>
+    <system.web>
+        <httpHandlers>
+            <add verb="*" path="quartz/*" validate="false" type="QuartzNetWebConsole.ControllerFactory, QuartzNetWebConsole"/>
+        </httpHandlers>
+    </system.web>
+    <system.webServer>
+        <handlers>
+            <add name="QuartzNetWebConsole" verb="*" path="quartz/*" type="QuartzNetWebConsole.ControllerFactory, QuartzNetWebConsole"/>
+        </handlers>
+    </system.webServer>
+</configuration>
