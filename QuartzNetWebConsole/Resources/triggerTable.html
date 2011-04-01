@@ -8,6 +8,7 @@
 		<th>Start time UTC</th>
 		<th>End time UTC</th>
 		<th>Final fire time UTC</th>
+        <th>Next fire time UTC</th>
 		<th>Repeat count</th>
 		<th>Repeat interval</th>
 		<th>Times triggered</th>
@@ -32,6 +33,7 @@
 		<td>$i.trigger.StartTimeUtc</td>
 		<td>$!i.trigger.EndTimeUtc</td>
 		<td>$!i.trigger.FinalFireTimeUtc</td>
+        <td>$!i.trigger.GetNextFireTimeUtc()</td>
 		<td>$!i.trigger.RepeatCount</td>
 		<td>$!i.trigger.RepeatInterval</td>
 		<td>$!i.trigger.TimesTriggered</td>
