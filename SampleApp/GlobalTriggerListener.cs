@@ -1,6 +1,9 @@
 ﻿using Quartz;
 
 namespace SampleApp {
+    /// <summary>
+    /// A sample dummy global trigger listener
+    /// </summary>
     public class GlobalTriggerListener : ITriggerListener {
         public void TriggerFired(Trigger trigger, JobExecutionContext context) {}
 

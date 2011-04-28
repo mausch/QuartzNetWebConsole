@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace QuartzNetWebConsole.Utils {
+    /// <summary>
+    /// List with fixed capacity, FIFO removal
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class LimitedList<T> : IEnumerable<T> {
         private readonly LinkedList<T> list = new LinkedList<T>();
         private readonly int capacity;

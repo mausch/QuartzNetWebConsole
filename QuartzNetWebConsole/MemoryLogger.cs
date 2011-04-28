@@ -7,6 +7,9 @@ using Quartz;
 using QuartzNetWebConsole.Utils;
 
 namespace QuartzNetWebConsole {
+    /// <summary>
+    /// Fixed-capacity in-memory logger. 
+    /// </summary>
     public class MemoryLogger : AbstractLogger {
         private readonly LimitedList<LogEntry> entries;
         private readonly string partialQuartzConsoleUrl;

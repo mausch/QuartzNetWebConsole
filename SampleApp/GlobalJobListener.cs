@@ -2,6 +2,9 @@
 using Quartz;
 
 namespace SampleApp {
+    /// <summary>
+    /// A sample dummy global job listener
+    /// </summary>
     public class GlobalJobListener : IJobListener {
         public void JobToBeExecuted(JobExecutionContext context) {
         }
