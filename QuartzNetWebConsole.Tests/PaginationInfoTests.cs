@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using NUnit.Framework;
-using QuartzNetWebConsole.Models;
+using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole.Tests {
     [TestFixture]

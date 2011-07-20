@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using System.Web;
+using System.Xml.Linq;
 using MiniMVC;
 using Quartz;
+using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole.Controllers {
     public class JobGroupController : Controller {
@@ -15,12 +17,13 @@ namespace QuartzNetWebConsole.Controllers {
                 var job = scheduler.GetJobDetail(j, group);
                 var interruptible = typeof (IInterruptableJob).IsAssignableFrom(job.JobType);
                 var jobContext = runningJobs.FirstOrDefault(r => r.JobDetail.FullName == job.FullName);
-                return new { job, jobContext, interruptible, };
+                return new JobWithContext(job, jobContext, interruptible);
             });
             var paused = scheduler.IsJobGroupPaused(group);
             var thisUrl = context.Request.RawUrl;
             var highlight = context.Request.QueryString["highlight"];
-            return new ViewResult(new {jobs, group, paused, thisUrl, highlight}, ViewName);
+            var view = Views.Views.JobGroup(group, paused, highlight, thisUrl, jobs);
+            return new XDocResult(new XDocument(X.XHTML1_0_Transitional, view));
         }
     }
 }

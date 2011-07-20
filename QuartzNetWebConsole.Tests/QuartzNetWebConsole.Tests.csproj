@@ -57,6 +57,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\QuartzNetWebConsole.Views\QuartzNetWebConsole.Views.vbproj">
+      <Project>{7961AB01-1549-4340-8D3D-F0DA43B8C84F}</Project>
+      <Name>QuartzNetWebConsole.Views</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QuartzNetWebConsole\QuartzNetWebConsole.csproj">
       <Project>{72A7A322-38DD-47DD-8948-6ED6E2F9DC5D}</Project>
       <Name>QuartzNetWebConsole</Name>

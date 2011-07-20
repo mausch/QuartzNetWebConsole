@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Web;
+using System.Xml.Linq;
 using MiniMVC;
 using Quartz;
-using QuartzNetWebConsole.Models;
+using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole.Controllers {
     public class TriggersByJobController : Controller {
@@ -19,7 +20,8 @@ namespace QuartzNetWebConsole.Controllers {
                     return new TriggerWithState(t, state);
                 });
             var highlight = context.Request.QueryString["highlight"];
-            return new ViewResult(new {triggers, thisUrl, group, job, highlight}, ViewName);
+            var m = new TriggersByJobModel(triggers, thisUrl, group, job, highlight);
+            return new XDocResult(new XDocument(X.XHTML1_0_Transitional, Views.Views.TriggersByJob(m)));
         }
     }
 }

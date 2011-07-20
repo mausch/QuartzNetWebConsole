@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using System.Web;
+using System.Xml.Linq;
 using MiniMVC;
 using Quartz;
+using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole.Controllers {
     public class IndexController : Controller {
@@ -15,46 +17,22 @@ namespace QuartzNetWebConsole.Controllers {
                 .Select(j => new GroupWithStatus(j, scheduler.IsJobGroupPaused(j)))
                 .ToArray();
             var calendars = scheduler.CalendarNames
-                .Select(name => new {name, description = scheduler.GetCalendar(name).Description})
+                .Select(name => Helpers.KV(name, scheduler.GetCalendar(name).Description))
                 .ToArray();
 
             var jobListeners = scheduler.GlobalJobListeners
                 .Cast<IJobListener>()
-                .Select(j => new {name = j.Name, type = j.GetType()})
+                .Select(j => Helpers.KV(j.Name, j.GetType()))
                 .ToArray();
 
             var triggerListeners = scheduler.GlobalTriggerListeners
                 .Cast<ITriggerListener>()
-                .Select(l => new {name = l.Name, type = l.GetType()})
+                .Select(j => Helpers.KV(j.Name, j.GetType()))
                 .ToArray();
 
-            return new ViewResult(new {
-                scheduler,
-                metadata = scheduler.GetMetaData(),
-                triggerGroups,
-                jobGroups,
-                calendars,
-                jobListeners,
-                triggerListeners,
-            }, ViewName);
-        }
+            var view = Views.Views.IndexPage(scheduler, scheduler.GetMetaData(), triggerGroups, jobGroups, calendars, jobListeners, triggerListeners);
 
-        public struct GroupWithStatus {
-            private readonly string name;
-            private readonly bool paused;
-
-            public GroupWithStatus(string name, bool paused) {
-                this.name = name;
-                this.paused = paused;
-            }
-
-            public string Name {
-                get { return name; }
-            }
-
-            public bool Paused {
-                get { return paused; }
-            }
+            return new XDocResult(new XDocument(X.XHTML1_0_Transitional, view));
         }
     }
 }
