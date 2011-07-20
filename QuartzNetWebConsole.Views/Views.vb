@@ -73,6 +73,189 @@ Public Module Views
 </rss>
     End Function
 
+    Public Function SchedulerStatus(ByVal scheduler As IScheduler, ByVal metadata As SchedulerMetaData) As XElement
+        Return _
+            <div class="group">
+                <h2>Scheduler name: <%= scheduler.SchedulerName %></h2>
+                <div style="float: left">
+				    Job store: <%= metadata.JobStoreType %><br/>
+				    Supports persistence: <%= YesNo(metadata.JobStoreSupportsPersistence) %><br/>
+				    Number of jobs executed: <%= metadata.NumJobsExecuted %><br/>
+				    Running since: <%= metadata.RunningSince %><br/>
+				    Status: <%= If(scheduler.InStandbyMode, "stand-by", "running") %>
+                    <br/>
+                    <a href="log.ashx">View log</a>
+                </div>
+                <div style="float: right">
+                    <%= SimpleForm("scheduler.ashx?method=Shutdown", "Shut down") %>
+                    <%= If(scheduler.InStandbyMode,
+                        SimpleForm("scheduler.ashx?method=Start", "Start"),
+                        SimpleForm("scheduler.ashx?method=Standby", "Stand by")) %>
+                    <%= SimpleForm("scheduler.ashx?method=PauseAll", "Pause all triggers") %>
+                    <%= SimpleForm("scheduler.ashx?method=ResumeAll", "Resume all triggers") %>
+                </div>
+            </div>
+
+    End Function
+
+    Public Function SchedulerListeners(ByVal scheduler As IScheduler) As XElement
+        Return _
+            <div class="group">
+                <h2>Scheduler listeners</h2>
+                <table>
+                    <tr>
+                        <th>Type</th>
+                    </tr>
+                    <%= From kv In Index(scheduler.SchedulerListeners.Cast(Of Object))
+                        Let odd = kv.Key Mod 2 = 0
+                        Select
+                        <tr class=<%= If(Not odd, "alt", "") %>>
+                            <td><%= kv.Value.GetType() %></td>
+                        </tr>
+                    %>
+                </table>
+            </div>
+    End Function
+
+    Public Function SchedulerCalendars(ByVal calendars As ICollection(Of KeyValuePair(Of String, String))) As XElement
+        Return _
+            <div class="group">
+                <h2>Calendars</h2>
+                <%= If(calendars.Count = 0,
+                    <span>No calendars</span>,
+                    <table>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                        </tr>
+                        <%= From kv In Index(calendars)
+                            Let odd = kv.Key Mod 2 = 0
+                            Let cal = kv.Value
+                            Select
+                            <tr class=<%= If(Not odd, "alt", "") %>>
+                                <td><%= cal.Key %></td>
+                                <td><%= cal.Value %></td>
+                            </tr>
+                        %>
+                    </table>) %>
+            </div>
+
+    End Function
+
+    Public Function SchedulerJobGroups(ByVal jobGroups As IEnumerable(Of GroupWithStatus)) As XElement
+        Return _
+            <div class="group">
+                <h2>Job groups</h2>
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                    <%= From kv In Index(jobGroups)
+                        Let odd = kv.Key Mod 2 = 0
+                        Let jobg = kv.Value
+                        Select
+                        <tr class=<%= If(Not odd, "alt", "") %>>
+                            <td>
+                                <a href=<%= "jobGroup.ashx?group=" + jobg.Name %>><%= jobg.Name %></a>
+                            </td>
+                            <td><%= If(jobg.Paused, "Paused", "Started") %></td>
+                            <td>
+                                <%= If(jobg.Paused,
+                                    SimpleForm("scheduler.ashx?method=ResumeJobGroup&groupName=" + jobg.Name, "Resume"),
+                                    SimpleForm("scheduler.ashx?method=PauseJobGroup&groupName=" + jobg.Name, "Pause")) %>
+                            </td>
+                        </tr>
+                    %>
+                </table>
+            </div>
+    End Function
+
+    Public Function SchedulerTriggerGroups(ByVal triggerGroups As IEnumerable(Of GroupWithStatus)) As XElement
+        Return _
+            <div class="group">
+                <h2>Trigger groups</h2>
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                    <%= From kv In Index(triggerGroups)
+                        Let odd = kv.Key Mod 2 = 0
+                        Let triggerg = kv.Value
+                        Select
+                        <tr class=<%= If(Not odd, "alt", "") %>>
+                            <td>
+                                <a href=<%= "triggerGroup.ashx?group=" + triggerg.Name %>><%= triggerg.Name %></a>
+                            </td>
+                            <td>
+                                <%= If(triggerg.Paused, "Paused", "Started") %>
+                            </td>
+                            <td>
+                                <%= If(triggerg.Paused,
+                                    SimpleForm("scheduler.ashx?method=ResumeTriggerGroup&groupName=" + triggerg.Name, "Resume"),
+                                    SimpleForm("scheduler.ashx?method=PauseTriggerGroup&groupName=" + triggerg.Name, "Pause")) %>
+                            </td>
+                        </tr>
+                    %>
+                </table>
+            </div>
+    End Function
+
+    Public Function GlobalJobListeners(ByVal jobListeners As ICollection(Of KeyValuePair(Of String, Type))) As XElement
+        Return _
+            <div class="group">
+                <h2>Global job listeners</h2>
+                <%= If(jobListeners.Count = 0,
+                    <span>No job listeners</span>,
+                    <table>
+                        <tr>
+                            <th>Name</th>
+                            <th></th>
+                        </tr>
+                        <%= From kv In Index(jobListeners)
+                            Let odd = kv.Key Mod 2 = 0
+                            Let jobl = kv.Value
+                            Select
+                            <tr class=<%= If(Not odd, "alt", "") %>>
+                                <td><%= jobl.Key %></td>
+                                <td>
+                                    <%= SimpleForm("scheduler.ashx?method=RemoveGlobalJobListener&name=" + jobl.Key, "Delete") %>
+                                </td>
+                            </tr>
+                        %>
+                    </table>) %>
+            </div>
+    End Function
+
+    Public Function GlobalTriggerListeners(ByVal triggerListeners As ICollection(Of KeyValuePair(Of String, Type))) As XElement
+        Return _
+            <div class="group">
+                <h2>Global trigger listeners</h2>
+                <%= If(triggerListeners.Count = 0,
+                    <span>No trigger listeners</span>,
+                    <table>
+                        <tr>
+                            <th>Name</th>
+                            <th></th>
+                        </tr>
+                        <%= From kv In Index(triggerListeners)
+                            Let odd = kv.Key Mod 2 = 0
+                            Let triggerl = kv.Value
+                            Select
+                            <tr class=<%= If(Not odd, "alt", "") %>>
+                                <td><%= triggerl.Key %></td>
+                                <td>
+                                    <%= SimpleForm("scheduler.ashx?method=RemoveGlobalTriggerListener&name=" + triggerl.Key, "Delete") %>
+                                </td>
+                            </tr>
+                        %>
+                    </table>) %>
+            </div>
+    End Function
+
     Public Function IndexPage(ByVal scheduler As IScheduler,
                               ByVal metadata As SchedulerMetaData,
                               ByVal triggerGroups As IEnumerable(Of GroupWithStatus),
@@ -87,161 +270,15 @@ Public Module Views
                 <%= Stylesheet %>
             </head>
             <body>
-                <div class="group">
-                    <h2>Scheduler name: <%= scheduler.SchedulerName %></h2>
-                    <div style="float: left">
-				        Job store: <%= metadata.JobStoreType %><br/>
-				        Supports persistence: <%= YesNo(metadata.JobStoreSupportsPersistence) %><br/>
-				        Number of jobs executed: <%= metadata.NumJobsExecuted %><br/>
-				        Running since: <%= metadata.RunningSince %><br/>
-				        Status: <%= If(scheduler.InStandbyMode, "stand-by", "running") %>
-                        <br/>
-                        <a href="log.ashx">View log</a>
-                    </div>
-                    <div style="float: right">
-                        <%= SimpleForm("scheduler.ashx?method=Shutdown", "Shut down") %>
-                        <%= If(scheduler.InStandbyMode,
-                            SimpleForm("scheduler.ashx?method=Start", "Start"),
-                            SimpleForm("scheduler.ashx?method=Standby", "Stand by")) %>
-                        <%= SimpleForm("scheduler.ashx?method=PauseAll", "Pause all triggers") %>
-                        <%= SimpleForm("scheduler.ashx?method=ResumeAll", "Resume all triggers") %>
-                    </div>
-                </div>
-                <div class="group">
-                    <h2>Scheduler listeners</h2>
-                    <table>
-                        <tr>
-                            <th>Type</th>
-                        </tr>
-                        <%= From kv In Index(scheduler.SchedulerListeners.Cast(Of Object))
-                            Let odd = kv.Key Mod 2 = 0
-                            Select
-                            <tr class=<%= If(Not odd, "alt", "") %>>
-                                <td><%= kv.Value.GetType() %></td>
-                            </tr>
-                        %>
-                    </table>
-                </div>
-                <div class="group">
-                    <h2>Calendars</h2>
-                    <%= If(calendars.Count = 0,
-                        <span>No calendars</span>,
-                        <table>
-                            <tr>
-                                <th>Name</th>
-                                <th>Description</th>
-                            </tr>
-                            <%= From kv In Index(calendars)
-                                Let odd = kv.Key Mod 2 = 0
-                                Let cal = kv.Value
-                                Select
-                                <tr class=<%= If(Not odd, "alt", "") %>>
-                                    <td><%= cal.Key %></td>
-                                    <td><%= cal.Value %></td>
-                                </tr>
-                            %>
-                        </table>) %>
-                </div>
+                <%= SchedulerStatus(scheduler, metadata) %>
+                <%= SchedulerListeners(scheduler) %>
+                <%= SchedulerCalendars(calendars) %>
                 <br style="clear:both"/>
-                <div class="group">
-                    <h2>Job groups</h2>
-                    <table>
-                        <tr>
-                            <th>Name</th>
-                            <th>Status</th>
-                            <th></th>
-                        </tr>
-                        <%= From kv In Index(jobGroups)
-                            Let odd = kv.Key Mod 2 = 0
-                            Let jobg = kv.Value
-                            Select
-                            <tr class=<%= If(Not odd, "alt", "") %>>
-                                <td>
-                                    <a href=<%= "jobGroup.ashx?group=" + jobg.Name %>><%= jobg.Name %></a>
-                                </td>
-                                <td><%= If(jobg.Paused, "Paused", "Started") %></td>
-                                <td>
-                                    <%= If(jobg.Paused,
-                                        SimpleForm("scheduler.ashx?method=ResumeJobGroup&groupName=" + jobg.Name, "Resume"),
-                                        SimpleForm("scheduler.ashx?method=PauseJobGroup&groupName=" + jobg.Name, "Pause")) %>
-                                </td>
-                            </tr>
-                        %>
-                    </table>
-                </div>
-                <div class="group">
-                    <h2>Trigger groups</h2>
-                    <table>
-                        <tr>
-                            <th>Name</th>
-                            <th>Status</th>
-                            <th></th>
-                        </tr>
-                        <%= From kv In Index(triggerGroups)
-                            Let odd = kv.Key Mod 2 = 0
-                            Let triggerg = kv.Value
-                            Select
-                            <tr class=<%= If(Not odd, "alt", "") %>>
-                                <td>
-                                    <a href=<%= "triggerGroup.ashx?group=" + triggerg.Name %>><%= triggerg.Name %></a>
-                                </td>
-                                <td>
-                                    <%= If(triggerg.Paused, "Paused", "Started") %>
-                                </td>
-                                <td>
-                                    <%= If(triggerg.Paused,
-                                        SimpleForm("scheduler.ashx?method=ResumeTriggerGroup&groupName=" + triggerg.Name, "Resume"),
-                                        SimpleForm("scheduler.ashx?method=PauseTriggerGroup&groupName=" + triggerg.Name, "Pause")) %>
-                                </td>
-                            </tr>
-                        %>
-                    </table>
-                </div>
+                <%= SchedulerJobGroups(jobGroups) %>
+                <%= SchedulerTriggerGroups(triggerGroups) %>
                 <br style="clear:both"/>
-                <div class="group">
-                    <h2>Global job listeners</h2>
-                    <%= If(jobListeners.Count = 0,
-                        <span>No job listeners</span>,
-                        <table>
-                            <tr>
-                                <th>Name</th>
-                                <th></th>
-                            </tr>
-                            <%= From kv In Index(jobListeners)
-                                Let odd = kv.Key Mod 2 = 0
-                                Let jobl = kv.Value
-                                Select
-                                <tr class=<%= If(Not odd, "alt", "") %>>
-                                    <td><%= jobl.Key %></td>
-                                    <td>
-                                        <%= SimpleForm("scheduler.ashx?method=RemoveGlobalJobListener&name=" + jobl.Key, "Delete") %>
-                                    </td>
-                                </tr>
-                            %>
-                        </table>) %>
-                </div>
-                <div class="group">
-                    <h2>Global trigger listeners</h2>
-                    <%= If(triggerListeners.Count = 0,
-                        <span>No trigger listeners</span>,
-                        <table>
-                            <tr>
-                                <th>Name</th>
-                                <th></th>
-                            </tr>
-                            <%= From kv In Index(triggerListeners)
-                                Let odd = kv.Key Mod 2 = 0
-                                Let triggerl = kv.Value
-                                Select
-                                <tr class=<%= If(Not odd, "alt", "") %>>
-                                    <td><%= triggerl.Key %></td>
-                                    <td>
-                                        <%= SimpleForm("scheduler.ashx?method=RemoveGlobalTriggerListener&name=" + triggerl.Key, "Delete") %>
-                                    </td>
-                                </tr>
-                            %>
-                        </table>) %>
-                </div>
+                <%= GlobalJobListeners(jobListeners) %>
+                <%= GlobalTriggerListeners(triggerListeners) %>
             </body>
         </html>
     End Function
