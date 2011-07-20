@@ -75,22 +75,7 @@
     <Compile Include="Utils\LimitedList.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Index.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\JobGroup.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\TriggerGroup.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\styles.css" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Log.html" />
-    <EmbeddedResource Include="Resources\Rss.html" />
-    <EmbeddedResource Include="Resources\TriggersByJob.html" />
-    <EmbeddedResource Include="Resources\triggerTable.html" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QuartzNetWebConsole.Views\QuartzNetWebConsole.Views.vbproj">
