@@ -22,7 +22,7 @@ namespace QuartzNetWebConsole.Controllers {
             var paused = scheduler.IsTriggerGroupPaused(group);
             var highlight = context.Request.QueryString["highlight"];
             var v = Views.Views.TriggerGroup(group, paused, thisUrl, highlight, triggers);
-            return new XDocResult(new XDocument(X.XHTML1_0_Transitional, v));
+            return new XDocResult(Helpers.XHTML(v));
         }
     }
 }

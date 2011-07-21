@@ -69,6 +69,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnumerableExtensions.vb" />
     <Compile Include="GroupWithStatus.vb" />
     <Compile Include="Helpers.vb" />
     <Compile Include="JobWithContext.vb" />

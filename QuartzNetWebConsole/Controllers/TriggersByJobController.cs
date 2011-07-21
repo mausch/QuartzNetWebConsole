@@ -21,7 +21,7 @@ namespace QuartzNetWebConsole.Controllers {
                 });
             var highlight = context.Request.QueryString["highlight"];
             var m = new TriggersByJobModel(triggers, thisUrl, group, job, highlight);
-            return new XDocResult(new XDocument(X.XHTML1_0_Transitional, Views.Views.TriggersByJob(m)));
+            return new XDocResult(Helpers.XHTML(Views.Views.TriggersByJob(m)));
         }
     }
 }

@@ -20,11 +20,9 @@ Public Module Views
                             <th>Date / Time</th>
                             <th>Description</th>
                         </tr>
-                        <%= From kv In Index(logs)
-                            Let odd = kv.Key Mod 2 = 0
-                            Let e = kv.Value
+                        <%= From e In logs
                             Select
-                            <tr class=<%= If(Not odd, "alt", "") %>>
+                            <tr>
                                 <td><%= e.Timestamp %></td>
                                 <td><%= X.Raw(e.Description) %></td>
                             </tr>
@@ -106,11 +104,10 @@ Public Module Views
                     <tr>
                         <th>Type</th>
                     </tr>
-                    <%= From kv In Index(scheduler.SchedulerListeners.Cast(Of Object))
-                        Let odd = kv.Key Mod 2 = 0
+                    <%= From l In scheduler.SchedulerListeners.Cast(Of Object)()
                         Select
-                        <tr class=<%= If(Not odd, "alt", "") %>>
-                            <td><%= kv.Value.GetType() %></td>
+                        <tr>
+                            <td><%= l.GetType() %></td>
                         </tr>
                     %>
                 </table>
@@ -128,11 +125,9 @@ Public Module Views
                             <th>Name</th>
                             <th>Description</th>
                         </tr>
-                        <%= From kv In Index(calendars)
-                            Let odd = kv.Key Mod 2 = 0
-                            Let cal = kv.Value
+                        <%= From cal In calendars
                             Select
-                            <tr class=<%= If(Not odd, "alt", "") %>>
+                            <tr>
                                 <td><%= cal.Key %></td>
                                 <td><%= cal.Value %></td>
                             </tr>
@@ -152,11 +147,9 @@ Public Module Views
                         <th>Status</th>
                         <th></th>
                     </tr>
-                    <%= From kv In Index(jobGroups)
-                        Let odd = kv.Key Mod 2 = 0
-                        Let jobg = kv.Value
+                    <%= From jobg In jobGroups
                         Select
-                        <tr class=<%= If(Not odd, "alt", "") %>>
+                        <tr>
                             <td>
                                 <a href=<%= "jobGroup.ashx?group=" + jobg.Name %>><%= jobg.Name %></a>
                             </td>
@@ -182,11 +175,9 @@ Public Module Views
                         <th>Status</th>
                         <th></th>
                     </tr>
-                    <%= From kv In Index(triggerGroups)
-                        Let odd = kv.Key Mod 2 = 0
-                        Let triggerg = kv.Value
+                    <%= From triggerg In triggerGroups
                         Select
-                        <tr class=<%= If(Not odd, "alt", "") %>>
+                        <tr>
                             <td>
                                 <a href=<%= "triggerGroup.ashx?group=" + triggerg.Name %>><%= triggerg.Name %></a>
                             </td>
@@ -215,11 +206,9 @@ Public Module Views
                             <th>Name</th>
                             <th></th>
                         </tr>
-                        <%= From kv In Index(jobListeners)
-                            Let odd = kv.Key Mod 2 = 0
-                            Let jobl = kv.Value
+                        <%= From jobl In jobListeners
                             Select
-                            <tr class=<%= If(Not odd, "alt", "") %>>
+                            <tr>
                                 <td><%= jobl.Key %></td>
                                 <td>
                                     <%= SimpleForm("scheduler.ashx?method=RemoveGlobalJobListener&name=" + jobl.Key, "Delete") %>
@@ -241,11 +230,9 @@ Public Module Views
                             <th>Name</th>
                             <th></th>
                         </tr>
-                        <%= From kv In Index(triggerListeners)
-                            Let odd = kv.Key Mod 2 = 0
-                            Let triggerl = kv.Value
+                        <%= From triggerl In triggerListeners
                             Select
-                            <tr class=<%= If(Not odd, "alt", "") %>>
+                            <tr>
                                 <td><%= triggerl.Key %></td>
                                 <td>
                                     <%= SimpleForm("scheduler.ashx?method=RemoveGlobalTriggerListener&name=" + triggerl.Key, "Delete") %>
@@ -339,16 +326,14 @@ Public Module Views
                             <th>Listeners</th>
                             <th></th>
                         </tr>
-                        <%= From kv In Index(jobs)
-                            Let odd = kv.Key Mod 2 = 0
-                            Let j = kv.Value
+                        <%= From j In jobs
                             Let op = Function(method As String) "scheduler.ashx?method=" + method +
                             "&jobName=" + j.Job.Name +
                             "&groupName=" + j.Job.Group +
                             "&next=" + HttpUtility.UrlEncode(thisUrl)
                             Select
                             <tr id=<%= j.Job.FullName %>
-                                class=<%= If(highlight = j.Job.FullName, "highlight", "") + " " + If(Not odd, "alt", "") %>>
+                                class=<%= If(highlight = j.Job.FullName, "highlight", "") %>>
                                 <td><%= j.Job.Name %></td>
                                 <td><%= j.Job.Description %></td>
                                 <td><%= j.Job.JobType %></td>
@@ -412,15 +397,14 @@ Public Module Views
                     <th>State</th>
                     <th></th>
                 </tr>
-                <%= From kv In Index(triggers)
-                    Let odd = kv.Key Mod 2 = 0
-                    Let high = highlight = kv.Value.Trigger.FullName
-                    Let trigger = kv.Value.Trigger
+                <%= From tr In triggers
+                    Let trigger = tr.Trigger
+                    Let high = highlight = trigger.FullName
                     Let simpleTrigger = TryCast(trigger, SimpleTrigger)
                     Let cronTrigger = TryCast(trigger, CronTrigger)
                     Select
                     <tr id=<%= trigger.FullName %>
-                        class=<%= If(highlight = trigger.FullName, highlight, "") + " " + If(Not odd, "alt", "") %>>
+                        class=<%= If(highlight = trigger.FullName, highlight, "") %>>
                         <td><%= trigger.Name %></td>
                         <td><%= trigger.Description %></td>
                         <td><%= trigger.Priority %></td>
@@ -443,9 +427,9 @@ Public Module Views
                         <td><%= If(simpleTrigger IsNot Nothing, simpleTrigger.TimesTriggered.ToString, "") %></td>
                         <td><%= If(cronTrigger IsNot Nothing, SpacesToNbsp(cronTrigger.CronExpressionString), "") %></td>
                         <td><%= trigger.CalendarName %></td>
-                        <td><%= kv.Value.State %></td>
+                        <td><%= tr.State %></td>
                         <td>
-                            <%= If(kv.Value.IsPaused,
+                            <%= If(tr.IsPaused,
                                 <form method="post"
                                     action=<%= "scheduler.ashx?method=ResumeTrigger&triggerName=" + trigger.Name +
                                                "&groupName=" + trigger.Group +

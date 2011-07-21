@@ -1,4 +1,6 @@
-﻿Public Module Helpers
+﻿Imports MiniMVC
+
+Public Module Helpers
     Public Function SimpleForm(ByVal action As String, ByVal button As String) As XElement
         Return _
         <form method="post" action=<%= action %>>
@@ -16,10 +18,6 @@
         Return New KeyValuePair(Of K, V)(key, value)
     End Function
 
-    Public Function Index(Of T)(ByVal a As IEnumerable(Of T)) As IEnumerable(Of KeyValuePair(Of Integer, T))
-        Return a.Select(Function(e, i) KV(i, e))
-    End Function
-
     Public Function SpacesToNbsp(ByVal s As String) As String
         Return s.Replace(" "c, ChrW(&HA0))
     End Function
@@ -27,4 +25,24 @@
     Public ReadOnly laquo As Char = ChrW(&HAB)
     Public ReadOnly raquo As Char = ChrW(&HBB)
 
+    Public Sub StripeTrs(ByVal xml As XElement)
+        For Each table In xml...<table>
+            Dim t = table
+            Dim trs = From x In t...<tr>
+            trs = trs.Skip(1).WhereOdd()
+            For Each tr In trs
+                Dim clas = tr.Attribute("class")
+                If clas IsNot Nothing Then
+                    clas.SetValue(clas.Value + " " + "alt")
+                Else
+                    tr.Add(New XAttribute("class", "alt"))
+                End If
+            Next
+        Next
+    End Sub
+
+    Public Function XHTML(ByVal e As XElement) As XDocument
+        StripeTrs(e)
+        Return New XDocument(X.XHTML1_0_Transitional, e)
+    End Function
 End Module
