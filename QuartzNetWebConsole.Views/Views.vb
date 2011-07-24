@@ -402,6 +402,9 @@ Public Module Views
                     Let high = highlight = trigger.FullName
                     Let simpleTrigger = TryCast(trigger, SimpleTrigger)
                     Let cronTrigger = TryCast(trigger, CronTrigger)
+                    Let op = Function(method As String) "scheduler.ashx?method=ResumeTrigger&triggerName=" + trigger.Name +
+                    "&groupName=" + trigger.Group +
+                    "&next=" + HttpUtility.UrlEncode(thisUrl)
                     Select
                     <tr id=<%= trigger.FullName %>
                         class=<%= If(highlight = trigger.FullName, highlight, "") %>>
@@ -430,24 +433,10 @@ Public Module Views
                         <td><%= tr.State %></td>
                         <td>
                             <%= If(tr.IsPaused,
-                                <form method="post"
-                                    action=<%= "scheduler.ashx?method=ResumeTrigger&triggerName=" + trigger.Name +
-                                               "&groupName=" + trigger.Group +
-                                               "&next=" + HttpUtility.UrlEncode(thisUrl) %>>
-                                    <input type="submit" value="Resume"/>
-                                </form>,
-                                <form method="post"
-                                    action=<%= "scheduler.ashx?method=PauseTrigger&triggerName=" + trigger.Name +
-                                               "&groupName=" + trigger.Group +
-                                               "&next=" + HttpUtility.UrlEncode(thisUrl) %>>
-                                    <input type="submit" value="Pause"/>
-                                </form>) %>
-                            <form method="post"
-                                action=<%= "scheduler.ashx?method=UnscheduleJob&triggerName=" + trigger.Name +
-                                           "&groupName=" + trigger.Group +
-                                           "&next=" + HttpUtility.UrlEncode(thisUrl) %>>
-                                <input type="submit" value="Delete"/>
-                            </form>
+                                SimpleForm(op("ResumeTrigger"), "Resume"),
+                                SimpleForm(op("PauseTrigger"), "Pause")) %>
+
+                            <%= SimpleForm(op("UnschedulerJob"), "Delete") %>
                         </td>
                     </tr> %>
             </table>
