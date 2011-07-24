@@ -43,6 +43,6 @@ Public Module Helpers
 
     Public Function XHTML(ByVal e As XElement) As XDocument
         StripeTrs(e)
-        Return New XDocument(X.XHTML1_0_Transitional, e)
+        Return X.MakeHTML5Doc(e)
     End Function
 End Module
