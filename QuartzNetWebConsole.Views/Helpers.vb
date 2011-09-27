@@ -18,13 +18,6 @@ Public Module Helpers
         Return New KeyValuePair(Of K, V)(key, value)
     End Function
 
-    Public Function SpacesToNbsp(ByVal s As String) As String
-        Return s.Replace(" "c, ChrW(&HA0))
-    End Function
-
-    Public ReadOnly laquo As Char = ChrW(&HAB)
-    Public ReadOnly raquo As Char = ChrW(&HBB)
-
     Public Sub StripeTrs(ByVal xml As XElement)
         For Each table In xml...<table>
             Dim t = table

@@ -33,8 +33,8 @@ Public Module Views
                     Showing <%= pagination.FirstItemIndex %> - <%= pagination.LastItemIndex %> of <%= pagination.TotalItemCount %>
 
                         <%= If(pagination.HasPrevPage,
-                            <a href=<%= pagination.PrevPageUrl %>><%= laquo %> Previous</a>,
-                            <span class="disabledPage"><%= laquo %> Previous</span>) %>
+                            <a href=<%= pagination.PrevPageUrl %>><%= X.laquo %> Previous</a>,
+                            <span class="disabledPage"><%= X.laquo %> Previous</span>) %>
 
                         <%= From p In pagination.Pages
                             Select
@@ -43,8 +43,8 @@ Public Module Views
                             <a href=<%= pagination.PageUrlFor(p) %>><%= p %></a>) %>
 
                         <%= If(pagination.HasNextPage,
-                            <a href=<%= pagination.NextPageUrl %>><%= raquo %> Next</a>,
-                            <span class="disabledPage"><%= raquo %> Next</span>) %>
+                            <a href=<%= pagination.NextPageUrl %>><%= X.raquo %> Next</a>,
+                            <span class="disabledPage"><%= X.raquo %> Next</span>) %>
 
                     </div>
                 </body>
@@ -428,7 +428,7 @@ Public Module Views
                         <td><%= If(simpleTrigger IsNot Nothing, simpleTrigger.RepeatCount.ToString, "") %></td>
                         <td><%= If(simpleTrigger IsNot Nothing, simpleTrigger.RepeatInterval.ToString, "") %></td>
                         <td><%= If(simpleTrigger IsNot Nothing, simpleTrigger.TimesTriggered.ToString, "") %></td>
-                        <td><%= If(cronTrigger IsNot Nothing, SpacesToNbsp(cronTrigger.CronExpressionString), "") %></td>
+                        <td><%= If(cronTrigger IsNot Nothing, X.SpacesToNbsp(cronTrigger.CronExpressionString), "") %></td>
                         <td><%= trigger.CalendarName %></td>
                         <td><%= tr.State %></td>
                         <td>
