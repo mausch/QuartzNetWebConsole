@@ -4,10 +4,8 @@ using NUnit.Framework;
 using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole.Tests {
-    [TestFixture]
-    public class ViewsTests {
-        [Test]
-        public void TrClassAlt() {
+    public static class ViewsTests {
+        public static void TrClassAlt() {
             var x = Views.Views.SchedulerCalendars(new[] {
                 Helpers.KV("one", "1"),
                 Helpers.KV("two", "2"),
@@ -21,7 +19,7 @@ namespace QuartzNetWebConsole.Tests {
                 .WhereOdd();
             foreach (var tr in trs) {
                 Console.WriteLine(tr.ToString());
-                Assert.AreEqual("alt", tr.Attribute("class").Value);                
+                Assert.AreEqual("alt", tr.Attribute("class").Value);
             }
         }
     }

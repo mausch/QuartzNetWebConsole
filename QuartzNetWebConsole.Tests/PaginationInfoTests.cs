@@ -3,14 +3,12 @@ using NUnit.Framework;
 using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole.Tests {
-    [TestFixture]
-    public class PaginationInfoTests {
-        [Test]
-        public void tt() {
+    public static class PaginationInfoTests {
+        public static void tt() {
             var p = new PaginationInfo {
                 FirstItemIndex = 350,
                 PageSize = 25,
-                PageSlide =  2,
+                PageSlide = 2,
                 TotalItemCount = 398,
             };
             Assert.AreEqual(16, p.LastPage);

@@ -4,10 +4,8 @@ using NUnit.Framework;
 using QuartzNetWebConsole.Utils;
 
 namespace QuartzNetWebConsole.Tests {
-    [TestFixture]
-    public class LimitedListTests {
-        [Test]
-        public void tt() {
+    public static class LimitedListTests {
+        public static void tt() {
             var b = new LimitedList<int>(5);
             foreach (var i in Enumerable.Range(0, 1000))
                 b.Add(i);
