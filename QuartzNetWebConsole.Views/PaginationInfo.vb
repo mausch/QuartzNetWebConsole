@@ -17,7 +17,7 @@
 
     Public ReadOnly Property LastPage As Integer
         Get
-            Return CInt(Math.Floor(CDec(TotalItemCount) - 1) / PageSize) + 1
+            Return CInt(Math.Floor((CDec(TotalItemCount) - 1) / PageSize)) + 1
         End Get
     End Property
 
@@ -59,7 +59,7 @@
     Public ReadOnly Property Pages As IEnumerable(Of Integer)
         Get
             Dim pageCount = LastPage
-            Dim pageFrom = Math.Max(1, CurrentPage - PageSize)
+            Dim pageFrom = Math.Max(1, CurrentPage - PageSlide)
             Dim pageTo = Math.Min(pageCount, CurrentPage + PageSlide)
             pageFrom = Math.Max(1, Math.Min(pageTo - 2 * PageSlide, pageFrom))
             pageTo = Math.Min(pageCount, Math.Max(pageFrom + 2 * PageSlide, pageTo))
