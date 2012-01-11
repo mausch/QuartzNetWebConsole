@@ -37,9 +37,15 @@ namespace QuartzNetWebConsole.Controllers {
 
         public KeyValuePair<string, Func<IEnumerable<LogEntry>, PaginationInfo, string, XDocument>> GetView(IEnumerable<string> qs) {
             if (qs.Contains("rss"))
-                return Helpers.KV<string, Func<IEnumerable<LogEntry>, PaginationInfo, string, XDocument>>("application/rss+xml", (e, p, u) => new XDocument(Views.Views.LogRSS(u, e)));
-            return Helpers.KV<string, Func<IEnumerable<LogEntry>, PaginationInfo, string, XDocument>>(null, (e, p, u) => Helpers.XHTML(Views.Views.Log(e,p,u)));
+                return Helpers.KV("application/rss+xml", RSSView);
+            return Helpers.KV((string)null, XHTMLView);
         }
+
+        public static readonly Func<IEnumerable<LogEntry>, PaginationInfo, string, XDocument> XHTMLView =
+            (entries, pagination, url) => Helpers.XHTML(Views.Views.Log(entries, pagination, url));
+
+        public static readonly Func<IEnumerable<LogEntry>, PaginationInfo, string, XDocument> RSSView =
+            (entries, pagination, url) => new XDocument(Views.Views.LogRSS(url, entries));
 
         public int GetPageSize(NameValueCollection nv) {
             try {
