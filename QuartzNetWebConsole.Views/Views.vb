@@ -3,6 +3,26 @@ Imports Quartz
 Imports System.Web
 
 Public Module Views
+    Public Function Pager(pagination As PaginationInfo) As XElement
+        Return _
+            <div class="pagination">
+                Showing <%= pagination.FirstItemIndex %> - <%= pagination.LastItemIndex %> of <%= pagination.TotalItemCount %>
+
+                <%= If(pagination.HasPrevPage,
+                    <a href=<%= pagination.PrevPageUrl %>><%= X.laquo %> Previous</a>,
+                    <span class="disabledPage"><%= X.laquo %> Previous</span>) %>
+
+                <%= From p In pagination.Pages
+                    Select
+                    If(p = pagination.CurrentPage,
+                    <span class="currentPage"><%= p %></span>,
+                    <a href=<%= pagination.PageUrlFor(p) %>><%= p %></a>) %>
+
+                <%= If(pagination.HasNextPage,
+                    <a href=<%= pagination.NextPageUrl %>><%= X.raquo %> Next</a>,
+                    <span class="disabledPage"><%= X.raquo %> Next</span>) %>
+            </div>
+    End Function
 
     Public Function Log(ByVal logs As IEnumerable(Of LogEntry), ByVal pagination As PaginationInfo, ByVal thisUrl As String) As XElement
         Return _
@@ -29,24 +49,7 @@ Public Module Views
                         %>
                     </table>
                     <br/>
-                    <div class="pagination">
-                    Showing <%= pagination.FirstItemIndex %> - <%= pagination.LastItemIndex %> of <%= pagination.TotalItemCount %>
-
-                        <%= If(pagination.HasPrevPage,
-                            <a href=<%= pagination.PrevPageUrl %>><%= X.laquo %> Previous</a>,
-                            <span class="disabledPage"><%= X.laquo %> Previous</span>) %>
-
-                        <%= From p In pagination.Pages
-                            Select
-                            If(p = pagination.CurrentPage,
-                            <span class="currentPage"><%= p %></span>,
-                            <a href=<%= pagination.PageUrlFor(p) %>><%= p %></a>) %>
-
-                        <%= If(pagination.HasNextPage,
-                            <a href=<%= pagination.NextPageUrl %>><%= X.raquo %> Next</a>,
-                            <span class="disabledPage"><%= X.raquo %> Next</span>) %>
-
-                    </div>
+                    <%= Pager(pagination) %>
                 </body>
             </html>
     End Function
@@ -137,111 +140,65 @@ Public Module Views
 
     End Function
 
-    Public Function SchedulerJobGroups(ByVal jobGroups As IEnumerable(Of GroupWithStatus)) As XElement
-        Return _
-            <div class="group">
-                <h2>Job groups</h2>
-                <table>
-                    <tr>
-                        <th>Name</th>
-                        <th>Status</th>
-                        <th></th>
-                    </tr>
-                    <%= From jobg In jobGroups
-                        Select
-                        <tr>
-                            <td>
-                                <a href=<%= "jobGroup.ashx?group=" + jobg.Name %>><%= jobg.Name %></a>
-                            </td>
-                            <td><%= If(jobg.Paused, "Paused", "Started") %></td>
-                            <td>
-                                <%= If(jobg.Paused,
-                                    SimpleForm("scheduler.ashx?method=ResumeJobGroup&groupName=" + jobg.Name, "Resume"),
-                                    SimpleForm("scheduler.ashx?method=PauseJobGroup&groupName=" + jobg.Name, "Pause")) %>
-                            </td>
-                        </tr>
-                    %>
-                </table>
-            </div>
-    End Function
-
-    Public Function SchedulerTriggerGroups(ByVal triggerGroups As IEnumerable(Of GroupWithStatus)) As XElement
-        Return _
-            <div class="group">
-                <h2>Trigger groups</h2>
-                <table>
-                    <tr>
-                        <th>Name</th>
-                        <th>Status</th>
-                        <th></th>
-                    </tr>
-                    <%= From triggerg In triggerGroups
-                        Select
-                        <tr>
-                            <td>
-                                <a href=<%= "triggerGroup.ashx?group=" + triggerg.Name %>><%= triggerg.Name %></a>
-                            </td>
-                            <td>
-                                <%= If(triggerg.Paused, "Paused", "Started") %>
-                            </td>
-                            <td>
-                                <%= If(triggerg.Paused,
-                                    SimpleForm("scheduler.ashx?method=ResumeTriggerGroup&groupName=" + triggerg.Name, "Resume"),
-                                    SimpleForm("scheduler.ashx?method=PauseTriggerGroup&groupName=" + triggerg.Name, "Pause")) %>
-                            </td>
-                        </tr>
-                    %>
-                </table>
-            </div>
-    End Function
-
-    Public Function GlobalJobListeners(ByVal jobListeners As ICollection(Of KeyValuePair(Of String, Type))) As XElement
-        Return _
-            <div class="group">
-                <h2>Global job listeners</h2>
-                <%= If(jobListeners.Count = 0,
-                    <span>No job listeners</span>,
-                    <table>
-                        <tr>
-                            <th>Name</th>
-                            <th></th>
-                        </tr>
-                        <%= From jobl In jobListeners
-                            Select
+    Public Function SchedulerEntityGroups(entity As String) As Func(Of IEnumerable(Of GroupWithStatus), XElement)
+        Return Function(groups) _
+                    <div class="group">
+                        <h2><%= entity %> groups</h2>
+                        <table>
                             <tr>
-                                <td><%= jobl.Key %></td>
-                                <td>
-                                    <%= SimpleForm("scheduler.ashx?method=RemoveGlobalJobListener&name=" + jobl.Key, "Delete") %>
-                                </td>
+                                <th>Name</th>
+                                <th>Status</th>
+                                <th></th>
                             </tr>
-                        %>
-                    </table>) %>
-            </div>
+                            <%= From group In groups
+                                Select
+                                <tr>
+                                    <td>
+                                        <a href=<%= entity & "Group.ashx?group=" & group.Name %>><%= group.Name %></a>
+                                    </td>
+                                    <td><%= If(group.Paused, "Paused", "Started") %></td>
+                                    <td>
+                                        <%= If(group.Paused,
+                                            SimpleForm("scheduler.ashx?method=ResumeJobGroup&groupName=" + group.Name, "Resume"),
+                                            SimpleForm("scheduler.ashx?method=PauseJobGroup&groupName=" + group.Name, "Pause")) %>
+                                    </td>
+                                </tr>
+                            %>
+                        </table>
+                    </div>
     End Function
 
-    Public Function GlobalTriggerListeners(ByVal triggerListeners As ICollection(Of KeyValuePair(Of String, Type))) As XElement
-        Return _
-            <div class="group">
-                <h2>Global trigger listeners</h2>
-                <%= If(triggerListeners.Count = 0,
-                    <span>No trigger listeners</span>,
-                    <table>
-                        <tr>
-                            <th>Name</th>
-                            <th></th>
-                        </tr>
-                        <%= From triggerl In triggerListeners
-                            Select
+    Public ReadOnly SchedulerJobGroups As Func(Of IEnumerable(Of GroupWithStatus), XElement) = SchedulerEntityGroups("Job")
+
+    Public ReadOnly SchedulerTriggerGroups As Func(Of IEnumerable(Of GroupWithStatus), XElement) = SchedulerEntityGroups("Trigger")
+
+    Public Function GlobalEntityListeners(entity As String) As Func(Of ICollection(Of KeyValuePair(Of String, Type)), XElement)
+        Return Function(listeners) _
+                <div class="group">
+                    <h2>Global <%= entity %> listeners</h2>
+                    <%= If(listeners.Count = 0,
+                        <span>No <%= entity %> listeners</span>,
+                        <table>
                             <tr>
-                                <td><%= triggerl.Key %></td>
-                                <td>
-                                    <%= SimpleForm("scheduler.ashx?method=RemoveGlobalTriggerListener&name=" + triggerl.Key, "Delete") %>
-                                </td>
+                                <th>Name</th>
+                                <th></th>
                             </tr>
-                        %>
-                    </table>) %>
-            </div>
+                            <%= From listener In listeners
+                                Select
+                                <tr>
+                                    <td><%= listener.Key %></td>
+                                    <td>
+                                        <%= SimpleForm("scheduler.ashx?method=RemoveGlobal" & entity & "Listener&name=" & listener.Key, "Delete") %>
+                                    </td>
+                                </tr>
+                            %>
+                        </table>) %>
+                </div>
     End Function
+
+    Public ReadOnly GlobalJobListeners As Func(Of ICollection(Of KeyValuePair(Of String, Type)), XElement) = GlobalEntityListeners("Job")
+
+    Public ReadOnly GlobalTriggerListeners As Func(Of ICollection(Of KeyValuePair(Of String, Type)), XElement) = GlobalEntityListeners("Trigger")
 
     Public Function IndexPage(ByVal scheduler As IScheduler,
                               ByVal metadata As SchedulerMetaData,
