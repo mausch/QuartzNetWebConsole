@@ -159,8 +159,8 @@ Public Module Views
                                     <td><%= If(group.Paused, "Paused", "Started") %></td>
                                     <td>
                                         <%= If(group.Paused,
-                                            SimpleForm("scheduler.ashx?method=ResumeJobGroup&groupName=" + group.Name, "Resume"),
-                                            SimpleForm("scheduler.ashx?method=PauseJobGroup&groupName=" + group.Name, "Pause")) %>
+                                            SimpleForm("scheduler.ashx?method=Resume" & entity & "Group&groupName=" + group.Name, "Resume"),
+                                            SimpleForm("scheduler.ashx?method=Pause" & entity & "Group&groupName=" + group.Name, "Pause")) %>
                                     </td>
                                 </tr>
                             %>
@@ -359,7 +359,8 @@ Public Module Views
                     Let high = highlight = trigger.FullName
                     Let simpleTrigger = TryCast(trigger, SimpleTrigger)
                     Let cronTrigger = TryCast(trigger, CronTrigger)
-                    Let op = Function(method As String) "scheduler.ashx?method=ResumeTrigger&triggerName=" + trigger.Name +
+                    Let op = Function(method As String) "scheduler.ashx?method=" & method &
+                    "&triggerName=" + trigger.Name +
                     "&groupName=" + trigger.Group +
                     "&next=" + HttpUtility.UrlEncode(thisUrl)
                     Select
