@@ -90,8 +90,14 @@
       <MergeAsm Include="bin\$(Configuration)\QuartzNetWebConsole.Views.dll" />
       <MergeAsm Include="bin\$(Configuration)\MiniMVC.dll" />
     </ItemGroup>
-    <RemoveDir Directories="$(MergedOutputPath)" />
-    <MakeDir Directories="$(MergedOutputPath)" ContinueOnError="true" />
+    <RemoveDir Directories="$(MergedOutputPath);obj"> 
+      <Output TaskParameter="RemovedDirectories" ItemName="removed"/> 
+    </RemoveDir> 
+    <Message Text="Removed: %(removed.FullPath)" Importance="high"/> 
+ 
+    <Message Text=" "/> 
+    <MakeDir Condition="!Exists('$(MergedOutputPath)')" Directories="$(MergedOutputPath)" /> 
+
     <ILMerge InputAssemblies="@(MergeAsm)" OutputFile="$(MergedOutputPath)\QuartzNetWebConsole.dll" XmlDocs="true" DebugInfo="true" />
   </Target>
   <Target Name="BeforeBuild">
