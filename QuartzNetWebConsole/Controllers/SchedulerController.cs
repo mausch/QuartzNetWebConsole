@@ -11,7 +11,7 @@ namespace QuartzNetWebConsole.Controllers {
         private readonly IScheduler scheduler = Setup.Scheduler();
         private static readonly MethodInfo[] methods = typeof (IScheduler).GetMethods();
 
-        public override IResult Execute(HttpContextBase context) {
+        public override void Execute(HttpContextBase context) {
             var qs = context.Request.QueryString;
             var methodName = qs["method"].ToLowerInvariant();
             var redirect = qs["next"] ?? "index.ashx";
@@ -29,7 +29,7 @@ namespace QuartzNetWebConsole.Controllers {
                 .Select(p => Convert(qs[p.Name], p.ParameterType))
                 .ToArray();
             method.Invoke(scheduler, parameters);
-            return new RedirectResult(redirect);
+            context.Response.Redirect(redirect);
         }
 
         public object Convert(string s, Type t) {

@@ -17,7 +17,7 @@ namespace QuartzNetWebConsole.Controllers {
             DefaultPageSize = 25;
         }
 
-        public override IResult Execute(HttpContextBase context) {
+        public override void Execute(HttpContextBase context) {
             var qs = context.Request.QueryString;
             var thisUrl = context.Request.Url.ToString().Split('?')[0];
             var pageSize = GetPageSize(qs);
@@ -30,9 +30,7 @@ namespace QuartzNetWebConsole.Controllers {
             var logs = logsQ.Skip(pagination.FirstItemIndex).Take(pagination.PageSize).ToList();
             var v = GetView(qs.AllKeys);
             var view = v.Value(logs, pagination, thisUrl);
-            return new XDocResult(view) {
-                ContentType = v.Key,
-            };
+            context.XDocument(view, contentType: v.Key);
         }
 
         public KeyValuePair<string, Func<IEnumerable<LogEntry>, PaginationInfo, string, XDocument>> GetView(IEnumerable<string> qs) {

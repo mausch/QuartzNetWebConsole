@@ -9,7 +9,7 @@ namespace QuartzNetWebConsole.Controllers {
     public class TriggerGroupController : Controller {
         private readonly IScheduler scheduler = Setup.Scheduler();
 
-        public override IResult Execute(HttpContextBase context) {
+        public override void Execute(HttpContextBase context) {
             var group = context.Request.QueryString["group"];
             var triggerNames = scheduler.GetTriggerNames(group);
             var triggers = triggerNames
@@ -22,7 +22,7 @@ namespace QuartzNetWebConsole.Controllers {
             var paused = scheduler.IsTriggerGroupPaused(group);
             var highlight = context.Request.QueryString["highlight"];
             var v = Views.Views.TriggerGroup(group, paused, thisUrl, highlight, triggers);
-            return new XDocResult(Helpers.XHTML(v));
+            context.XDocument(Helpers.XHTML(v));
         }
     }
 }

@@ -9,7 +9,7 @@ namespace QuartzNetWebConsole.Controllers {
     public class IndexController : Controller {
         private readonly IScheduler scheduler = Setup.Scheduler();
 
-        public override IResult Execute(HttpContextBase context) {
+        public override void Execute(HttpContextBase context) {
             var triggerGroups = scheduler.TriggerGroupNames
                 .Select(t => new GroupWithStatus(t, scheduler.IsTriggerGroupPaused(t)))
                 .ToArray();
@@ -31,8 +31,7 @@ namespace QuartzNetWebConsole.Controllers {
                 .ToArray();
 
             var view = Views.Views.IndexPage(scheduler, scheduler.GetMetaData(), triggerGroups, jobGroups, calendars, jobListeners, triggerListeners);
-
-            return new XDocResult(Helpers.XHTML(view));
+            context.XDocument(Helpers.XHTML(view));
         }
     }
 }

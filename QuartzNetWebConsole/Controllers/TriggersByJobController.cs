@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Web;
-using System.Xml.Linq;
 using MiniMVC;
 using Quartz;
 using QuartzNetWebConsole.Views;
@@ -10,7 +9,7 @@ namespace QuartzNetWebConsole.Controllers {
     public class TriggersByJobController : Controller {
         private readonly IScheduler scheduler = Setup.Scheduler();
 
-        public override IResult Execute(HttpContextBase context) {
+        public override void Execute(HttpContextBase context) {
             var group = context.Request.QueryString["group"];
             var job = context.Request.QueryString["job"];
             var thisUrl = context.Request.RawUrl;
@@ -21,7 +20,7 @@ namespace QuartzNetWebConsole.Controllers {
                 });
             var highlight = context.Request.QueryString["highlight"];
             var m = new TriggersByJobModel(triggers, thisUrl, group, job, highlight);
-            return new XDocResult(Helpers.XHTML(Views.Views.TriggersByJob(m)));
+            context.XDocument(Helpers.XHTML(Views.Views.TriggersByJob(m)));
         }
     }
 }
