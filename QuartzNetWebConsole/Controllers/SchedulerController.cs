@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -11,12 +13,23 @@ namespace QuartzNetWebConsole.Controllers {
         private readonly IScheduler scheduler = Setup.Scheduler();
         private static readonly MethodInfo[] methods = typeof (IScheduler).GetMethods();
 
-        public override void Execute(HttpContextBase context) {
-            var qs = context.Request.QueryString;
+        public class MethodParameters {
+            public readonly MethodInfo method;
+            public readonly string redirect;
+            public readonly IEnumerable<object> parameters;
+
+            public MethodParameters(MethodInfo method, string redirect, IEnumerable<object> parameters) {
+                this.method = method;
+                this.redirect = redirect;
+                this.parameters = parameters;
+            }
+        }
+
+        public static MethodParameters GetMethodParameters(NameValueCollection qs) {
             var methodName = qs["method"].ToLowerInvariant();
             var redirect = qs["next"] ?? "index.ashx";
             var parameterNames = qs.AllKeys
-                .Except(new[] {"method", "next"})
+                .Except(new[] { "method", "next" })
                 .Select(a => a.ToLowerInvariant())
                 .ToArray();
             var method = methods
@@ -28,11 +41,17 @@ namespace QuartzNetWebConsole.Controllers {
             var parameters = method.GetParameters()
                 .Select(p => Convert(qs[p.Name], p.ParameterType))
                 .ToArray();
-            method.Invoke(scheduler, parameters);
-            context.Response.Redirect(redirect);
+            return new MethodParameters(method, redirect, parameters);
         }
 
-        public object Convert(string s, Type t) {
+        public override void Execute(HttpContextBase context) {
+            var qs = context.Request.QueryString;
+            var p = GetMethodParameters(qs);
+            p.method.Invoke(scheduler, p.parameters.ToArray());
+            context.Response.Redirect(p.redirect);
+        }
+
+        public static object Convert(string s, Type t) {
             var converter = TypeDescriptor.GetConverter(t);
             if (converter != null && converter.CanConvertFrom(typeof (string)))
                 return converter.ConvertFromInvariantString(s);
