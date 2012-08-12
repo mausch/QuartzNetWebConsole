@@ -25,6 +25,13 @@ namespace QuartzNetWebConsole.Controllers {
             }
         }
 
+        public static Func<MethodInfo, bool> MatchParameters(IEnumerable<string> parameterNames) {
+            return m => m.GetParameters()
+                        .Select(p => p.Name.ToLowerInvariant())
+                        .ToSet()
+                        .SetEquals(parameterNames);
+        }
+
         public static MethodParameters GetMethodParameters(NameValueCollection qs) {
             var methodName = qs["method"].ToLowerInvariant();
             var redirect = qs["next"] ?? "index.ashx";
@@ -34,10 +41,12 @@ namespace QuartzNetWebConsole.Controllers {
                 .ToArray();
             var method = methods
                 .Where(n => n.Name.ToLowerInvariant() == methodName)
-                .Single(m => m.GetParameters()
-                                 .Select(p => p.Name.ToLowerInvariant())
-                                 .ToSet()
-                                 .SetEquals(parameterNames));
+                .Where(MatchParameters(parameterNames))
+                .FirstOrDefault();
+
+            if (method == null)
+                throw new Exception("Method not found: " + methodName);
+
             var parameters = method.GetParameters()
                 .Select(p => Convert(qs[p.Name], p.ParameterType))
                 .ToArray();
