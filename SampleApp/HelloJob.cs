@@ -6,8 +6,9 @@ namespace SampleApp {
     /// <summary>
     /// A sample dummy job
     /// </summary>
-    public class HelloJob : IStatefulJob {
-        public void Execute(JobExecutionContext context) {
+    [DisallowConcurrentExecution]
+    public class HelloJob : IJob {
+        public void Execute(IJobExecutionContext context) {
             Thread.Sleep(5000);
         }
     }

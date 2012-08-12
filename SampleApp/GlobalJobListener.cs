@@ -6,13 +6,13 @@ namespace SampleApp {
     /// A sample dummy global job listener
     /// </summary>
     public class GlobalJobListener : IJobListener {
-        public void JobToBeExecuted(JobExecutionContext context) {
+        public void JobToBeExecuted(IJobExecutionContext context) {
         }
 
-        public void JobExecutionVetoed(JobExecutionContext context) {
+        public void JobExecutionVetoed(IJobExecutionContext context) {
         }
 
-        public void JobWasExecuted(JobExecutionContext context, JobExecutionException jobException) {
+        public void JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException) {
         }
 
         public string Name {

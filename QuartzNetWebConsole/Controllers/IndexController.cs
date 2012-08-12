@@ -10,23 +10,24 @@ namespace QuartzNetWebConsole.Controllers {
         private readonly IScheduler scheduler = Setup.Scheduler();
 
         public override void Execute(HttpContextBase context) {
-            var triggerGroups = scheduler.TriggerGroupNames
+            var triggerGroups = scheduler.GetTriggerGroupNames()
                 .Select(t => new GroupWithStatus(t, scheduler.IsTriggerGroupPaused(t)))
                 .ToArray();
-            var jobGroups = scheduler.JobGroupNames
+
+            var jobGroups = scheduler.GetJobGroupNames()
                 .Select(j => new GroupWithStatus(j, scheduler.IsJobGroupPaused(j)))
                 .ToArray();
-            var calendars = scheduler.CalendarNames
+
+            var calendars = scheduler.GetCalendarNames()
                 .Select(name => Helpers.KV(name, scheduler.GetCalendar(name).Description))
                 .ToArray();
 
-            var jobListeners = scheduler.GlobalJobListeners
-                .Cast<IJobListener>()
+
+            var jobListeners = scheduler.ListenerManager.GetJobListeners()
                 .Select(j => Helpers.KV(j.Name, j.GetType()))
                 .ToArray();
 
-            var triggerListeners = scheduler.GlobalTriggerListeners
-                .Cast<ITriggerListener>()
+            var triggerListeners = scheduler.ListenerManager.GetTriggerListeners()
                 .Select(j => Helpers.KV(j.Name, j.GetType()))
                 .ToArray();
 

@@ -1,6 +1,7 @@
 ﻿Imports MiniMVC
 Imports Quartz
 Imports System.Web
+Imports Quartz.Impl.Triggers
 
 Public Module Views
     Public Function Pager(pagination As PaginationInfo) As XElement
@@ -81,7 +82,7 @@ Public Module Views
                 <div style="float: left">
 				    Job store: <%= metadata.JobStoreType %><br/>
 				    Supports persistence: <%= YesNo(metadata.JobStoreSupportsPersistence) %><br/>
-				    Number of jobs executed: <%= metadata.NumJobsExecuted %><br/>
+				    Number of jobs executed: <%= metadata.NumberOfJobsExecuted %><br/>
 				    Running since: <%= metadata.RunningSince %><br/>
 				    Status: <%= If(scheduler.InStandbyMode, "stand-by", "running") %>
                     <br/>
@@ -107,7 +108,7 @@ Public Module Views
                     <tr>
                         <th>Type</th>
                     </tr>
-                    <%= From l In scheduler.SchedulerListeners.Cast(Of Object)()
+                    <%= From l In scheduler.ListenerManager.GetSchedulerListeners()
                         Select
                         <tr>
                             <td><%= l.GetType() %></td>
@@ -276,32 +277,30 @@ Public Module Views
                             <th>Description</th>
                             <th>Type</th>
                             <th>Durable</th>
-                            <th>Stateful</th>
-                            <th>Volatile</th>
+                            <th>Persist data after execution</th>
+                            <th>Concurrent execution disallowed</th>
                             <th>Requests recovery</th>
                             <th>Running since</th>
-                            <th>Listeners</th>
                             <th></th>
                         </tr>
                         <%= From j In jobs
                             Let op = Function(method As String) "scheduler.ashx?method=" + method +
-                            "&jobName=" + j.Job.Name +
-                            "&groupName=" + j.Job.Group +
+                            "&jobName=" + j.Job.Key.Name +
+                            "&groupName=" + j.Job.Key.Group +
                             "&next=" + HttpUtility.UrlEncode(thisUrl)
                             Select
-                            <tr id=<%= j.Job.FullName %>
-                                class=<%= If(highlight = j.Job.FullName, "highlight", "") %>>
-                                <td><%= j.Job.Name %></td>
+                            <tr id=<%= j.Job.Key.ToString() %>
+                                class=<%= If(highlight = j.Job.Key.ToString(), "highlight", "") %>>
+                                <td><%= j.Job.Key.Name %></td>
                                 <td><%= j.Job.Description %></td>
                                 <td><%= j.Job.JobType %></td>
                                 <td><%= YesNo(j.Job.Durable) %></td>
-                                <td><%= YesNo(j.Job.Stateful) %></td>
-                                <td><%= YesNo(j.Job.Volatile) %></td>
+                                <td><%= YesNo(j.Job.PersistJobDataAfterExecution) %></td>
+                                <td><%= YesNo(j.Job.ConcurrentExectionDisallowed) %></td>
                                 <td><%= YesNo(j.Job.RequestsRecovery) %></td>
                                 <td><%= j.JobContext.FireTimeUtc %></td>
-                                <td><%= j.Job.JobListenerNames.Length %></td>
                                 <td>
-                                    <a href=<%= "triggersByJob.ashx?group=" + j.Job.Group + "&job=" + j.Job.Name %>>Triggers</a>
+                                    <a href=<%= "triggersByJob.ashx?group=" + j.Job.Key.Group + "&job=" + j.Job.Key.Name %>>Triggers</a>
                                     <%= SimpleForm(op("DeleteJob"), "Delete") %>
                                     <%= SimpleForm(op("PauseJob"), "Pause") %>
                                     <%= SimpleForm(op("ResumeJob"), "Resume") %>
@@ -356,27 +355,27 @@ Public Module Views
                 </tr>
                 <%= From tr In triggers
                     Let trigger = tr.Trigger
-                    Let high = highlight = trigger.FullName
-                    Let simpleTrigger = TryCast(trigger, SimpleTrigger)
-                    Let cronTrigger = TryCast(trigger, CronTrigger)
+                    Let high = highlight = trigger.Key.ToString()
+                    Let simpleTrigger = TryCast(trigger, SimpleTriggerImpl)
+                    Let cronTrigger = TryCast(trigger, CronTriggerImpl)
                     Let op = Function(method As String) "scheduler.ashx?method=" & method &
-                    "&triggerName=" + trigger.Name +
-                    "&groupName=" + trigger.Group +
+                    "&triggerName=" + trigger.Key.Name +
+                    "&groupName=" + trigger.Key.Group +
                     "&next=" + HttpUtility.UrlEncode(thisUrl)
                     Select
-                    <tr id=<%= trigger.FullName %>
-                        class=<%= If(highlight = trigger.FullName, highlight, "") %>>
-                        <td><%= trigger.Name %></td>
+                    <tr id=<%= trigger.Key.ToString() %>
+                        class=<%= If(highlight = trigger.Key.ToString(), highlight, "") %>>
+                        <td><%= trigger.Key.Name %></td>
                         <td><%= trigger.Description %></td>
                         <td><%= trigger.Priority %></td>
                         <td>
-                            <a href=<%= "jobGroup.ashx?group=" + trigger.JobGroup %>><%= trigger.JobGroup %></a>
+                            <a href=<%= "jobGroup.ashx?group=" + trigger.JobKey.Group %>><%= trigger.JobKey.Group %></a>
                         </td>
                         <td>
-                            <a href=<%= "jobGroup.ashx?group=" + trigger.JobGroup +
-                                        "&highlight=" + trigger.JobGroup + "." + trigger.JobName +
-                                        "#" + trigger.JobGroup + "." + trigger.JobName %>>
-                                <%= trigger.JobGroup %>
+                            <a href=<%= "jobGroup.ashx?group=" + trigger.JobKey.Group +
+                                        "&highlight=" + trigger.JobKey.Group + "." + trigger.JobKey.Name +
+                                        "#" + trigger.JobKey.Group + "." + trigger.JobKey.Name %>>
+                                <%= trigger.JobKey.Group %>
                             </a>
                         </td>
                         <td><%= trigger.StartTimeUtc %></td>

@@ -20,20 +20,26 @@ namespace SampleApp {
             Setup.Logger = new MemoryLogger(1000, partialQuartzConsoleUrl);
 
             // I'll add some global listeners
-            scheduler.AddGlobalJobListener(new GlobalJobListener());
-            scheduler.AddGlobalTriggerListener(new GlobalTriggerListener());
+            scheduler.ListenerManager.AddJobListener(new GlobalJobListener());
+            scheduler.ListenerManager.AddTriggerListener(new GlobalTriggerListener());
 
             // A sample trigger and job
-            var trigger = TriggerUtils.MakeSecondlyTrigger(6);
-            trigger.StartTimeUtc = DateTime.UtcNow;
-            trigger.Name = "myTrigger";
-            scheduler.ScheduleJob(new JobDetail("myJob", null, typeof(HelloJob)), trigger);
+            var trigger = TriggerBuilder.Create()
+                .WithIdentity("myTrigger")
+                .WithSchedule(DailyTimeIntervalScheduleBuilder.Create()
+                    .WithIntervalInSeconds(6))
+                .StartNow()
+                .Build();
+            var job = new JobDetailImpl("myJob", null, typeof (HelloJob));
+            scheduler.ScheduleJob(job, trigger);
 
             // A cron trigger and job
-            var cron = new CronTrigger("myCronTrigger") {
-                CronExpression = new CronExpression("0/10 * * * * ?"), // every 10 seconds
-                JobName = "myJob",
-            };
+            var cron = TriggerBuilder.Create()
+                .WithIdentity("myCronTrigger")
+                .ForJob(job.Key)
+                .WithCronSchedule("0/10 * * * * ?") // every 10 seconds
+                .Build();
+
             scheduler.ScheduleJob(cron);
 
             // A dummy calendar

@@ -12,10 +12,11 @@ namespace QuartzNetWebConsole.Controllers {
         public override void Execute(HttpContextBase context) {
             var group = context.Request.QueryString["group"];
             var job = context.Request.QueryString["job"];
+            var jobKey = new JobKey(job, group);
             var thisUrl = context.Request.RawUrl;
-            var triggers = scheduler.GetTriggersOfJob(job, group)
+            var triggers = scheduler.GetTriggersOfJob(jobKey)
                 .Select(t => {
-                    var state = scheduler.GetTriggerState(t.Name, t.Group);
+                    var state = scheduler.GetTriggerState(t.Key);
                     return new TriggerWithState(t, state);
                 });
             var highlight = context.Request.QueryString["highlight"];

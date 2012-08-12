@@ -3,6 +3,7 @@ using System.Web;
 using System.Xml.Linq;
 using MiniMVC;
 using Quartz;
+using Quartz.Impl.Matchers;
 using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole.Controllers {
@@ -11,12 +12,12 @@ namespace QuartzNetWebConsole.Controllers {
 
         public override void Execute(HttpContextBase context) {
             var group = context.Request.QueryString["group"];
-            var jobNames = scheduler.GetJobNames(group);
-            var runningJobs = scheduler.GetCurrentlyExecutingJobs().Cast<JobExecutionContext>();
+            var jobNames = scheduler.GetJobKeys(GroupMatcher<JobKey>.GroupEquals(group));
+            var runningJobs = scheduler.GetCurrentlyExecutingJobs();
             var jobs = jobNames.Select(j => {
-                var job = scheduler.GetJobDetail(j, group);
+                var job = scheduler.GetJobDetail(j);
                 var interruptible = typeof (IInterruptableJob).IsAssignableFrom(job.JobType);
-                var jobContext = runningJobs.FirstOrDefault(r => r.JobDetail.FullName == job.FullName);
+                var jobContext = runningJobs.FirstOrDefault(r => r.JobDetail.Key.ToString() == job.Key.ToString());
                 return new JobWithContext(job, jobContext, interruptible);
             });
             var paused = scheduler.IsJobGroupPaused(group);

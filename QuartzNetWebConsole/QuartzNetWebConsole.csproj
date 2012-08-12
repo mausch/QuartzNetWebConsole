@@ -42,7 +42,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\MiniMVC.dll</HintPath>
     </Reference>
-    <Reference Include="Quartz, Version=1.0.2.3, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+    <Reference Include="Quartz, Version=1.0.3.3, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Quartz.dll</HintPath>
     </Reference>

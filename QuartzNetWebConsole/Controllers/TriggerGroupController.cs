@@ -3,6 +3,7 @@ using System.Web;
 using System.Xml.Linq;
 using MiniMVC;
 using Quartz;
+using Quartz.Impl.Matchers;
 using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole.Controllers {
@@ -11,11 +12,11 @@ namespace QuartzNetWebConsole.Controllers {
 
         public override void Execute(HttpContextBase context) {
             var group = context.Request.QueryString["group"];
-            var triggerNames = scheduler.GetTriggerNames(group);
-            var triggers = triggerNames
+            var triggerKeys = scheduler.GetTriggerKeys(GroupMatcher<TriggerKey>.GroupEquals(group));
+            var triggers = triggerKeys
                 .Select(t => {
-                    var trigger = scheduler.GetTrigger(t, group);
-                    var state = scheduler.GetTriggerState(t, group);
+                    var trigger = scheduler.GetTrigger(t);
+                    var state = scheduler.GetTriggerState(t);
                     return new TriggerWithState(trigger, state);
                 });
             var thisUrl = context.Request.RawUrl;

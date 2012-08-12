@@ -5,15 +5,15 @@ namespace SampleApp {
     /// A sample dummy global trigger listener
     /// </summary>
     public class GlobalTriggerListener : ITriggerListener {
-        public void TriggerFired(Trigger trigger, JobExecutionContext context) {}
+        public void TriggerFired(ITrigger trigger, IJobExecutionContext context) {}
 
-        public bool VetoJobExecution(Trigger trigger, JobExecutionContext context) {
+        public bool VetoJobExecution(ITrigger trigger, IJobExecutionContext context) {
             return false;
         }
 
-        public void TriggerMisfired(Trigger trigger) {}
+        public void TriggerMisfired(ITrigger trigger) {}
 
-        public void TriggerComplete(Trigger trigger, JobExecutionContext context, SchedulerInstruction triggerInstructionCode) {}
+        public void TriggerComplete(ITrigger trigger, IJobExecutionContext context, SchedulerInstruction triggerInstructionCode) {}
 
         public string Name {
             get { return GetType().FullName; }

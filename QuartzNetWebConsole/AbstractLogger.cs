@@ -8,43 +8,37 @@ using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole {
     public abstract class AbstractLogger : ILogger {
-        public virtual void JobScheduled(Trigger trigger) {}
+        public virtual void JobToBeExecuted(IJobExecutionContext context) {
+            throw new NotImplementedException();
+        }
 
-        public virtual void JobUnscheduled(string triggerName, string triggerGroup) {}
+        public virtual void JobExecutionVetoed(IJobExecutionContext context) {
+            throw new NotImplementedException();
+        }
 
-        public virtual void TriggerFinalized(Trigger trigger) {}
+        public virtual void JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException) {
+            throw new NotImplementedException();
+        }
 
-        public virtual void TriggersPaused(string triggerName, string triggerGroup) {}
-
-        public virtual void TriggersResumed(string triggerName, string triggerGroup) {}
-
-        public virtual void JobsPaused(string jobName, string jobGroup) {}
-
-        public virtual void JobsResumed(string jobName, string jobGroup) {}
-
-        public virtual void SchedulerError(string msg, SchedulerException cause) {}
-
-        public virtual void SchedulerShutdown() {}
-
-        public virtual void JobToBeExecuted(JobExecutionContext context) {}
-
-        public virtual void JobExecutionVetoed(JobExecutionContext context) {}
-
-        public virtual void JobWasExecuted(JobExecutionContext context, JobExecutionException jobException) {}
+        public virtual void TriggerComplete(ITrigger trigger, IJobExecutionContext context, SchedulerInstruction triggerInstructionCode) {
+            throw new NotImplementedException();
+        }
 
         string IJobListener.Name {
             get { return "QuartzNetWebConsole.Logger"; }
         }
 
-        public virtual void TriggerFired(Trigger trigger, JobExecutionContext context) {}
+        public virtual void TriggerFired(ITrigger trigger, IJobExecutionContext context) {
+            throw new NotImplementedException();
+        }
 
-        public bool VetoJobExecution(Trigger trigger, JobExecutionContext context) {
+        public bool VetoJobExecution(ITrigger trigger, IJobExecutionContext context) {
             return false;
         }
 
-        public virtual void TriggerMisfired(Trigger trigger) {}
-
-        public virtual void TriggerComplete(Trigger trigger, JobExecutionContext context, SchedulerInstruction triggerInstructionCode) {}
+        public virtual void TriggerMisfired(ITrigger trigger) {
+            throw new NotImplementedException();
+        }
 
         string ITriggerListener.Name {
             get { return "QuartzNetWebConsole.Logger"; }
@@ -59,5 +53,62 @@ namespace QuartzNetWebConsole {
         public abstract Expression Expression { get; }
         public abstract Type ElementType { get; }
         public abstract IQueryProvider Provider { get; }
+        public virtual void JobScheduled(ITrigger trigger) {
+            
+        }
+
+        public virtual void JobUnscheduled(TriggerKey triggerKey) {
+        }
+
+        public virtual void TriggerFinalized(ITrigger trigger) {
+        }
+
+        public virtual void TriggerPaused(TriggerKey triggerKey) {
+        }
+
+        public virtual void TriggersPaused(string triggerGroup) {
+        }
+
+        public virtual void TriggerResumed(TriggerKey triggerKey) {
+        }
+
+        public virtual void TriggersResumed(string triggerGroup) {
+        }
+
+        public virtual void JobAdded(IJobDetail jobDetail) {
+        }
+
+        public virtual void JobDeleted(JobKey jobKey) {
+        }
+
+        public virtual void JobPaused(JobKey jobKey) {
+        }
+
+        public virtual void JobsPaused(string jobGroup) {
+        }
+
+        public virtual void JobResumed(JobKey jobKey) {
+        }
+
+        public virtual void JobsResumed(string jobGroup) {
+        }
+
+        public virtual void SchedulerError(string msg, SchedulerException cause) {
+        }
+
+        public virtual void SchedulerInStandbyMode() {
+        }
+
+        public virtual void SchedulerStarted() {
+        }
+
+        public virtual void SchedulerShutdown() {
+        }
+
+        public virtual void SchedulerShuttingdown() {
+        }
+
+        public virtual void SchedulingDataCleared() {
+        }
     }
 }

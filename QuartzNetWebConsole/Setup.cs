@@ -18,14 +18,17 @@ namespace QuartzNetWebConsole {
             set {
                 var scheduler = Scheduler();
                 if (logger != null) {
-                    scheduler.RemoveGlobalJobListener(logger);
-                    scheduler.RemoveGlobalTriggerListener(logger);
-                    scheduler.RemoveSchedulerListener(logger);
+                    IJobListener jobListener = logger;
+                    ITriggerListener triggerListener = logger;
+                    scheduler.ListenerManager.RemoveJobListener(jobListener.Name);
+                    scheduler.ListenerManager.RemoveTriggerListener(triggerListener.Name);
+                    scheduler.ListenerManager.RemoveSchedulerListener(logger);
                 }
                 if (value != null) {
-                    scheduler.AddGlobalJobListener(value);
-                    scheduler.AddGlobalTriggerListener(value);
-                    scheduler.AddSchedulerListener(value);
+                    scheduler.ListenerManager.AddJobListener(value);
+                    //scheduler.ListenerManager.AddJobListenerMatcher()
+                    scheduler.ListenerManager.AddTriggerListener(value);
+                    scheduler.ListenerManager.AddSchedulerListener(value);
                 }
                 logger = value;
             }

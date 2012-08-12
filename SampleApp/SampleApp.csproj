@@ -17,6 +17,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
+    <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,8 +37,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Quartz, Version=1.0.2.3, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="C5">
+      <HintPath>..\lib\C5.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging">
+      <HintPath>..\lib\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz">
       <HintPath>..\lib\Quartz.dll</HintPath>
     </Reference>
     <Reference Include="QuartzNetWebConsole, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

@@ -23,33 +23,13 @@ namespace QuartzNetWebConsole {
             entries = new LimitedList<LogEntry>(capacity);
         }
 
-        public override void JobScheduled(Trigger trigger) {
-            var desc = string.Format("Job {0} scheduled with trigger {1}", DescribeJob(trigger.JobGroup, trigger.JobName), Describe(trigger));
+        public override void JobScheduled(ITrigger trigger) {
+            var desc = string.Format("Job {0} scheduled with trigger {1}", DescribeJob(trigger.JobKey.Group, trigger.JobKey.Name), Describe(trigger));
             entries.Add(new LogEntry(desc));
         }
 
-        public override void JobUnscheduled(string triggerName, string triggerGroup) {
-            entries.Add(new LogEntry("Trigger removed: " + DescribeTrigger(triggerGroup, triggerName)));
-        }
-
-        public override void TriggerFinalized(Trigger trigger) {
+        public override void TriggerFinalized(ITrigger trigger) {
             entries.Add(new LogEntry("Trigger finalized: " + Describe(trigger)));
-        }
-
-        public override void TriggersPaused(string triggerName, string triggerGroup) {
-            entries.Add(new LogEntry("Trigger paused: " + DescribeTrigger(triggerGroup, triggerName)));
-        }
-
-        public override void TriggersResumed(string triggerName, string triggerGroup) {
-            entries.Add(new LogEntry("Trigger resumed: " + DescribeTrigger(triggerGroup, triggerName)));
-        }
-
-        public override void JobsPaused(string jobName, string jobGroup) {
-            entries.Add(new LogEntry("Job paused: " + DescribeJob(jobGroup, jobName)));
-        }
-
-        public override void JobsResumed(string jobName, string jobGroup) {
-            entries.Add(new LogEntry("Job resumed: " + DescribeJob(jobGroup, jobName)));
         }
 
         public override void SchedulerError(string msg, SchedulerException cause) {
@@ -62,30 +42,30 @@ namespace QuartzNetWebConsole {
             entries.Add(new LogEntry("Scheduler shutdown"));
         }
 
-        public override void JobToBeExecuted(JobExecutionContext context) {
+        public override void JobToBeExecuted(IJobExecutionContext context) {
             entries.Add(new LogEntry("Job to be executed: " + Describe(context)));
         }
 
-        public override void JobExecutionVetoed(JobExecutionContext context) {
+        public override void JobExecutionVetoed(IJobExecutionContext context) {
             entries.Add(new LogEntry("Job execution vetoed: " + Describe(context)));
         }
 
-        public override void JobWasExecuted(JobExecutionContext context, JobExecutionException jobException) {
+        public override void JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException) {
             var description = "Job was executed: " + Describe(context);
             if (jobException != null)
                 description += string.Format("<br/>with exception: <pre>{0}</pre>", HttpUtility.HtmlEncode(jobException.ToString()));
             entries.Add(new LogEntry(description));
         }
 
-        public override void TriggerFired(Trigger trigger, JobExecutionContext context) {
+        public override void TriggerFired(ITrigger trigger, IJobExecutionContext context) {
             entries.Add(new LogEntry("Job fired: " + Describe(context)));
         }
 
-        public override void TriggerMisfired(Trigger trigger) {
+        public override void TriggerMisfired(ITrigger trigger) {
             entries.Add(new LogEntry("Job misfired: " + Describe(trigger)));
         }
 
-        public override void TriggerComplete(Trigger trigger, JobExecutionContext context, SchedulerInstruction triggerInstructionCode) {
+        public override void TriggerComplete(ITrigger trigger, IJobExecutionContext context, SchedulerInstruction triggerInstructionCode) {
             entries.Add(new LogEntry("Job complete: " + Describe(context)));
         }
 
@@ -115,13 +95,13 @@ namespace QuartzNetWebConsole {
             return Link(string.Format("jobGroup.ashx?group={0}&amp;highlight={0}.{1}#{0}.{1}", group, name), name);
         }
 
-        private string Describe(Trigger trigger) {
-            return string.Format("{0}.{1}", LinkTriggerGroup(trigger.Group), LinkTrigger(trigger.Group, trigger.Name));
+        private string Describe(ITrigger trigger) {
+            return string.Format("{0}.{1}", LinkTriggerGroup(trigger.Key.Group), LinkTrigger(trigger.Key.Group, trigger.Key.Name));
         }
 
-        private string Describe(JobExecutionContext context) {
+        private string Describe(IJobExecutionContext context) {
             var job = context.JobDetail;
-            return string.Format("{0}.{1} (trigger {2})", LinkJobGroup(job.Group), LinkJob(job.Group, job.Name), Describe(context.Trigger));
+            return string.Format("{0}.{1} (trigger {2})", LinkJobGroup(job.Key.Group), LinkJob(job.Key.Group, job.Key.Name), Describe(context.Trigger));
         }
 
         private string DescribeTrigger(string group, string name) {

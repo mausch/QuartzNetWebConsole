@@ -1,10 +1,10 @@
 ﻿Imports Quartz
 
 Public Class TriggerWithState
-    Public ReadOnly Trigger As Trigger
+    Public ReadOnly Trigger As ITrigger
     Public ReadOnly State As TriggerState
 
-    Public Sub New(ByVal trigger As Trigger, ByVal state As TriggerState)
+    Public Sub New(ByVal trigger As ITrigger, ByVal state As TriggerState)
         Me.Trigger = trigger
         Me.State = state
     End Sub
