@@ -13,4 +13,8 @@
       <dependency id="Quartz" version="2.0.1" />
     </dependencies>
   </metadata>
+  <files>
+    <file src="QuartzNetWebConsole\Build\QuartzNetWebConsole.*" target="lib\net35"/>
+    <file src="web.config.transform" target="content"/>
+  </files>
 </package>
