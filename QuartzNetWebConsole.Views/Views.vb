@@ -298,7 +298,7 @@ Public Module Views
                                 <td><%= YesNo(j.Job.PersistJobDataAfterExecution) %></td>
                                 <td><%= YesNo(j.Job.ConcurrentExectionDisallowed) %></td>
                                 <td><%= YesNo(j.Job.RequestsRecovery) %></td>
-                                <td><%= j.JobContext.FireTimeUtc %></td>
+                                <td><%= If(j.JobContext IsNot Nothing, j.JobContext.FireTimeUtc, Nothing) %></td>
                                 <td>
                                     <a href=<%= "triggersByJob.ashx?group=" + j.Job.Key.Group + "&job=" + j.Job.Key.Name %>>Triggers</a>
                                     <%= SimpleForm(op("DeleteJob"), "Delete") %>
