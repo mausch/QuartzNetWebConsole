@@ -363,7 +363,7 @@ Public Module Views
                     "&next=" + HttpUtility.UrlEncode(thisUrl)
                     Select
                     <tr id=<%= trigger.Key.ToString() %>
-                        class=<%= If(highlight = trigger.Key.ToString(), highlight, "") %>>
+                        class=<%= If(highlight = trigger.Key.ToString(), "highlight", "") %>>
                         <td><%= trigger.Key.Name %></td>
                         <td><%= trigger.Description %></td>
                         <td><%= trigger.Priority %></td>
