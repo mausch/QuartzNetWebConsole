@@ -73,6 +73,7 @@
     <Compile Include="Controllers\StaticController.cs" />
     <Compile Include="Controllers\TriggerGroupController.cs" />
     <Compile Include="Utils\LimitedList.cs" />
+    <Compile Include="Utils\SchedulerWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\styles.css" />

@@ -7,11 +7,12 @@ using System.Reflection;
 using System.Web;
 using MiniMVC;
 using Quartz;
+using QuartzNetWebConsole.Utils;
 
 namespace QuartzNetWebConsole.Controllers {
     public class SchedulerController : Controller {
-        private readonly IScheduler scheduler = Setup.Scheduler();
-        private static readonly MethodInfo[] methods = typeof (IScheduler).GetMethods();
+        private readonly SchedulerWrapper scheduler = new SchedulerWrapper(Setup.Scheduler());
+        private static readonly MethodInfo[] methods = typeof(SchedulerWrapper).GetMethods();
 
         public class MethodParameters {
             public readonly MethodInfo method;
