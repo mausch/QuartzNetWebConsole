@@ -1,1 +1,1 @@
-msbuild /m QuartzNetWebConsole.sln
+msbuild /m QuartzNetWebConsole.sln /p:Configuration=Release
