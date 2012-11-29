@@ -70,10 +70,6 @@ namespace QuartzNetWebConsole.Utils {
             scheduler.TriggerJob(new JobKey(jobName, groupName));
         }
 
-        public void TriggerJobWithVolatileTrigger(string jobName, string groupName) {
-            throw new NotSupportedException();
-        }
-
         public void Interrupt(string jobName, string groupName) {
             scheduler.Interrupt(new JobKey(jobName, groupName));
         }

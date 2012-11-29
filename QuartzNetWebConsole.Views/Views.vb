@@ -305,7 +305,6 @@ Public Module Views
                                     <%= SimpleForm(op("PauseJob"), "Pause") %>
                                     <%= SimpleForm(op("ResumeJob"), "Resume") %>
                                     <%= SimpleForm(op("TriggerJob"), "Trigger") %>
-                                    <%= SimpleForm(op("TriggerJobWithVolatileTrigger"), "Trigger volatile") %>
                                     <%= If(j.Interruptible, SimpleForm(op("Interrupt"), "Interrupt"), Nothing) %>
                                 </td>
                             </tr>
