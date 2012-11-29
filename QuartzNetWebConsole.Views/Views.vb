@@ -393,7 +393,7 @@ Public Module Views
                                 SimpleForm(op("ResumeTrigger"), "Resume"),
                                 SimpleForm(op("PauseTrigger"), "Pause")) %>
 
-                            <%= SimpleForm(op("UnschedulerJob"), "Delete") %>
+                            <%= SimpleForm(op("UnscheduleJob"), "Delete") %>
                         </td>
                     </tr> %>
             </table>
