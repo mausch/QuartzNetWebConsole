@@ -25,12 +25,11 @@ namespace QuartzNetWebConsole.Controllers {
             var qs = context.Request.QueryString;
             var thisUrl = context.Request.Url.ToString().Split('?')[0];
             var pageSize = GetPageSize(qs);
-            var pagination = new PaginationInfo {
-                FirstItemIndex = GetStartIndex(qs),
-                PageSize = pageSize,
-                TotalItemCount = logsQ.Count(),
-                PageUrl = "log.ashx?start=!0&max=" + pageSize,
-            };
+            var pagination = new PaginationInfo(
+                firstItemIndex: GetStartIndex(qs),
+                pageSize: pageSize,
+                totalItemCount: logsQ.Count(),
+                pageUrl: "log.ashx?start=!0&max=" + pageSize);
             var logs = logsQ.Skip(pagination.FirstItemIndex).Take(pagination.PageSize).ToList();
             var v = GetView(qs.AllKeys);
             var view = v.Value(logs, pagination, thisUrl);

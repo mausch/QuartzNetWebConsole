@@ -7,12 +7,12 @@ namespace QuartzNetWebConsole.Tests {
     public class PaginationInfoTests {
         [Test]
         public void tt() {
-            var p = new PaginationInfo {
-                FirstItemIndex = 350,
-                PageSize = 25,
-                PageSlide =  2,
-                TotalItemCount = 398,
-            };
+            var p = new PaginationInfo(
+                firstItemIndex: 350,
+                pageSize: 25,
+                pageSlide:  2,
+                totalItemCount: 398,
+                pageUrl: "");
             Assert.AreEqual(16, p.LastPage);
             Assert.AreEqual(15, p.CurrentPage);
             Assert.IsTrue(p.HasNextPage);

@@ -1,13 +1,21 @@
 ﻿Public Class PaginationInfo
-    Public Sub New()
-        PageSlide = 2
+    Public ReadOnly PageSlide As Integer
+    Public ReadOnly PageSize As Integer
+    Public ReadOnly TotalItemCount As Integer
+    Public ReadOnly PageUrl As String
+    Public ReadOnly FirstItemIndex As Integer
+
+    Public Sub New(ByVal pageSlide As Integer, ByVal pageSize As Integer, ByVal totalItemCount As Integer, ByVal pageUrl As String, ByVal firstItemIndex As Integer)
+        Me.PageSlide = pageSlide
+        Me.PageSize = pageSize
+        Me.TotalItemCount = totalItemCount
+        Me.PageUrl = pageUrl
+        Me.FirstItemIndex = firstItemIndex
     End Sub
 
-    Public Property PageSlide As Integer
-    Public Property PageSize As Integer
-    Public Property TotalItemCount As Integer
-    Public Property PageUrl As String
-    Public Property FirstItemIndex As Integer
+    Public Sub New(ByVal pageSize As Integer, ByVal totalItemCount As Integer, ByVal pageUrl As String, ByVal firstItemIndex As Integer)
+        Me.new(2, pageSize, totalItemCount, pageUrl, firstItemIndex)
+    End Sub
 
     Public ReadOnly Property CurrentPage As Integer
         Get
