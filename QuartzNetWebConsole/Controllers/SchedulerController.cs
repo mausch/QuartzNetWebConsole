@@ -5,13 +5,16 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Web;
-using MiniMVC;
-using Quartz;
 using QuartzNetWebConsole.Utils;
 
 namespace QuartzNetWebConsole.Controllers {
-    public class SchedulerController : Controller {
-        private readonly SchedulerWrapper scheduler = new SchedulerWrapper(Setup.Scheduler());
+    public class SchedulerController {
+        private static SchedulerWrapper scheduler {
+            get {
+                return new SchedulerWrapper(Setup.Scheduler());
+            }
+        }
+
         private static readonly MethodInfo[] methods = typeof(SchedulerWrapper).GetMethods();
 
         public class MethodParameters {
@@ -54,7 +57,7 @@ namespace QuartzNetWebConsole.Controllers {
             return new MethodParameters(method, redirect, parameters);
         }
 
-        public override void Execute(HttpContextBase context) {
+        public static void Execute(HttpContextBase context) {
             var qs = context.Request.QueryString;
             var p = GetMethodParameters(qs);
             p.method.Invoke(scheduler, p.parameters.ToArray());

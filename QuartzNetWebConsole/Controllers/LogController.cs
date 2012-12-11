@@ -8,16 +8,20 @@ using MiniMVC;
 using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole.Controllers {
-    public class LogController : Controller {
-        private readonly IQueryable<LogEntry> logsQ = Setup.Logger ?? Enumerable.Empty<LogEntry>().AsQueryable();
+    public class LogController {
+        private static IQueryable<LogEntry> logsQ {
+            get {
+                return Setup.Logger ?? Enumerable.Empty<LogEntry>().AsQueryable();
+            }
+        }
 
-        public int DefaultPageSize { get; set; }
+        public static int DefaultPageSize { get; set; }
 
-        public LogController() {
+        static LogController() {
             DefaultPageSize = 25;
         }
 
-        public override void Execute(HttpContextBase context) {
+        public static void Execute(HttpContextBase context) {
             var qs = context.Request.QueryString;
             var thisUrl = context.Request.Url.ToString().Split('?')[0];
             var pageSize = GetPageSize(qs);
@@ -33,7 +37,7 @@ namespace QuartzNetWebConsole.Controllers {
             context.XDocument(view, contentType: v.Key);
         }
 
-        public KeyValuePair<string, Func<IEnumerable<LogEntry>, PaginationInfo, string, XDocument>> GetView(IEnumerable<string> qs) {
+        public static KeyValuePair<string, Func<IEnumerable<LogEntry>, PaginationInfo, string, XDocument>> GetView(IEnumerable<string> qs) {
             if (qs.Contains("rss"))
                 return Helpers.KV("application/rss+xml", RSSView);
             return Helpers.KV((string)null, XHTMLView);
@@ -45,7 +49,7 @@ namespace QuartzNetWebConsole.Controllers {
         public static readonly Func<IEnumerable<LogEntry>, PaginationInfo, string, XDocument> RSSView =
             (entries, pagination, url) => new XDocument(Views.Views.LogRSS(url, entries));
 
-        public int GetPageSize(NameValueCollection nv) {
+        public static int GetPageSize(NameValueCollection nv) {
             try {
                 return int.Parse(nv["max"]);
             } catch {
@@ -53,7 +57,7 @@ namespace QuartzNetWebConsole.Controllers {
             }
         }
 
-        public int GetStartIndex(NameValueCollection nv) {
+        public static int GetStartIndex(NameValueCollection nv) {
             try {
                 return int.Parse(nv["start"]);
             } catch {

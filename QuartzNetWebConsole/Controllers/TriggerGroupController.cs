@@ -1,16 +1,19 @@
 ﻿using System.Linq;
 using System.Web;
-using System.Xml.Linq;
 using MiniMVC;
 using Quartz;
 using Quartz.Impl.Matchers;
 using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole.Controllers {
-    public class TriggerGroupController : Controller {
-        private readonly IScheduler scheduler = Setup.Scheduler();
+    public class TriggerGroupController {
+        private static IScheduler scheduler {
+            get {
+                return Setup.Scheduler();
+            }
+        }
 
-        public override void Execute(HttpContextBase context) {
+        public static void Execute(HttpContextBase context) {
             var group = context.Request.QueryString["group"];
             var triggerKeys = scheduler.GetTriggerKeys(GroupMatcher<TriggerKey>.GroupEquals(group));
             var triggers = triggerKeys

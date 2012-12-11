@@ -6,10 +6,14 @@ using Quartz;
 using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole.Controllers {
-    public class TriggersByJobController : Controller {
-        private readonly IScheduler scheduler = Setup.Scheduler();
+    public class TriggersByJobController {
+        private static IScheduler scheduler {
+            get {
+                return Setup.Scheduler();
+            }
+        }
 
-        public override void Execute(HttpContextBase context) {
+        public static void Execute(HttpContextBase context) {
             var group = context.Request.QueryString["group"];
             var job = context.Request.QueryString["job"];
             var jobKey = new JobKey(job, group);
