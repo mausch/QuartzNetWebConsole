@@ -25,7 +25,7 @@ Public Module Views
             </div>
     End Function
 
-    Public Function Log(ByVal logs As IEnumerable(Of LogEntry), ByVal pagination As PaginationInfo, ByVal thisUrl As String) As XElement
+    Public Function Log(logs As IEnumerable(Of LogEntry), pagination As PaginationInfo, thisUrl As String) As XElement
         Return _
             <html>
                 <head>
@@ -55,7 +55,7 @@ Public Module Views
             </html>
     End Function
 
-    Public Function LogRSS(ByVal thisUrl As String, ByVal logs As IEnumerable(Of LogEntry)) As XElement
+    Public Function LogRSS(thisUrl As String, logs As IEnumerable(Of LogEntry)) As XElement
         Return _
 <rss version="2.0">
     <channel>
@@ -75,7 +75,7 @@ Public Module Views
 </rss>
     End Function
 
-    Public Function SchedulerStatus(ByVal scheduler As IScheduler, ByVal metadata As SchedulerMetaData) As XElement
+    Public Function SchedulerStatus(scheduler As IScheduler, metadata As SchedulerMetaData) As XElement
         Return _
             <div class="group">
                 <h2>Scheduler name: <%= scheduler.SchedulerName %></h2>
@@ -100,7 +100,7 @@ Public Module Views
 
     End Function
 
-    Public Function SchedulerListeners(ByVal scheduler As IScheduler) As XElement
+    Public Function SchedulerListeners(scheduler As IScheduler) As XElement
         Return _
             <div class="group">
                 <h2>Scheduler listeners</h2>
@@ -118,7 +118,7 @@ Public Module Views
             </div>
     End Function
 
-    Public Function SchedulerCalendars(ByVal calendars As ICollection(Of KeyValuePair(Of String, String))) As XElement
+    Public Function SchedulerCalendars(calendars As ICollection(Of KeyValuePair(Of String, String))) As XElement
         Return _
             <div class="group">
                 <h2>Calendars</h2>
@@ -201,13 +201,13 @@ Public Module Views
 
     Public ReadOnly GlobalTriggerListeners As Func(Of ICollection(Of KeyValuePair(Of String, Type)), XElement) = GlobalEntityListeners("Trigger")
 
-    Public Function IndexPage(ByVal scheduler As IScheduler,
-                              ByVal metadata As SchedulerMetaData,
-                              ByVal triggerGroups As IEnumerable(Of GroupWithStatus),
-                              ByVal jobGroups As IEnumerable(Of GroupWithStatus),
-                              ByVal calendars As ICollection(Of KeyValuePair(Of String, String)),
-                              ByVal jobListeners As ICollection(Of KeyValuePair(Of String, Type)),
-                              ByVal triggerListeners As ICollection(Of KeyValuePair(Of String, Type))) As XElement
+    Public Function IndexPage(scheduler As IScheduler,
+                              metadata As SchedulerMetaData,
+                              triggerGroups As IEnumerable(Of GroupWithStatus),
+                              jobGroups As IEnumerable(Of GroupWithStatus),
+                              calendars As ICollection(Of KeyValuePair(Of String, String)),
+                              jobListeners As ICollection(Of KeyValuePair(Of String, Type)),
+                              triggerListeners As ICollection(Of KeyValuePair(Of String, Type))) As XElement
         Return _
         <html>
             <head>
@@ -228,7 +228,7 @@ Public Module Views
         </html>
     End Function
 
-    Public Function TriggerGroup(ByVal group As String, ByVal paused As Boolean, ByVal thisUrl As String, ByVal highlight As String, ByVal triggers As IEnumerable(Of TriggerWithState)) As XElement
+    Public Function TriggerGroup(group As String, paused As Boolean, thisUrl As String, highlight As String, triggers As IEnumerable(Of TriggerWithState)) As XElement
         Dim schedulerOp = Function(method As String) "scheduler.ashx?method=" + method +
                               "&groupName=" + group +
                               "&next=" + HttpUtility.UrlEncode(thisUrl)
@@ -252,7 +252,7 @@ Public Module Views
         </html>
     End Function
 
-    Public Function JobGroup(ByVal group As String, ByVal paused As Boolean, ByVal highlight As String, ByVal thisUrl As String, ByVal jobs As IEnumerable(Of JobWithContext)) As XElement
+    Public Function JobGroup(group As String, paused As Boolean, highlight As String, thisUrl As String, jobs As IEnumerable(Of JobWithContext)) As XElement
         Dim schedulerOp = Function(method As String) "scheduler.ashx?method=" + method +
                               "&groupName=" + group +
                               "&next=" + HttpUtility.UrlEncode(thisUrl)
@@ -314,7 +314,7 @@ Public Module Views
             </html>
     End Function
 
-    Public Function TriggersByJob(ByVal model As TriggersByJobModel) As XElement
+    Public Function TriggersByJob(model As TriggersByJobModel) As XElement
         Return _
 <html>
     <head>
@@ -331,7 +331,7 @@ Public Module Views
 </html>
     End Function
 
-    Public Function TriggerTable(ByVal triggers As IEnumerable(Of TriggerWithState), ByVal thisUrl As String, ByVal highlight As String) As XElement
+    Public Function TriggerTable(triggers As IEnumerable(Of TriggerWithState), thisUrl As String, highlight As String) As XElement
         Return _
             <table>
                 <tr>

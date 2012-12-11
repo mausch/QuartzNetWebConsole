@@ -5,7 +5,7 @@
     Public ReadOnly PageUrl As String
     Public ReadOnly FirstItemIndex As Integer
 
-    Public Sub New(ByVal pageSlide As Integer, ByVal pageSize As Integer, ByVal totalItemCount As Integer, ByVal pageUrl As String, ByVal firstItemIndex As Integer)
+    Public Sub New(pageSlide As Integer, pageSize As Integer, totalItemCount As Integer, pageUrl As String, firstItemIndex As Integer)
         Me.PageSlide = pageSlide
         Me.PageSize = pageSize
         Me.TotalItemCount = totalItemCount
@@ -13,7 +13,7 @@
         Me.FirstItemIndex = firstItemIndex
     End Sub
 
-    Public Sub New(ByVal pageSize As Integer, ByVal totalItemCount As Integer, ByVal pageUrl As String, ByVal firstItemIndex As Integer)
+    Public Sub New(pageSize As Integer, totalItemCount As Integer, pageUrl As String, firstItemIndex As Integer)
         Me.new(2, pageSize, totalItemCount, pageUrl, firstItemIndex)
     End Sub
 
@@ -59,7 +59,7 @@
         End Get
     End Property
 
-    Public Function PageUrlFor(ByVal page As Integer) As String
+    Public Function PageUrlFor(page As Integer) As String
         Dim start = (page - 1) * PageSize
         Return PageUrl.Replace("!0", start.ToString())
     End Function

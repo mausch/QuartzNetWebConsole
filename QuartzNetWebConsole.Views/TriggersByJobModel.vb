@@ -5,7 +5,7 @@
     Public ReadOnly Job As String
     Public ReadOnly Highlight As String
 
-    Public Sub New(ByVal triggers As IEnumerable(Of TriggerWithState), ByVal thisUrl As String, ByVal group As String, ByVal job As String, ByVal highlight As String)
+    Public Sub New(triggers As IEnumerable(Of TriggerWithState), thisUrl As String, group As String, job As String, highlight As String)
         Me.Triggers = triggers
         Me.ThisUrl = thisUrl
         Me.Group = group
