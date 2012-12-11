@@ -57,7 +57,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControllerFactoryTests.cs" />
     <Compile Include="DummyTrigger.cs" />
     <Compile Include="LimitedListTests.cs" />
     <Compile Include="PaginationInfoTests.cs" />

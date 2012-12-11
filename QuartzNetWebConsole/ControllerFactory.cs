@@ -38,17 +38,5 @@ namespace QuartzNetWebConsole {
         public static KeyValuePair<K, V> KV<K, V>(K key, V value) {
             return new KeyValuePair<K, V>(key, value);
         }
-
-        public Type GetHandlerType(string rawUrl) {
-            var name = rawUrl.Split('/').Last().Split('?')[0].Split('.')[0];
-            if (string.IsNullOrEmpty(name))
-                return typeof (IndexController);
-
-            var typeName = string.Format("QuartzNetWebConsole.Controllers.{0}Controller", name);
-            var type = Type.GetType(typeName, true, true);
-            if (type == null)
-                throw new Exception(string.Format("Type '{0}' not found", type));
-            return type;
-        }
     }
 }
