@@ -35,7 +35,7 @@ namespace QuartzNetWebConsole.Controllers {
                 .ToArray();
 
             var view = Views.Views.IndexPage(scheduler, scheduler.GetMetaData(), triggerGroups, jobGroups, calendars, jobListeners, triggerListeners);
-            context.XDocument(Helpers.XHTML(view));
+            context.Response.Html(Helpers.XHTML(view));
         }
     }
 }

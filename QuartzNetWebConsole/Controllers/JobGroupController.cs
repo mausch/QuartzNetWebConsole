@@ -27,7 +27,7 @@ namespace QuartzNetWebConsole.Controllers {
             var thisUrl = context.Request.RawUrl;
             var highlight = context.Request.QueryString["highlight"];
             var view = Views.Views.JobGroup(group, paused, highlight, thisUrl, jobs);
-            context.XDocument(Helpers.XHTML(view));
+            context.Response.Html(Helpers.XHTML(view));
         }
     }
 }

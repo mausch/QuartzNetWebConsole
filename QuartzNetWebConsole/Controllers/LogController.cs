@@ -33,7 +33,7 @@ namespace QuartzNetWebConsole.Controllers {
             var logs = logsQ.Skip(pagination.FirstItemIndex).Take(pagination.PageSize).ToList();
             var v = GetView(qs.AllKeys);
             var view = v.Value(logs, pagination, thisUrl);
-            context.XDocument(view, contentType: v.Key);
+            context.Response.XDocument(view, contentType: v.Key);
         }
 
         public static KeyValuePair<string, Func<IEnumerable<LogEntry>, PaginationInfo, string, XDocument>> GetView(IEnumerable<string> qs) {

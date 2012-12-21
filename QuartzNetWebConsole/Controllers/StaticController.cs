@@ -9,7 +9,7 @@ namespace QuartzNetWebConsole.Controllers {
             var resource = context.Request.QueryString["r"];
             resource = string.Format("{0}.Resources.{1}", typeof(StaticController).Assembly.FullName.Split(',')[0], resource);
             var content = ReadResource(resource);
-            context.Raw(content, context.Request.QueryString["t"]);
+            context.Response.Raw(content, context.Request.QueryString["t"]);
         }
 
         public static string ReadResource(string name) {

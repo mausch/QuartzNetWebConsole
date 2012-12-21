@@ -26,7 +26,7 @@ namespace QuartzNetWebConsole.Controllers {
             var paused = scheduler.IsTriggerGroupPaused(group);
             var highlight = context.Request.QueryString["highlight"];
             var v = Views.Views.TriggerGroup(group, paused, thisUrl, highlight, triggers);
-            context.XDocument(Helpers.XHTML(v));
+            context.Response.Html(Helpers.XHTML(v));
         }
     }
 }
