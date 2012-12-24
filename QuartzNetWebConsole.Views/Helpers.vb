@@ -38,4 +38,11 @@ Public Module Helpers
         StripeTrs(e)
         Return e.MakeHTML5Doc()
     End Function
+
+    Public Function IfNullable(Of T)(value As Boolean?, ifNull As T, ifTrue As T, ifFalse As T) As T
+        If Not value.HasValue Then
+            Return ifNull
+        End If
+        Return If(value.Value, ifTrue, ifFalse)
+    End Function
 End Module

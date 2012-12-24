@@ -2,13 +2,14 @@
 using System.Web;
 using MiniMVC;
 using Quartz;
+using QuartzNetWebConsole.Utils;
 using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole.Controllers {
     public class IndexController {
-        private static IScheduler scheduler {
+        private static ISchedulerWrapper scheduler {
             get {
-                return Setup.Scheduler();
+                return new SchedulerWrapper(Setup.Scheduler());
             }
         }
 
@@ -34,7 +35,16 @@ namespace QuartzNetWebConsole.Controllers {
                 .Select(j => Helpers.KV(j.Name, j.GetType()))
                 .ToArray();
 
-            var view = Views.Views.IndexPage(scheduler, scheduler.GetMetaData(), triggerGroups, jobGroups, calendars, jobListeners, triggerListeners);
+            var view = Views.Views.IndexPage(
+                schedulerName: scheduler.SchedulerName,
+                inStandby: scheduler.InStandbyMode,
+                listeners: scheduler.ListenerManager.GetSchedulerListeners(),
+                metadata:scheduler.GetMetaData(),
+                triggerGroups: triggerGroups,
+                jobGroups: jobGroups,
+                calendars: calendars,
+                jobListeners: jobListeners,
+                triggerListeners: triggerListeners);
             context.Response.Html(Helpers.XHTML(view));
         }
     }

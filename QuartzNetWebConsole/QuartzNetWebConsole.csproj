@@ -72,6 +72,7 @@
     <Compile Include="Setup.cs" />
     <Compile Include="Controllers\StaticController.cs" />
     <Compile Include="Controllers\TriggerGroupController.cs" />
+    <Compile Include="Utils\ISchedulerWrapper.cs" />
     <Compile Include="Utils\LimitedList.cs" />
     <Compile Include="Utils\SchedulerWrapper.cs" />
   </ItemGroup>

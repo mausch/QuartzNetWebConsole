@@ -75,22 +75,22 @@ Public Module Views
 </rss>
     End Function
 
-    Public Function SchedulerStatus(scheduler As IScheduler, metadata As SchedulerMetaData) As XElement
+    Public Function SchedulerStatus(schedulerName As String, inStandby As Boolean, metadata As SchedulerMetaData) As XElement
         Return _
             <div class="group">
-                <h2>Scheduler name: <%= scheduler.SchedulerName %></h2>
+                <h2>Scheduler name: <%= schedulerName %></h2>
                 <div style="float: left">
 				    Job store: <%= metadata.JobStoreType %><br/>
 				    Supports persistence: <%= YesNo(metadata.JobStoreSupportsPersistence) %><br/>
 				    Number of jobs executed: <%= metadata.NumberOfJobsExecuted %><br/>
 				    Running since: <%= metadata.RunningSince %><br/>
-				    Status: <%= If(scheduler.InStandbyMode, "stand-by", "running") %>
+				    Status: <%= If(inStandby, "stand-by", "running") %>
                     <br/>
                     <a href="log.ashx">View log</a>
                 </div>
                 <div style="float: right">
                     <%= SimpleForm("scheduler.ashx?method=Shutdown", "Shut down") %>
-                    <%= If(scheduler.InStandbyMode,
+                    <%= If(inStandby,
                         SimpleForm("scheduler.ashx?method=Start", "Start"),
                         SimpleForm("scheduler.ashx?method=Standby", "Stand by")) %>
                     <%= SimpleForm("scheduler.ashx?method=PauseAll", "Pause all triggers") %>
@@ -100,7 +100,7 @@ Public Module Views
 
     End Function
 
-    Public Function SchedulerListeners(scheduler As IScheduler) As XElement
+    Public Function SchedulerListeners(listeners As IEnumerable(Of ISchedulerListener)) As XElement
         Return _
             <div class="group">
                 <h2>Scheduler listeners</h2>
@@ -108,7 +108,7 @@ Public Module Views
                     <tr>
                         <th>Type</th>
                     </tr>
-                    <%= From l In scheduler.ListenerManager.GetSchedulerListeners()
+                    <%= From l In listeners
                         Select
                         <tr>
                             <td><%= l.GetType() %></td>
@@ -157,11 +157,12 @@ Public Module Views
                                     <td>
                                         <a href=<%= entity & "Group.ashx?group=" & group.Name %>><%= group.Name %></a>
                                     </td>
-                                    <td><%= If(group.Paused, "Paused", "Started") %></td>
+                                    <td><%= IfNullable(group.Paused, ifNull:="N/A", ifTrue:="Paused", ifFalse:="Started") %></td>
                                     <td>
-                                        <%= If(group.Paused,
-                                            SimpleForm("scheduler.ashx?method=Resume" & entity & "Group&groupName=" + group.Name, "Resume"),
-                                            SimpleForm("scheduler.ashx?method=Pause" & entity & "Group&groupName=" + group.Name, "Pause")) %>
+                                        <%= IfNullable(group.Paused,
+                                            ifNull:=<span></span>,
+                                            ifTrue:=SimpleForm("scheduler.ashx?method=Resume" & entity & "Group&groupName=" + group.Name, "Resume"),
+                                            ifFalse:=SimpleForm("scheduler.ashx?method=Pause" & entity & "Group&groupName=" + group.Name, "Pause")) %>
                                     </td>
                                 </tr>
                             %>
@@ -201,7 +202,9 @@ Public Module Views
 
     Public ReadOnly GlobalTriggerListeners As Func(Of ICollection(Of KeyValuePair(Of String, Type)), XElement) = GlobalEntityListeners("Trigger")
 
-    Public Function IndexPage(scheduler As IScheduler,
+    Public Function IndexPage(schedulerName As String,
+                              inStandby As Boolean,
+                              listeners As IEnumerable(Of ISchedulerListener),
                               metadata As SchedulerMetaData,
                               triggerGroups As IEnumerable(Of GroupWithStatus),
                               jobGroups As IEnumerable(Of GroupWithStatus),
@@ -215,8 +218,8 @@ Public Module Views
                 <%= Stylesheet %>
             </head>
             <body>
-                <%= SchedulerStatus(scheduler, metadata) %>
-                <%= SchedulerListeners(scheduler) %>
+                <%= SchedulerStatus(schedulerName, inStandby, metadata) %>
+                <%= SchedulerListeners(listeners) %>
                 <%= SchedulerCalendars(calendars) %>
                 <br style="clear:both"/>
                 <%= SchedulerJobGroups(jobGroups) %>
@@ -252,7 +255,7 @@ Public Module Views
         </html>
     End Function
 
-    Public Function JobGroup(group As String, paused As Boolean, highlight As String, thisUrl As String, jobs As IEnumerable(Of JobWithContext)) As XElement
+    Public Function JobGroup(group As String, paused As Boolean?, highlight As String, thisUrl As String, jobs As IEnumerable(Of JobWithContext)) As XElement
         Dim schedulerOp = Function(method As String) "scheduler.ashx?method=" + method +
                               "&groupName=" + group +
                               "&next=" + HttpUtility.UrlEncode(thisUrl)
@@ -265,7 +268,7 @@ Public Module Views
                 <body>
                     <a href="index.ashx">Index</a>
                     <h1>Job group <%= group %></h1>
-		            Status: <%= If(paused, "paused", "started") %>
+		            Status: <%= IfNullable(paused, ifNull:="N/A", ifTrue:="paused", ifFalse:="started") %>
                     <%= If(paused,
                         SimpleForm(schedulerOp("ResumeJobGroup"), "Resume this job group"),
                         SimpleForm(schedulerOp("PauseJobGroup"), "Pause this job group")) %>

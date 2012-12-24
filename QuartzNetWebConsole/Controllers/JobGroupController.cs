@@ -3,13 +3,14 @@ using System.Web;
 using MiniMVC;
 using Quartz;
 using Quartz.Impl.Matchers;
+using QuartzNetWebConsole.Utils;
 using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole.Controllers {
     public class JobGroupController {
-        private static IScheduler scheduler {
+        private static ISchedulerWrapper scheduler {
             get {
-                return Setup.Scheduler();
+                return new SchedulerWrapper(Setup.Scheduler());
             }
         }
 

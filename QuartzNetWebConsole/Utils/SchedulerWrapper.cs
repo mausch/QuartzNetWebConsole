@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using Quartz;
+using Quartz.Collection;
 using Quartz.Impl.Matchers;
 
 namespace QuartzNetWebConsole.Utils {
-    public class SchedulerWrapper {
+    public class SchedulerWrapper : ISchedulerWrapper {
         private readonly IScheduler scheduler;
 
         public SchedulerWrapper(IScheduler scheduler) {
@@ -84,6 +86,72 @@ namespace QuartzNetWebConsole.Utils {
 
         public void UnscheduleJob(string triggerName, string groupName) {
             scheduler.UnscheduleJob(new TriggerKey(triggerName, groupName));
+        }
+
+        public bool? IsJobGroupPaused(string groupName) {
+            try {
+                return scheduler.IsJobGroupPaused(groupName);
+            } catch (NotImplementedException) {
+                return null;
+            }
+        }
+
+        public bool? IsTriggerGroupPaused(string groupName) {
+            try {
+                return scheduler.IsTriggerGroupPaused(groupName);
+            } catch (NotImplementedException) {
+                return null;
+            }
+        }
+
+        public IEnumerable<IJobExecutionContext> GetCurrentlyExecutingJobs() {
+            return scheduler.GetCurrentlyExecutingJobs();
+        }
+
+        public ISet<JobKey> GetJobKeys(GroupMatcher<JobKey> key) {
+            return scheduler.GetJobKeys(key);
+        }
+
+        public IJobDetail GetJobDetail(JobKey key) {
+            return scheduler.GetJobDetail(key);
+        }
+
+        public IEnumerable<string> GetTriggerGroupNames() {
+            return scheduler.GetTriggerGroupNames();
+        }
+
+        public IEnumerable<string> GetJobGroupNames() {
+            return scheduler.GetJobGroupNames();
+        }
+
+        public IEnumerable<string> GetCalendarNames() {
+            return scheduler.GetCalendarNames();
+        }
+
+        public IListenerManager ListenerManager {
+            get {
+                return scheduler.ListenerManager;
+            }
+        }
+
+        public ICalendar GetCalendar(string name) {
+            return scheduler.GetCalendar(name);
+        }
+
+        public SchedulerMetaData GetMetaData() {
+            return scheduler.GetMetaData();
+        }
+
+        public string SchedulerName {
+            get {
+                return scheduler.SchedulerName;
+            }
+        }
+
+        public bool InStandbyMode {
+            get {
+                return scheduler.InStandbyMode;
+            }
         }
     }
 }
