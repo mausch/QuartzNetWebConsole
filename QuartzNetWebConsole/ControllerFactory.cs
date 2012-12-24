@@ -32,8 +32,8 @@ namespace QuartzNetWebConsole {
                 Route("triggersByJob", ctx => TriggersByJobController.Execute(ctx, Setup.Scheduler)),
             };
 
-        public static KeyValuePair<string, Action<HttpContextBase>> Route(string path, Action<HttpContextBase> action) {
-            return new KeyValuePair<string, Action<HttpContextBase>>(path, action);
+        public static Route Route(string path, Action<HttpContextBase> action) {
+            return new Route(path, action);
         }
     }
 }
