@@ -9,12 +9,6 @@ using QuartzNetWebConsole.Utils;
 
 namespace QuartzNetWebConsole.Controllers {
     public class SchedulerController {
-        private static SchedulerWrapper scheduler {
-            get {
-                return new SchedulerWrapper(Setup.Scheduler());
-            }
-        }
-
         private static readonly MethodInfo[] methods = typeof(SchedulerWrapper).GetMethods();
 
         public class MethodParameters {
@@ -57,7 +51,8 @@ namespace QuartzNetWebConsole.Controllers {
             return new MethodParameters(method, redirect, parameters);
         }
 
-        public static void Execute(HttpContextBase context) {
+        public static void Execute(HttpContextBase context, Func<ISchedulerWrapper> getScheduler) {
+            var scheduler = getScheduler();
             var qs = context.Request.QueryString;
             var p = GetMethodParameters(qs);
             p.method.Invoke(scheduler, p.parameters.ToArray());

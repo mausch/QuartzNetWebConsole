@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using MiniMVC;
+using Quartz;
 using QuartzNetWebConsole.Controllers;
+using QuartzNetWebConsole.Utils;
 using Route = System.Collections.Generic.KeyValuePair<string, System.Action<System.Web.HttpContextBase>>;
 
 namespace QuartzNetWebConsole {
@@ -15,15 +17,19 @@ namespace QuartzNetWebConsole {
                 .FirstOrDefault();
         }
 
+        private static ISchedulerWrapper GetSchedulerWrapper() {
+            return new SchedulerWrapper(Setup.Scheduler());
+        }
+
         private readonly IEnumerable<Route> routes =
             new[] {
-                Route("jobgroup", JobGroupController.Execute),
-                Route("index", IndexController.Execute),
+                Route("jobgroup", ctx => JobGroupController.Execute(ctx, GetSchedulerWrapper)),
+                Route("index", ctx => IndexController.Execute(ctx, GetSchedulerWrapper)),
                 Route("log", LogController.Execute),
-                Route("scheduler", SchedulerController.Execute),
+                Route("scheduler", ctx => SchedulerController.Execute(ctx, GetSchedulerWrapper)),
                 Route("static", StaticController.Execute),
-                Route("triggerGroup", TriggerGroupController.Execute),
-                Route("triggersByJob", TriggersByJobController.Execute),
+                Route("triggerGroup", ctx => TriggerGroupController.Execute(ctx, Setup.Scheduler)),
+                Route("triggersByJob", ctx => TriggersByJobController.Execute(ctx, Setup.Scheduler)),
             };
 
         public static KeyValuePair<string, Action<HttpContextBase>> Route(string path, Action<HttpContextBase> action) {

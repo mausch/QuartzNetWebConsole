@@ -1,19 +1,15 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web;
 using MiniMVC;
-using Quartz;
 using QuartzNetWebConsole.Utils;
 using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole.Controllers {
     public class IndexController {
-        private static ISchedulerWrapper scheduler {
-            get {
-                return new SchedulerWrapper(Setup.Scheduler());
-            }
-        }
 
-        public static void Execute(HttpContextBase context) {
+        public static void Execute(HttpContextBase context, Func<ISchedulerWrapper> getScheduler) {
+            var scheduler = getScheduler();
             var triggerGroups = scheduler.GetTriggerGroupNames()
                 .Select(t => new GroupWithStatus(t, scheduler.IsTriggerGroupPaused(t)))
                 .ToArray();

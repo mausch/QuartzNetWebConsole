@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web;
 using MiniMVC;
 using Quartz;
@@ -8,13 +9,8 @@ using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole.Controllers {
     public class JobGroupController {
-        private static ISchedulerWrapper scheduler {
-            get {
-                return new SchedulerWrapper(Setup.Scheduler());
-            }
-        }
-
-        public static void Execute(HttpContextBase context) {
+        public static void Execute(HttpContextBase context, Func<ISchedulerWrapper> getScheduler) {
+            var scheduler = getScheduler();
             var group = context.Request.QueryString["group"];
             var jobNames = scheduler.GetJobKeys(GroupMatcher<JobKey>.GroupEquals(group));
             var runningJobs = scheduler.GetCurrentlyExecutingJobs();

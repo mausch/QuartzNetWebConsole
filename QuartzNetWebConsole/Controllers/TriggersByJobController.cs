@@ -7,13 +7,8 @@ using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole.Controllers {
     public class TriggersByJobController {
-        private static IScheduler scheduler {
-            get {
-                return Setup.Scheduler();
-            }
-        }
-
-        public static void Execute(HttpContextBase context) {
+        public static void Execute(HttpContextBase context, Func<IScheduler> getScheduler) {
+            var scheduler = getScheduler();
             var group = context.Request.QueryString["group"];
             var job = context.Request.QueryString["job"];
             var jobKey = new JobKey(job, group);
