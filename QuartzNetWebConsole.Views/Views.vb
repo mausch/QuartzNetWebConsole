@@ -299,7 +299,7 @@ Public Module Views
                                 <td><%= j.Job.JobType %></td>
                                 <td><%= YesNo(j.Job.Durable) %></td>
                                 <td><%= YesNo(j.Job.PersistJobDataAfterExecution) %></td>
-                                <td><%= YesNo(j.Job.ConcurrentExectionDisallowed) %></td>
+                                <td><%= YesNo(j.Job.ConcurrentExecutionDisallowed) %></td>
                                 <td><%= YesNo(j.Job.RequestsRecovery) %></td>
                                 <td><%= If(j.JobContext IsNot Nothing, j.JobContext.FireTimeUtc, Nothing) %></td>
                                 <td>

@@ -102,6 +102,9 @@ namespace QuartzNetWebConsole {
         public virtual void SchedulerStarted() {
         }
 
+        public virtual void SchedulerStarting() {
+        }
+
         public virtual void SchedulerShutdown() {
         }
 
