@@ -98,7 +98,7 @@
     </ItemGroup>
     <RemoveDir Directories="$(MergedOutputPath)" />
     <MakeDir Directories="$(MergedOutputPath)" ContinueOnError="true" />
-    <ILMerge InputAssemblies="@(MergeAsm)" OutputFile="$(MergedOutputPath)\QuartzNetWebConsole.dll" XmlDocs="true" DebugInfo="true" Internalize="true" />
+    <ILMerge InputAssemblies="@(MergeAsm)" OutputFile="$(MergedOutputPath)\QuartzNetWebConsole.dll" ExcludeFile="$(SolutionDir)\ilmerge.exclude" XmlDocs="true" DebugInfo="true" Internalize="true" />
   </Target>
   <Target Name="BeforeBuild">
   </Target>
