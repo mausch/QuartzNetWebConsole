@@ -4,5 +4,7 @@ using Quartz;
 using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole {
-    public interface ILogger: ISchedulerListener, IJobListener, ITriggerListener, IQueryable<LogEntry> {}
+    public interface ILogger: ISchedulerListener, IJobListener, ITriggerListener, IQueryable<LogEntry> {
+        void Add(string msg);
+    }
 }

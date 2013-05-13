@@ -23,6 +23,10 @@ namespace QuartzNetWebConsole {
             entries = new LimitedList<LogEntry>(capacity);
         }
 
+        public override void Add(string msg) {
+            entries.Add(new LogEntry(msg));
+        }
+
         public override void JobScheduled(ITrigger trigger) {
             var desc = string.Format("Job {0} scheduled with trigger {1}", DescribeJob(trigger.JobKey.Group, trigger.JobKey.Name), Describe(trigger));
             entries.Add(new LogEntry(desc));

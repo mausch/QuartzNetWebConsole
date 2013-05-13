@@ -53,6 +53,8 @@ namespace QuartzNetWebConsole {
         public abstract Expression Expression { get; }
         public abstract Type ElementType { get; }
         public abstract IQueryProvider Provider { get; }
+        public abstract void Add(string msg);
+
         public virtual void JobScheduled(ITrigger trigger) {
             
         }
