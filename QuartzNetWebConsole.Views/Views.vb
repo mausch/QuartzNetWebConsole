@@ -231,7 +231,7 @@ Public Module Views
         </html>
     End Function
 
-    Public Function TriggerGroup(group As String, paused As Boolean, thisUrl As String, highlight As String, triggers As IEnumerable(Of TriggerWithState)) As XElement
+    Public Function TriggerGroup(group As String, paused As Boolean?, thisUrl As String, highlight As String, triggers As IEnumerable(Of TriggerWithState)) As XElement
         Dim schedulerOp = Function(method As String) "scheduler.ashx?method=" + method +
                               "&groupName=" + group +
                               "&next=" + HttpUtility.UrlEncode(thisUrl)
@@ -244,10 +244,11 @@ Public Module Views
             <body>
                 <a href="index.ashx">Index</a>
                 <h1>Trigger group <%= group %></h1>
-		        Status: <%= If(paused, "paused", "started") %>
-                <%= If(paused,
-                    SimpleForm(schedulerOp("ResumeTriggerGroup"), "Resume this trigger group"),
-                    SimpleForm(schedulerOp("PauseTriggerGroup"), "Pause this trigger group")) %>
+		        Status: <%= IfNullable(paused, ifNull:="N/A", ifTrue:="paused", ifFalse:="started") %>
+                <%= IfNullable(paused,
+                    ifNull:=<span></span>,
+                    ifTrue:=SimpleForm(schedulerOp("ResumeTriggerGroup"), "Resume this trigger group"),
+                    ifFalse:=SimpleForm(schedulerOp("PauseTriggerGroup"), "Pause this trigger group")) %>
                 <br style="clear:both"/>
                 <h2>Triggers</h2>
                 <%= TriggerTable(triggers, thisUrl, highlight) %>
@@ -336,34 +337,36 @@ Public Module Views
 
     Public Function TriggerTable(triggers As IEnumerable(Of TriggerWithState), thisUrl As String, highlight As String) As XElement
         Return _
-            <table>
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Priority</th>
-                    <th>Job group</th>
-                    <th>Job name</th>
-                    <th>Start time UTC</th>
-                    <th>End time UTC</th>
-                    <th>Final fire time UTC</th>
-                    <th>Next fire time UTC</th>
-                    <th>Repeat count</th>
-                    <th>Repeat interval</th>
-                    <th>Times triggered</th>
-                    <th>Cron</th>
-                    <th>Calendar</th>
-                    <th>State</th>
-                    <th></th>
-                </tr>
-                <%= From tr In triggers
+            If(triggers Is Nothing,
+               <span>Not available</span>,
+               <table>
+                   <tr>
+                       <th>Name</th>
+                       <th>Description</th>
+                       <th>Priority</th>
+                       <th>Job group</th>
+                       <th>Job name</th>
+                       <th>Start time UTC</th>
+                       <th>End time UTC</th>
+                       <th>Final fire time UTC</th>
+                       <th>Next fire time UTC</th>
+                       <th>Repeat count</th>
+                       <th>Repeat interval</th>
+                       <th>Times triggered</th>
+                       <th>Cron</th>
+                       <th>Calendar</th>
+                       <th>State</th>
+                       <th></th>
+                   </tr>
+                   <%= From tr In triggers
                     Let trigger = tr.Trigger
                     Let high = highlight = trigger.Key.ToString()
                     Let simpleTrigger = TryCast(trigger, SimpleTriggerImpl)
                     Let cronTrigger = TryCast(trigger, CronTriggerImpl)
                     Let op = Function(method As String) "scheduler.ashx?method=" & method &
-                    "&triggerName=" + trigger.Key.Name +
-                    "&groupName=" + trigger.Key.Group +
-                    "&next=" + HttpUtility.UrlEncode(thisUrl)
+                       "&triggerName=" + trigger.Key.Name +
+                       "&groupName=" + trigger.Key.Group +
+                       "&next=" + HttpUtility.UrlEncode(thisUrl)
                     Select
                     <tr id=<%= trigger.Key.ToString() %>
                         class=<%= If(highlight = trigger.Key.ToString(), "highlight", "") %>>
@@ -398,6 +401,6 @@ Public Module Views
                             <%= SimpleForm(op("UnscheduleJob"), "Delete") %>
                         </td>
                     </tr> %>
-            </table>
+               </table>)
     End Function
 End Module

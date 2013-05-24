@@ -28,8 +28,8 @@ namespace QuartzNetWebConsole {
                 Route("log", LogController.Execute),
                 Route("scheduler", ctx => SchedulerController.Execute(ctx, GetSchedulerWrapper)),
                 Route("static", StaticController.Execute),
-                Route("triggerGroup", ctx => TriggerGroupController.Execute(ctx, Setup.Scheduler)),
-                Route("triggersByJob", ctx => TriggersByJobController.Execute(ctx, Setup.Scheduler)),
+                Route("triggerGroup", ctx => TriggerGroupController.Execute(ctx, GetSchedulerWrapper)),
+                Route("triggersByJob", ctx => TriggersByJobController.Execute(ctx, GetSchedulerWrapper)),
             };
 
         public static Route Route(string path, Action<HttpContextBase> action) {

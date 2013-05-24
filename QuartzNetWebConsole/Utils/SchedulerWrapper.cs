@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Quartz;
 using Quartz.Collection;
 using Quartz.Impl.Matchers;
@@ -140,6 +141,30 @@ namespace QuartzNetWebConsole.Utils {
 
         public SchedulerMetaData GetMetaData() {
             return scheduler.GetMetaData();
+        }
+
+        public IEnumerable<ITrigger> GetTriggersOfJob(JobKey jobKey) {
+            try {
+                return scheduler.GetTriggersOfJob(jobKey);
+            } catch (NotImplementedException) {
+                return null;
+            }
+        }
+
+        public ISet<TriggerKey> GetTriggerKeys(GroupMatcher<TriggerKey> matcher) {
+            try {
+                return scheduler.GetTriggerKeys(matcher);
+            } catch (NotImplementedException) {
+                return null;
+            }
+        }
+
+        public ITrigger GetTrigger(TriggerKey triggerKey) {
+            return scheduler.GetTrigger(triggerKey);
+        }
+
+        public TriggerState GetTriggerState(TriggerKey triggerKey) {
+            return scheduler.GetTriggerState(triggerKey);
         }
 
         public string SchedulerName {

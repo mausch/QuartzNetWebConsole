@@ -37,5 +37,9 @@ namespace QuartzNetWebConsole.Utils {
         bool InStandbyMode { get; }
         ICalendar GetCalendar(string name);
         SchedulerMetaData GetMetaData();
+        IEnumerable<ITrigger> GetTriggersOfJob(JobKey jobKey);
+        ISet<TriggerKey> GetTriggerKeys(GroupMatcher<TriggerKey> matcher);
+        ITrigger GetTrigger(TriggerKey triggerKey);
+        TriggerState GetTriggerState(TriggerKey triggerKey);
     }
 }
