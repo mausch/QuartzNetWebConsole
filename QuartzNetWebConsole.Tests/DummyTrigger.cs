@@ -11,6 +11,10 @@ namespace QuartzNetWebConsole.Tests {
             throw new NotImplementedException();
         }
 
+        public TriggerBuilder GetTriggerBuilder() {
+            throw new NotImplementedException();
+        }
+
         public IScheduleBuilder GetScheduleBuilder() {
             throw new NotImplementedException();
         }
