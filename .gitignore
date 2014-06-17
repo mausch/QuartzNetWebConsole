@@ -9,3 +9,4 @@ _ReSharper.*
 packages/*
 .nuget/nuget.exe
 *.nupkg
+*.sln.ide

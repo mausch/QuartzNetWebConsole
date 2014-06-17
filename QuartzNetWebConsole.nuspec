@@ -10,7 +10,7 @@
     <projectUrl>https://www.ohloh.net/p/QuartzNetWebConsole</projectUrl>
     <language>en-US</language>
     <dependencies>
-      <dependency id="Quartz" version="2.2" />
+      <dependency id="Quartz" version="2.2.3" />
     </dependencies>
   </metadata>
   <files>
