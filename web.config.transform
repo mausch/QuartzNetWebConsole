@@ -5,6 +5,7 @@
         </httpHandlers>
     </system.web>
     <system.webServer>
+        <validation validateIntegratedModeConfiguration="false"/>
         <handlers>
             <add name="QuartzNetWebConsole" verb="*" path="quartz/*" type="QuartzNetWebConsole.ControllerFactory, QuartzNetWebConsole"/>
         </handlers>
