@@ -27,7 +27,7 @@ namespace QuartzNetWebConsole.Utils {
         bool? IsJobGroupPaused(string groupName);
         bool? IsTriggerGroupPaused(string groupName);
         IEnumerable<IJobExecutionContext> GetCurrentlyExecutingJobs();
-        ISet<JobKey> GetJobKeys(GroupMatcher<JobKey> key);
+        Quartz.Collection.ISet<JobKey> GetJobKeys(GroupMatcher<JobKey> key);
         IJobDetail GetJobDetail(JobKey key);
         IEnumerable<string> GetTriggerGroupNames();
         IEnumerable<string> GetJobGroupNames();
@@ -38,7 +38,7 @@ namespace QuartzNetWebConsole.Utils {
         ICalendar GetCalendar(string name);
         SchedulerMetaData GetMetaData();
         IEnumerable<ITrigger> GetTriggersOfJob(JobKey jobKey);
-        ISet<TriggerKey> GetTriggerKeys(GroupMatcher<TriggerKey> matcher);
+        Quartz.Collection.ISet<TriggerKey> GetTriggerKeys(GroupMatcher<TriggerKey> matcher);
         ITrigger GetTrigger(TriggerKey triggerKey);
         TriggerState GetTriggerState(TriggerKey triggerKey);
     }

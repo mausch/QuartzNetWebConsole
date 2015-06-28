@@ -14,7 +14,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="QuartzNetWebConsole\Build\QuartzNetWebConsole.*" target="lib\net35"/>
+    <file src="QuartzNetWebConsole.Web\QuartzNetWebConsole.dll" target="lib\net45"/>
     <file src="web.config.transform" target="content"/>
   </files>
 </package>

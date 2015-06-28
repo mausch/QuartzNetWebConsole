@@ -51,12 +51,11 @@ namespace QuartzNetWebConsole.Controllers {
             return new MethodParameters(method, redirect, parameters);
         }
 
-        public static void Execute(HttpContextBase context, Func<ISchedulerWrapper> getScheduler) {
+        public static Response Execute(Uri url, Func<ISchedulerWrapper> getScheduler) {
             var scheduler = getScheduler();
-            var qs = context.Request.QueryString;
-            var p = GetMethodParameters(qs);
+            var p = GetMethodParameters(url.ParseQueryString());
             p.method.Invoke(scheduler, p.parameters.ToArray());
-            context.Response.Redirect(p.redirect);
+            return new Response.RedirectResponse(p.redirect);
         }
 
         public static object Convert(string s, Type t) {

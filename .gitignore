@@ -10,3 +10,4 @@ packages/*
 .nuget/nuget.exe
 *.nupkg
 *.sln.ide
+QuartzNetWebConsole.Web/*.dll

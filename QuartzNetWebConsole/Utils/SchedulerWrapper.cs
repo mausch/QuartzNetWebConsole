@@ -109,7 +109,7 @@ namespace QuartzNetWebConsole.Utils {
             return scheduler.GetCurrentlyExecutingJobs();
         }
 
-        public ISet<JobKey> GetJobKeys(GroupMatcher<JobKey> key) {
+        public Quartz.Collection.ISet<JobKey> GetJobKeys(GroupMatcher<JobKey> key) {
             return scheduler.GetJobKeys(key);
         }
 
@@ -151,7 +151,7 @@ namespace QuartzNetWebConsole.Utils {
             }
         }
 
-        public ISet<TriggerKey> GetTriggerKeys(GroupMatcher<TriggerKey> matcher) {
+        public Quartz.Collection.ISet<TriggerKey> GetTriggerKeys(GroupMatcher<TriggerKey> matcher) {
             try {
                 return scheduler.GetTriggerKeys(matcher);
             } catch (NotImplementedException) {

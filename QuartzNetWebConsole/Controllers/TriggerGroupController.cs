@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
-using System.Web;
-using MiniMVC;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Matchers;
 using QuartzNetWebConsole.Utils;
 using QuartzNetWebConsole.Views;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace QuartzNetWebConsole.Controllers {
     public class TriggerGroupController {
@@ -22,15 +21,15 @@ namespace QuartzNetWebConsole.Controllers {
             });
         }
 
-        public static void Execute(HttpContextBase context, Func<ISchedulerWrapper> getScheduler) {
+        public static Response Execute(Uri url, Func<ISchedulerWrapper> getScheduler) {
             var scheduler = getScheduler();
-            var highlight = context.Request.QueryString["highlight"];
-            var group = context.Request.QueryString["group"];
+            var qs = url.ParseQueryString();
+            var highlight = qs["highlight"];
+            var group = qs["group"];
             var triggers = GetTriggers(scheduler, group);
-            var thisUrl = context.Request.RawUrl;
             var paused = scheduler.IsTriggerGroupPaused(group);
-            var v = Views.Views.TriggerGroup(group, paused, thisUrl, highlight, triggers);
-            context.Response.Html(Helpers.XHTML(v));
+            var v = Views.Views.TriggerGroup(group, paused, url.PathAndQuery, highlight, triggers);
+            return new Response.XDocumentResponse(Helpers.XHTML(v));
         }
     }
 }

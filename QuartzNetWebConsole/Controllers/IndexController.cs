@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Linq;
-using System.Web;
-using MiniMVC;
+using System.Xml.Linq;
 using QuartzNetWebConsole.Utils;
 using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole.Controllers {
     public class IndexController {
 
-        public static void Execute(HttpContextBase context, Func<ISchedulerWrapper> getScheduler) {
+        public static Response Execute(Func<ISchedulerWrapper> getScheduler) {
             var scheduler = getScheduler();
             var triggerGroups = scheduler.GetTriggerGroupNames()
                 .Select(t => new GroupWithStatus(t, scheduler.IsTriggerGroupPaused(t)))
@@ -41,7 +40,7 @@ namespace QuartzNetWebConsole.Controllers {
                 calendars: calendars,
                 jobListeners: jobListeners,
                 triggerListeners: triggerListeners);
-            context.Response.Html(Helpers.XHTML(view));
+            return new Response.XDocumentResponse(Helpers.XHTML(view));
         }
     }
 }

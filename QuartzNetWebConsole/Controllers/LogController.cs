@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Web;
+using System.Reflection;
 using System.Xml.Linq;
-using MiniMVC;
+using QuartzNetWebConsole.Utils;
 using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole.Controllers {
@@ -21,9 +21,9 @@ namespace QuartzNetWebConsole.Controllers {
             DefaultPageSize = 25;
         }
 
-        public static void Execute(HttpContextBase context) {
-            var qs = context.Request.QueryString;
-            var thisUrl = context.Request.Url.ToString().Split('?')[0];
+        public static Response Execute(Uri url) {
+            var thisUrl = url.PathAndQuery.Split('?')[0];
+            var qs = url.ParseQueryString();
             var pageSize = GetPageSize(qs);
             var pagination = new PaginationInfo(
                 firstItemIndex: GetStartIndex(qs),
@@ -33,7 +33,7 @@ namespace QuartzNetWebConsole.Controllers {
             var logs = logsQ.Skip(pagination.FirstItemIndex).Take(pagination.PageSize).ToList();
             var v = GetView(qs.AllKeys);
             var view = v.Value(logs, pagination, thisUrl);
-            context.Response.XDocument(view, contentType: v.Key);
+            return new Response.XDocumentResponse(view, v.Key);
         }
 
         public static KeyValuePair<string, Func<IEnumerable<LogEntry>, PaginationInfo, string, XDocument>> GetView(IEnumerable<string> qs) {

@@ -1,19 +1,23 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Specialized;
+using System.IO;
 using System.Reflection;
-using System.Web;
-using MiniMVC;
+using QuartzNetWebConsole.Utils;
 
 namespace QuartzNetWebConsole.Controllers {
     public class StaticController {
-        public static void Execute(HttpContextBase context) {
-            var resource = context.Request.QueryString["r"];
-            resource = string.Format("{0}.Resources.{1}", typeof(StaticController).Assembly.FullName.Split(',')[0], resource);
+        private static readonly Assembly assembly = typeof(StaticController).Assembly;
+
+        public static Response Execute(Uri url) {
+            var querystring = url.ParseQueryString();
+            var resource = querystring["r"];
+            resource = string.Format("{0}.Resources.{1}", assembly.FullName.Split(',')[0], resource);
             var content = ReadResource(resource);
-            context.Response.Raw(content, context.Request.QueryString["t"]);
+            return new Response.ContentResponse(content: content, contentType: querystring["t"]);
         }
 
         public static string ReadResource(string name) {
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(name))
+            using (var stream = assembly.GetManifestResourceStream(name))
             using (var reader = new StreamReader(stream)) {
                 return reader.ReadToEnd();
             }

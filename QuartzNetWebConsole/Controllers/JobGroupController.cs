@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Linq;
-using System.Web;
-using MiniMVC;
+using System.Xml.Linq;
 using Quartz;
 using Quartz.Impl.Matchers;
 using QuartzNetWebConsole.Utils;
@@ -9,9 +9,10 @@ using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole.Controllers {
     public class JobGroupController {
-        public static void Execute(HttpContextBase context, Func<ISchedulerWrapper> getScheduler) {
+        public static Response Execute(Uri url, Func<ISchedulerWrapper> getScheduler) {
             var scheduler = getScheduler();
-            var group = context.Request.QueryString["group"];
+            var querystring = url.ParseQueryString();
+            var group = querystring["group"];
             var jobNames = scheduler.GetJobKeys(GroupMatcher<JobKey>.GroupEquals(group));
             var runningJobs = scheduler.GetCurrentlyExecutingJobs();
             var jobs = jobNames.Select(j => {
@@ -21,10 +22,9 @@ namespace QuartzNetWebConsole.Controllers {
                 return new JobWithContext(job, jobContext, interruptible);
             });
             var paused = scheduler.IsJobGroupPaused(group);
-            var thisUrl = context.Request.RawUrl;
-            var highlight = context.Request.QueryString["highlight"];
-            var view = Views.Views.JobGroup(group, paused, highlight, thisUrl, jobs);
-            context.Response.Html(Helpers.XHTML(view));
+            var highlight = querystring["highlight"];
+            var view = Views.Views.JobGroup(group, paused, highlight, url.PathAndQuery, jobs);
+            return new Response.XDocumentResponse(Helpers.XHTML(view));
         }
     }
 }

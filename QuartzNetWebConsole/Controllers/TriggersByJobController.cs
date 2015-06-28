@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
-using System.Web;
-using MiniMVC;
 using Quartz;
 using QuartzNetWebConsole.Utils;
 using QuartzNetWebConsole.Views;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Xml.Linq;
 
 namespace QuartzNetWebConsole.Controllers {
     public class TriggersByJobController {
@@ -19,16 +19,16 @@ namespace QuartzNetWebConsole.Controllers {
             });
         }
 
-        public static void Execute(HttpContextBase context, Func<ISchedulerWrapper> getScheduler) {
+        public static Response Execute(Uri url, Func<ISchedulerWrapper> getScheduler) {
             var scheduler = getScheduler();
-            var highlight = context.Request.QueryString["highlight"];
-            var group = context.Request.QueryString["group"];
-            var job = context.Request.QueryString["job"];
+            var querystring = url.ParseQueryString();
+            var highlight = querystring["highlight"];
+            var group = querystring["group"];
+            var job = querystring["job"];
             var jobKey = new JobKey(job, group);
             var triggers = GetTriggers(scheduler, jobKey);
-            var thisUrl = context.Request.RawUrl;
-            var m = new TriggersByJobModel(triggers, thisUrl, group, job, highlight);
-            context.Response.Html(Helpers.XHTML(Views.Views.TriggersByJob(m)));
+            var m = new TriggersByJobModel(triggers, url.PathAndQuery, group, job, highlight);
+            return new Response.XDocumentResponse(Helpers.XHTML(Views.Views.TriggersByJob(m)));
         }
     }
 }

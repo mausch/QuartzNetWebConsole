@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
 using System.Web;
 using Quartz;
 using QuartzNetWebConsole.Utils;
@@ -38,8 +39,8 @@ namespace QuartzNetWebConsole {
 
         public override void SchedulerError(string msg, SchedulerException cause) {
             entries.Add(new LogEntry(string.Format("Scheduler error: <pre>{0}</pre><br/><pre>{1}</pre>",
-                HttpUtility.HtmlEncode(msg),
-                HttpUtility.HtmlEncode(cause.ToString()))));
+                WebUtility.HtmlEncode(msg),
+                WebUtility.HtmlEncode(cause.ToString()))));
         }
 
         public override void SchedulerShutdown() {
@@ -57,7 +58,7 @@ namespace QuartzNetWebConsole {
         public override void JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException) {
             var description = "Job was executed: " + Describe(context);
             if (jobException != null)
-                description += string.Format("<br/>with exception: <pre>{0}</pre>", HttpUtility.HtmlEncode(jobException.ToString()));
+                description += string.Format("<br/>with exception: <pre>{0}</pre>", WebUtility.HtmlEncode(jobException.ToString()));
             entries.Add(new LogEntry(description));
         }
 
