@@ -6,6 +6,15 @@ using QuartzNetWebConsole;
 
 namespace SampleApp {
     public class Global : HttpApplication {
+
+        static readonly HttpRequest InitialRequest;
+
+        static Global() {
+            // Workaround to fix error "Request is not available in this context" with IIS7 or IIS Express
+            // http://sammyageil.com/post/Request-is-not-available-in-this-context-exception-in-Globalasaxs-Application_Start-IIS-7-Integrated-mode
+            InitialRequest = HttpContext.Current.Request;
+        }
+
         protected void Application_Start(object sender, EventArgs e) {
             // First, initialize Quartz.NET as usual. In this sample app I'll configure Quartz.NET by code.
             var schedulerFactory = new StdSchedulerFactory();
@@ -16,7 +25,7 @@ namespace SampleApp {
             Setup.Scheduler = () => scheduler;
 
             // This adds an logger to the QuartzNetWebConsole. It's optional.
-            var partialQuartzConsoleUrl = string.Format("http://{0}:{1}/quartz/", Context.Request.Url.Host, Context.Request.Url.Port);
+            var partialQuartzConsoleUrl = string.Format("http://{0}:{1}/quartz/", InitialRequest.Url.Host, InitialRequest.Url.Port);
             Setup.Logger = new MemoryLogger(1000, partialQuartzConsoleUrl);
 
             // I'll add some global listeners
