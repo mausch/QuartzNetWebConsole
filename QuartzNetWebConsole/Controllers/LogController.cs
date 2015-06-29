@@ -39,7 +39,7 @@ namespace QuartzNetWebConsole.Controllers {
         public static KeyValuePair<string, Func<IEnumerable<LogEntry>, PaginationInfo, string, XDocument>> GetView(IEnumerable<string> qs) {
             if (qs.Contains("rss"))
                 return Helpers.KV("application/rss+xml", RSSView);
-            return Helpers.KV((string)null, XHTMLView);
+            return Helpers.KV("text/html", XHTMLView);
         }
 
         public static readonly Func<IEnumerable<LogEntry>, PaginationInfo, string, XDocument> XHTMLView =

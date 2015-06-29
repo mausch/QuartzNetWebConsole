@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp", "SampleApp\Samp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuartzNetWebConsole.Web", "QuartzNetWebConsole.Web\QuartzNetWebConsole.Web.csproj", "{1F666487-F60B-4C8D-B632-58B24C37FEC1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp.Owin", "SampleApp.Owin\SampleApp.Owin.csproj", "{76153C2F-C591-417B-A9D9-38E7A2DFF5F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{1F666487-F60B-4C8D-B632-58B24C37FEC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F666487-F60B-4C8D-B632-58B24C37FEC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F666487-F60B-4C8D-B632-58B24C37FEC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76153C2F-C591-417B-A9D9-38E7A2DFF5F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76153C2F-C591-417B-A9D9-38E7A2DFF5F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76153C2F-C591-417B-A9D9-38E7A2DFF5F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76153C2F-C591-417B-A9D9-38E7A2DFF5F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
