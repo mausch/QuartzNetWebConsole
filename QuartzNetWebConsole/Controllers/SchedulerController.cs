@@ -51,7 +51,7 @@ namespace QuartzNetWebConsole.Controllers {
             return new MethodParameters(method, redirect, parameters);
         }
 
-        public static Response Execute(Uri url, Func<ISchedulerWrapper> getScheduler) {
+        public static Response Execute(RelativeUri url, Func<ISchedulerWrapper> getScheduler) {
             var scheduler = getScheduler();
             var p = GetMethodParameters(url.ParseQueryString());
             p.method.Invoke(scheduler, p.parameters.ToArray());

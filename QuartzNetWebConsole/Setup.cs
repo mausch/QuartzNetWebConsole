@@ -44,14 +44,17 @@ namespace QuartzNetWebConsole {
 
         public delegate Task AppFunc(IDictionary<string, object> env);
 
-        public static Func<AppFunc, AppFunc> Owin(Func<IScheduler> scheduler) {
+        public static Func<AppFunc, AppFunc> Owin(string basePath, Func<IScheduler> scheduler) {
             Setup.Scheduler = scheduler;
             return app => env => {
-                var uri = env.GetOwinUri();
+                var pathAndQuery = env.GetOwinRelativeUri();
+                if (!pathAndQuery.Path.StartsWith(basePath))
+                    return app(env);
+
                 var response =
                     Routing.Routes
-                        .Where(x => uri.AbsolutePath.Split('.')[0].EndsWith(x.Key, StringComparison.InvariantCultureIgnoreCase))
-                        .Select(r => r.Value(uri).EvaluateResponse())
+                        .Where(x => pathAndQuery.Path.Replace(basePath, "").Split('.')[0].EndsWith(x.Key, StringComparison.InvariantCultureIgnoreCase))
+                        .Select(r => r.Value(pathAndQuery).EvaluateResponse())
                         .FirstOrDefault();
                 return response == null ? app(env) : response(env);
             };

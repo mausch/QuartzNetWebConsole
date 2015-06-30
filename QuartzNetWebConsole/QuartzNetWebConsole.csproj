@@ -78,6 +78,7 @@
     <Compile Include="Utils\LimitedList.cs" />
     <Compile Include="Utils\Owin.cs" />
     <Compile Include="Utils\QueryStringParser.cs" />
+    <Compile Include="Utils\RelativeUri.cs" />
     <Compile Include="Utils\Response.cs" />
     <Compile Include="Utils\SchedulerWrapper.cs" />
   </ItemGroup>

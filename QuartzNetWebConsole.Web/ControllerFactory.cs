@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web;
 using MiniMVC;
+using QuartzNetWebConsole.Utils;
 using Response = QuartzNetWebConsole.Utils.Response;
 using Route = System.Collections.Generic.KeyValuePair<string, System.Action<System.Web.HttpContextBase>>;
 
@@ -16,9 +17,9 @@ namespace QuartzNetWebConsole {
                 .FirstOrDefault();
         }
 
-        private static Action<HttpContextBase> ToWebAction(Func<Uri, Response> handler) {
+        private static Action<HttpContextBase> ToWebAction(Func<RelativeUri, Response> handler) {
             return ctx => {
-                var response = handler(ctx.Request.Url);
+                var response = handler(new RelativeUri(ctx.Request.Url.PathAndQuery));
                 EvaluateResponse(response, ctx.Response);
             };
         }

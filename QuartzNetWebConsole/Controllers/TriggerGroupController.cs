@@ -21,7 +21,7 @@ namespace QuartzNetWebConsole.Controllers {
             });
         }
 
-        public static Response Execute(Uri url, Func<ISchedulerWrapper> getScheduler) {
+        public static Response Execute(RelativeUri url, Func<ISchedulerWrapper> getScheduler) {
             var scheduler = getScheduler();
             var qs = url.ParseQueryString();
             var highlight = qs["highlight"];

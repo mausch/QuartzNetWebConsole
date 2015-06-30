@@ -6,22 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace QuartzNetWebConsole.Utils {
-    internal static class Owin {
-        public static Uri GetOwinUri(this IDictionary<string, object> env) {
-            var headers = (IDictionary<string, string[]>) env["owin.RequestHeaders"];
-            var scheme = (string) env["owin.RequestScheme"];
-            var hostAndPort = headers["Host"].First().Split(':');
-            var host = hostAndPort[0];
-            var port = hostAndPort.Length > 1 ? int.Parse(hostAndPort[1]) : (scheme == Uri.UriSchemeHttp ? 80 : 443);
-            var path = (string) env["owin.RequestPathBase"] + (string) env["owin.RequestPath"];
-            var query = (string) env["owin.RequestQueryString"];
+    public static class Owin {
+        public static string GetOwinRequestPath(this IDictionary<string, object> env) {
+            return (string)env["owin.RequestPath"];
+        }
 
-            var uriBuilder = new UriBuilder(scheme: scheme, host: host, portNumber: port) {
-                Path = path,
-                Query = query,
-            };
+        public static string GetOwinRequestQueryString(this IDictionary<string, object> env) {
+            return (string)env["owin.RequestQueryString"];
+        }
 
-            return uriBuilder.Uri;
+        public static RelativeUri GetOwinRelativeUri(this IDictionary<string, object> env) {
+            return new RelativeUri(env.GetOwinRequestPath() + "?" + env.GetOwinRequestQueryString());
         }
 
         public static Stream GetOwinResponseBody(this IDictionary<string, object> env) {
@@ -53,7 +48,7 @@ namespace QuartzNetWebConsole.Utils {
         public static Setup.AppFunc EvaluateResponse(this Response response) {
             return env => response.Match(
                 content: async x => {
-                    env.SetOwinContentType(x.ContentType, encoding.BodyName);
+                    env.SetOwinContentType(contentType: x.ContentType, charset: encoding.BodyName);
                     var content = Encoding.UTF8.GetBytes(x.Content);
                     env.SetOwinContentLength(content.Length);
                     await env.GetOwinResponseBody().WriteAsync(content, 0, content.Length);

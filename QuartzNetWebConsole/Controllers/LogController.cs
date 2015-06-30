@@ -21,7 +21,7 @@ namespace QuartzNetWebConsole.Controllers {
             DefaultPageSize = 25;
         }
 
-        public static Response Execute(Uri url) {
+        public static Response Execute(RelativeUri url) {
             var thisUrl = url.PathAndQuery.Split('?')[0];
             var qs = url.ParseQueryString();
             var pageSize = GetPageSize(qs);

@@ -4,8 +4,6 @@ using Quartz;
 using QuartzNetWebConsole.Utils;
 using QuartzNetWebConsole.Views;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Xml.Linq;
 
 namespace QuartzNetWebConsole.Controllers {
     public class TriggersByJobController {
@@ -19,7 +17,7 @@ namespace QuartzNetWebConsole.Controllers {
             });
         }
 
-        public static Response Execute(Uri url, Func<ISchedulerWrapper> getScheduler) {
+        public static Response Execute(RelativeUri url, Func<ISchedulerWrapper> getScheduler) {
             var scheduler = getScheduler();
             var querystring = url.ParseQueryString();
             var highlight = querystring["highlight"];
