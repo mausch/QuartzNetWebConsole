@@ -76,6 +76,7 @@
     <Compile Include="Controllers\TriggerGroupController.cs" />
     <Compile Include="Utils\ISchedulerWrapper.cs" />
     <Compile Include="Utils\LimitedList.cs" />
+    <Compile Include="Utils\Owin.cs" />
     <Compile Include="Utils\QueryStringParser.cs" />
     <Compile Include="Utils\Response.cs" />
     <Compile Include="Utils\SchedulerWrapper.cs" />
