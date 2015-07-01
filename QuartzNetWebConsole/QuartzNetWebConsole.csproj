@@ -99,4 +99,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>$(SolutionDir)packages\ilmerge.2.14.1208\tools\ILMerge.exe /ndebug /out:$(ProjectDir)QuartzNetWebConsole.dll $(TargetDir)QuartzNetWebConsole.dll $(TargetDir)QuartzNetWebConsole.Views.dll</PostBuildEvent>
+  </PropertyGroup>
 </Project>
