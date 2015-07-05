@@ -1,6 +1,5 @@
-﻿Imports MiniMVC
+﻿Imports System.Net
 Imports Quartz
-Imports System.Web
 Imports Quartz.Impl.Triggers
 
 Public Module Views
@@ -234,7 +233,7 @@ Public Module Views
     Public Function TriggerGroup(group As String, paused As Boolean?, thisUrl As String, highlight As String, triggers As IEnumerable(Of TriggerWithState)) As XElement
         Dim schedulerOp = Function(method As String) "scheduler.ashx?method=" + method +
                               "&groupName=" + group +
-                              "&next=" + HttpUtility.UrlEncode(thisUrl)
+                              "&next=" + WebUtility.UrlEncode(thisUrl)
         Return _
         <html>
             <head>
@@ -259,7 +258,7 @@ Public Module Views
     Public Function JobGroup(group As String, paused As Boolean?, highlight As String, thisUrl As String, jobs As IEnumerable(Of JobWithContext)) As XElement
         Dim schedulerOp = Function(method As String) "scheduler.ashx?method=" + method +
                               "&groupName=" + group +
-                              "&next=" + HttpUtility.UrlEncode(thisUrl)
+                              "&next=" + WebUtility.UrlEncode(thisUrl)
         Return _
             <html>
                 <head>
@@ -291,7 +290,7 @@ Public Module Views
                             Let op = Function(method As String) "scheduler.ashx?method=" + method +
                             "&jobName=" + j.Job.Key.Name +
                             "&groupName=" + j.Job.Key.Group +
-                            "&next=" + HttpUtility.UrlEncode(thisUrl)
+                            "&next=" + WebUtility.UrlEncode(thisUrl)
                             Select
                             <tr id=<%= j.Job.Key.ToString() %>
                                 class=<%= If(highlight = j.Job.Key.ToString(), "highlight", "") %>>
@@ -366,7 +365,7 @@ Public Module Views
                     Let op = Function(method As String) "scheduler.ashx?method=" & method &
                        "&triggerName=" + trigger.Key.Name +
                        "&groupName=" + trigger.Key.Group +
-                       "&next=" + HttpUtility.UrlEncode(thisUrl)
+                       "&next=" + WebUtility.UrlEncode(thisUrl)
                     Select
                     <tr id=<%= trigger.Key.ToString() %>
                         class=<%= If(highlight = trigger.Key.ToString(), "highlight", "") %>>
@@ -403,4 +402,5 @@ Public Module Views
                     </tr> %>
                </table>)
     End Function
+
 End Module
