@@ -39,7 +39,7 @@ namespace SampleApp.Owin {
             // A dummy calendar
             //scheduler.AddCalendar("myCalendar", new DummyCalendar { Description = "dummy calendar" }, false, false);
 
-            app.Use(QuartzNetWebConsole.Setup.Owin("/quartz", () => scheduler));
+            app.Use(QuartzNetWebConsole.Setup.Owin("/quartz/", () => scheduler));
         }
 
         private static void Main(string[] args) {
