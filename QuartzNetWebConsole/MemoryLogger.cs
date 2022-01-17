@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using Quartz;
 using QuartzNetWebConsole.Utils;
@@ -28,46 +30,65 @@ namespace QuartzNetWebConsole {
             entries.Add(new LogEntry(msg));
         }
 
-        public override void JobScheduled(ITrigger trigger) {
+        public override Task JobScheduled(ITrigger trigger, CancellationToken cancellationToken = new CancellationToken())
+        {
             var desc = string.Format("Job {0} scheduled with trigger {1}", DescribeJob(trigger.JobKey.Group, trigger.JobKey.Name), Describe(trigger));
             entries.Add(new LogEntry(desc));
+            return Task.CompletedTask;
         }
 
-        public override void TriggerFinalized(ITrigger trigger) {
+        public override Task TriggerFinalized(ITrigger trigger, CancellationToken cancellationToken = new CancellationToken())
+        {
             entries.Add(new LogEntry("Trigger finalized: " + Describe(trigger)));
+            return Task.CompletedTask;
         }
 
-        public override void SchedulerError(string msg, SchedulerException cause) {
+        public override Task SchedulerError(string msg, SchedulerException cause,
+            CancellationToken cancellationToken = new CancellationToken())
+        {
             entries.Add(new LogEntry(string.Format("Scheduler error: <pre>{0}</pre><br/><pre>{1}</pre>",
                 WebUtility.HtmlEncode(msg),
                 WebUtility.HtmlEncode(cause.ToString()))));
+            return Task.CompletedTask;
         }
 
-        public override void SchedulerShutdown() {
+        public override Task SchedulerShutdown(CancellationToken cancellationToken = new CancellationToken())
+        {
             entries.Add(new LogEntry("Scheduler shutdown"));
+            return Task.CompletedTask;
         }
 
-        public override void JobToBeExecuted(IJobExecutionContext context) {
+        public override Task JobToBeExecuted(IJobExecutionContext context, CancellationToken cancellationToken = new CancellationToken())
+        {
             entries.Add(new LogEntry("Job to be executed: " + Describe(context)));
+            return Task.CompletedTask;
         }
 
         public override void JobExecutionVetoed(IJobExecutionContext context) {
             entries.Add(new LogEntry("Job execution vetoed: " + Describe(context)));
         }
 
-        public override void JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException) {
+        public override Task JobWasExecuted(IJobExecutionContext context, JobExecutionException? jobException,
+            CancellationToken cancellationToken = new CancellationToken())
+        {
             var description = "Job was executed: " + Describe(context);
             if (jobException != null)
                 description += string.Format("<br/>with exception: <pre>{0}</pre>", WebUtility.HtmlEncode(jobException.ToString()));
             entries.Add(new LogEntry(description));
+            return Task.CompletedTask;
         }
 
-        public override void TriggerFired(ITrigger trigger, IJobExecutionContext context) {
+        public override Task TriggerFired(ITrigger trigger, IJobExecutionContext context,
+            CancellationToken cancellationToken = new CancellationToken())
+        {
             entries.Add(new LogEntry("Job fired: " + Describe(context)));
+            return Task.CompletedTask;
         }
 
-        public override void TriggerMisfired(ITrigger trigger) {
+        public override Task TriggerMisfired(ITrigger trigger, CancellationToken cancellationToken = new CancellationToken())
+        {
             entries.Add(new LogEntry("Job misfired: " + Describe(trigger)));
+            return Task.CompletedTask;
         }
 
         public override void TriggerComplete(ITrigger trigger, IJobExecutionContext context, SchedulerInstruction triggerInstructionCode) {

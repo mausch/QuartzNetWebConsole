@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Quartz;
 
 namespace SampleApp {
@@ -8,8 +9,9 @@ namespace SampleApp {
     /// </summary>
     [DisallowConcurrentExecution]
     public class HelloJob : IJob {
-        public void Execute(IJobExecutionContext context) {
-            Thread.Sleep(5000);
+        public async Task Execute(IJobExecutionContext context)
+        {
+            await Task.Delay(5000);
         }
     }
 }

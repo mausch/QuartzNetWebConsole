@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using QuartzNetWebConsole.Utils;
 using QuartzNetWebConsole.Views;
@@ -21,7 +22,9 @@ namespace QuartzNetWebConsole.Controllers {
             DefaultPageSize = 25;
         }
 
-        public static Response Execute(RelativeUri url) {
+        public static async Task<Response> Execute(RelativeUri url)
+        {
+            await Task.CompletedTask;
             var thisUrl = url.PathAndQuery.Split('?')[0];
             var qs = url.ParseQueryString();
             var pageSize = GetPageSize(qs);

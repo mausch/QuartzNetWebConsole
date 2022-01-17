@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Web;
 using QuartzNetWebConsole.Utils;
 
@@ -51,7 +52,9 @@ namespace QuartzNetWebConsole.Controllers {
             return new MethodParameters(method, redirect, parameters);
         }
 
-        public static Response Execute(RelativeUri url, Func<ISchedulerWrapper> getScheduler) {
+        public static async Task<Response> Execute(RelativeUri url, Func<ISchedulerWrapper> getScheduler)
+        {
+            await Task.CompletedTask;
             var scheduler = getScheduler();
             var p = GetMethodParameters(url.ParseQueryString());
             p.method.Invoke(scheduler, p.parameters.ToArray());

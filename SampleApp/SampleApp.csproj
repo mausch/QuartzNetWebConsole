@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Owin" Version="5.0.13" />
+        <PackageReference Include="Quartz" Version="3.3.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\QuartzNetWebConsole\QuartzNetWebConsole.csproj" />
+    </ItemGroup>
+
+</Project>

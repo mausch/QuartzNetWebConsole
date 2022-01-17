@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using MiniMVC;
 using NUnit.Framework;
 using Quartz;
 using QuartzNetWebConsole.Views;

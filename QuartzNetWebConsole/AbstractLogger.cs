@@ -3,41 +3,61 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 using Quartz;
 using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole {
     public abstract class AbstractLogger : ILogger {
-        public virtual void JobToBeExecuted(IJobExecutionContext context) {
-            throw new NotImplementedException();
-        }
-
+        
         public virtual void JobExecutionVetoed(IJobExecutionContext context) {
-            throw new NotImplementedException();
         }
-
-        public virtual void JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException) {
-            throw new NotImplementedException();
-        }
-
+        
         public virtual void TriggerComplete(ITrigger trigger, IJobExecutionContext context, SchedulerInstruction triggerInstructionCode) {
-            throw new NotImplementedException();
+        }
+
+        public virtual Task JobToBeExecuted(IJobExecutionContext context, CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
+        }
+
+        public virtual Task JobExecutionVetoed(IJobExecutionContext context, CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
+        }
+
+        public virtual Task JobWasExecuted(IJobExecutionContext context, JobExecutionException? jobException,
+            CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
+        }
+
+        public virtual Task TriggerFired(ITrigger trigger, IJobExecutionContext context,
+            CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
+        }
+
+        public virtual Task<bool> VetoJobExecution(ITrigger trigger, IJobExecutionContext context,
+            CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.FromResult(true);
+        }
+
+        public virtual Task TriggerMisfired(ITrigger trigger, CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
+        }
+
+        public virtual Task TriggerComplete(ITrigger trigger, IJobExecutionContext context, SchedulerInstruction triggerInstructionCode,
+            CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
         }
 
         string IJobListener.Name {
             get { return "QuartzNetWebConsole.Logger"; }
-        }
-
-        public virtual void TriggerFired(ITrigger trigger, IJobExecutionContext context) {
-            throw new NotImplementedException();
-        }
-
-        public bool VetoJobExecution(ITrigger trigger, IJobExecutionContext context) {
-            return false;
-        }
-
-        public virtual void TriggerMisfired(ITrigger trigger) {
-            throw new NotImplementedException();
         }
 
         string ITriggerListener.Name {
@@ -55,65 +75,110 @@ namespace QuartzNetWebConsole {
         public abstract IQueryProvider Provider { get; }
         public abstract void Add(string msg);
 
-        public virtual void JobScheduled(ITrigger trigger) {
-            
+        public virtual Task JobScheduled(ITrigger trigger, CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
         }
 
-        public virtual void JobUnscheduled(TriggerKey triggerKey) {
+        public virtual Task JobUnscheduled(TriggerKey triggerKey, CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
         }
 
-        public virtual void TriggerFinalized(ITrigger trigger) {
+        public virtual Task TriggerFinalized(ITrigger trigger, CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
         }
 
-        public virtual void TriggerPaused(TriggerKey triggerKey) {
+        public virtual Task TriggerPaused(TriggerKey triggerKey, CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
         }
 
-        public virtual void TriggersPaused(string triggerGroup) {
+        public virtual Task TriggersPaused(string? triggerGroup, CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
         }
 
-        public virtual void TriggerResumed(TriggerKey triggerKey) {
+        public virtual Task TriggerResumed(TriggerKey triggerKey, CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
         }
 
-        public virtual void TriggersResumed(string triggerGroup) {
+        public virtual Task TriggersResumed(string? triggerGroup, CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
         }
 
-        public virtual void JobAdded(IJobDetail jobDetail) {
+        public virtual Task JobAdded(IJobDetail jobDetail, CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
         }
 
-        public virtual void JobDeleted(JobKey jobKey) {
+        public virtual Task JobDeleted(JobKey jobKey, CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
         }
 
-        public virtual void JobPaused(JobKey jobKey) {
+        public virtual Task JobPaused(JobKey jobKey, CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
         }
 
-        public virtual void JobsPaused(string jobGroup) {
+        public virtual Task JobInterrupted(JobKey jobKey, CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
         }
 
-        public virtual void JobResumed(JobKey jobKey) {
+        public virtual Task JobsPaused(string jobGroup, CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
         }
 
-        public virtual void JobsResumed(string jobGroup) {
+        public virtual Task JobResumed(JobKey jobKey, CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
         }
 
-        public virtual void SchedulerError(string msg, SchedulerException cause) {
+        public virtual Task JobsResumed(string jobGroup, CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
         }
 
-        public virtual void SchedulerInStandbyMode() {
+        public virtual Task SchedulerError(string msg, SchedulerException cause,
+            CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
         }
 
-        public virtual void SchedulerStarted() {
+        public virtual Task SchedulerInStandbyMode(CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
         }
 
-        public virtual void SchedulerStarting() {
+        public virtual Task SchedulerStarted(CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
         }
 
-        public virtual void SchedulerShutdown() {
+        public virtual Task SchedulerStarting(CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
         }
 
-        public virtual void SchedulerShuttingdown() {
+        public virtual Task SchedulerShutdown(CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
         }
 
-        public virtual void SchedulingDataCleared() {
+        public virtual Task SchedulerShuttingdown(CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
+        }
+
+        public virtual Task SchedulingDataCleared(CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using QuartzNetWebConsole.Utils;
 using QuartzNetWebConsole.Views;
@@ -7,20 +8,16 @@ using QuartzNetWebConsole.Views;
 namespace QuartzNetWebConsole.Controllers {
     public class IndexController {
 
-        public static Response Execute(Func<ISchedulerWrapper> getScheduler) {
+        public static async Task<Response> Execute(Func<ISchedulerWrapper> getScheduler) {
             var scheduler = getScheduler();
-            var triggerGroups = scheduler.GetTriggerGroupNames()
-                .Select(t => new GroupWithStatus(t, scheduler.IsTriggerGroupPaused(t)))
-                .ToArray();
+            var triggerGroups = await (await scheduler.GetTriggerGroupNames())
+                .Traverse(async t => new GroupWithStatus(t, await scheduler.IsTriggerGroupPaused(t)));
 
-            var jobGroups = scheduler.GetJobGroupNames()
-                .Select(j => new GroupWithStatus(j, scheduler.IsJobGroupPaused(j)))
-                .ToArray();
+            var jobGroups = await (await scheduler.GetJobGroupNames())
+                .Traverse(async j => new GroupWithStatus(j, await scheduler.IsJobGroupPaused(j)));
 
-            var calendars = scheduler.GetCalendarNames()
-                .Select(name => Helpers.KV(name, scheduler.GetCalendar(name).Description))
-                .ToArray();
-
+            var calendars = await (await scheduler.GetCalendarNames())
+                .Traverse(async name => Helpers.KV(name, (await scheduler.GetCalendar(name)).Description));
 
             var jobListeners = scheduler.ListenerManager.GetJobListeners()
                 .Select(j => Helpers.KV(j.Name, j.GetType()))
@@ -34,7 +31,7 @@ namespace QuartzNetWebConsole.Controllers {
                 schedulerName: scheduler.SchedulerName,
                 inStandby: scheduler.InStandbyMode,
                 listeners: scheduler.ListenerManager.GetSchedulerListeners(),
-                metadata:scheduler.GetMetaData(),
+                metadata: await scheduler.GetMetaData(),
                 triggerGroups: triggerGroups,
                 jobGroups: jobGroups,
                 calendars: calendars,

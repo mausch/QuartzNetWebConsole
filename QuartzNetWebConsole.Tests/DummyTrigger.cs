@@ -3,10 +3,6 @@ using Quartz;
 
 namespace QuartzNetWebConsole.Tests {
     public class DummyTrigger : ITrigger {
-        public object Clone() {
-            throw new NotImplementedException();
-        }
-
         public int CompareTo(ITrigger other) {
             throw new NotImplementedException();
         }
@@ -32,6 +28,11 @@ namespace QuartzNetWebConsole.Tests {
         }
 
         public DateTimeOffset? GetFireTimeAfter(DateTimeOffset? afterTime) {
+            throw new NotImplementedException();
+        }
+
+        public ITrigger Clone()
+        {
             throw new NotImplementedException();
         }
 

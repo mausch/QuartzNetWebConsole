@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Quartz;
-using Quartz.Collection;
 using Quartz.Impl.Matchers;
 
 namespace QuartzNetWebConsole.Utils {
@@ -24,22 +24,22 @@ namespace QuartzNetWebConsole.Utils {
         void ResumeTrigger(string triggerName, string groupName);
         void PauseTrigger(string triggerName, string groupName);
         void UnscheduleJob(string triggerName, string groupName);
-        bool? IsJobGroupPaused(string groupName);
-        bool? IsTriggerGroupPaused(string groupName);
-        IEnumerable<IJobExecutionContext> GetCurrentlyExecutingJobs();
-        Quartz.Collection.ISet<JobKey> GetJobKeys(GroupMatcher<JobKey> key);
-        IJobDetail GetJobDetail(JobKey key);
-        IEnumerable<string> GetTriggerGroupNames();
-        IEnumerable<string> GetJobGroupNames();
-        IEnumerable<string> GetCalendarNames();
+        Task<IReadOnlyCollection<TriggerKey>> GetTriggerKeys(GroupMatcher<TriggerKey> matcher);
+        Task<IReadOnlyCollection<JobKey>> GetJobKeys(GroupMatcher<JobKey> matcher);
+        Task<bool> IsJobGroupPaused(string groupName);
+        Task<bool> IsTriggerGroupPaused(string groupName);
+        Task<IReadOnlyCollection<IJobExecutionContext>> GetCurrentlyExecutingJobs();
+        Task<IJobDetail> GetJobDetail(JobKey key);
+        Task<IReadOnlyCollection<string>> GetTriggerGroupNames();
+        Task<IReadOnlyCollection<string>> GetJobGroupNames();
+        Task<IReadOnlyCollection<string>> GetCalendarNames();
         IListenerManager ListenerManager { get; }
         string SchedulerName { get; }
         bool InStandbyMode { get; }
-        ICalendar GetCalendar(string name);
-        SchedulerMetaData GetMetaData();
-        IEnumerable<ITrigger> GetTriggersOfJob(JobKey jobKey);
-        Quartz.Collection.ISet<TriggerKey> GetTriggerKeys(GroupMatcher<TriggerKey> matcher);
-        ITrigger GetTrigger(TriggerKey triggerKey);
-        TriggerState GetTriggerState(TriggerKey triggerKey);
+        Task<ICalendar> GetCalendar(string name);
+        Task<SchedulerMetaData> GetMetaData();
+        Task<IReadOnlyCollection<ITrigger>> GetTriggersOfJob(JobKey jobKey);
+        Task<ITrigger> GetTrigger(TriggerKey triggerKey);
+        Task<TriggerState> GetTriggerState(TriggerKey triggerKey);
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Quartz;
-using Quartz.Collection;
 using Quartz.Impl.Matchers;
 
 namespace QuartzNetWebConsole.Utils {
@@ -89,44 +89,50 @@ namespace QuartzNetWebConsole.Utils {
             scheduler.UnscheduleJob(new TriggerKey(triggerName, groupName));
         }
 
-        public bool? IsJobGroupPaused(string groupName) {
+        public async Task<IReadOnlyCollection<TriggerKey>> GetTriggerKeys(GroupMatcher<TriggerKey> matcher)
+        {
+            return await scheduler.GetTriggerKeys(matcher);
+        }
+
+        public async Task<IReadOnlyCollection<JobKey>> GetJobKeys(GroupMatcher<JobKey> matcher)
+        {
+            return await scheduler.GetJobKeys(matcher);
+        }
+
+        public async Task<bool> IsJobGroupPaused(string groupName) {
             try {
-                return scheduler.IsJobGroupPaused(groupName);
+                return await scheduler.IsJobGroupPaused(groupName);
             } catch (NotImplementedException) {
-                return null;
+                return false;
             }
         }
 
-        public bool? IsTriggerGroupPaused(string groupName) {
+        public async Task<bool> IsTriggerGroupPaused(string groupName) {
             try {
-                return scheduler.IsTriggerGroupPaused(groupName);
+                return await scheduler.IsTriggerGroupPaused(groupName);
             } catch (NotImplementedException) {
-                return null;
+                return false;
             }
         }
 
-        public IEnumerable<IJobExecutionContext> GetCurrentlyExecutingJobs() {
-            return scheduler.GetCurrentlyExecutingJobs();
+        public async Task<IReadOnlyCollection<IJobExecutionContext>> GetCurrentlyExecutingJobs() {
+            return await scheduler.GetCurrentlyExecutingJobs();
         }
 
-        public Quartz.Collection.ISet<JobKey> GetJobKeys(GroupMatcher<JobKey> key) {
-            return scheduler.GetJobKeys(key);
+        public async Task<IJobDetail> GetJobDetail(JobKey key) {
+            return await scheduler.GetJobDetail(key);
         }
 
-        public IJobDetail GetJobDetail(JobKey key) {
-            return scheduler.GetJobDetail(key);
+        public async Task<IReadOnlyCollection<string>> GetTriggerGroupNames() {
+            return await scheduler.GetTriggerGroupNames();
         }
 
-        public IEnumerable<string> GetTriggerGroupNames() {
-            return scheduler.GetTriggerGroupNames();
+        public async Task<IReadOnlyCollection<string>> GetJobGroupNames() {
+            return await scheduler.GetJobGroupNames();
         }
 
-        public IEnumerable<string> GetJobGroupNames() {
-            return scheduler.GetJobGroupNames();
-        }
-
-        public IEnumerable<string> GetCalendarNames() {
-            return scheduler.GetCalendarNames();
+        public async Task<IReadOnlyCollection<string>> GetCalendarNames() {
+            return await scheduler.GetCalendarNames();
         }
 
         public IListenerManager ListenerManager {
@@ -135,36 +141,28 @@ namespace QuartzNetWebConsole.Utils {
             }
         }
 
-        public ICalendar GetCalendar(string name) {
-            return scheduler.GetCalendar(name);
+        public async Task<ICalendar> GetCalendar(string name) {
+            return await scheduler.GetCalendar(name);
         }
 
-        public SchedulerMetaData GetMetaData() {
-            return scheduler.GetMetaData();
+        public async Task<SchedulerMetaData> GetMetaData() {
+            return await scheduler.GetMetaData();
         }
 
-        public IEnumerable<ITrigger> GetTriggersOfJob(JobKey jobKey) {
+        public async Task<IReadOnlyCollection<ITrigger>> GetTriggersOfJob(JobKey jobKey) {
             try {
-                return scheduler.GetTriggersOfJob(jobKey);
+                return await scheduler.GetTriggersOfJob(jobKey);
             } catch (NotImplementedException) {
                 return null;
             }
         }
 
-        public Quartz.Collection.ISet<TriggerKey> GetTriggerKeys(GroupMatcher<TriggerKey> matcher) {
-            try {
-                return scheduler.GetTriggerKeys(matcher);
-            } catch (NotImplementedException) {
-                return null;
-            }
+        public async Task<ITrigger> GetTrigger(TriggerKey triggerKey) {
+            return await scheduler.GetTrigger(triggerKey);
         }
 
-        public ITrigger GetTrigger(TriggerKey triggerKey) {
-            return scheduler.GetTrigger(triggerKey);
-        }
-
-        public TriggerState GetTriggerState(TriggerKey triggerKey) {
-            return scheduler.GetTriggerState(triggerKey);
+        public async Task<TriggerState> GetTriggerState(TriggerKey triggerKey) {
+            return await scheduler.GetTriggerState(triggerKey);
         }
 
         public string SchedulerName {

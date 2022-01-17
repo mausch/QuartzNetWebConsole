@@ -203,13 +203,13 @@ Public Module Views
 
     Public Function IndexPage(schedulerName As String,
                               inStandby As Boolean,
-                              listeners As IEnumerable(Of ISchedulerListener),
+                              listeners As IReadOnlyCollection(Of ISchedulerListener),
                               metadata As SchedulerMetaData,
-                              triggerGroups As IEnumerable(Of GroupWithStatus),
-                              jobGroups As IEnumerable(Of GroupWithStatus),
-                              calendars As ICollection(Of KeyValuePair(Of String, String)),
-                              jobListeners As ICollection(Of KeyValuePair(Of String, Type)),
-                              triggerListeners As ICollection(Of KeyValuePair(Of String, Type))) As XElement
+                              triggerGroups As IReadOnlyCollection(Of GroupWithStatus),
+                              jobGroups As IReadOnlyCollection(Of GroupWithStatus),
+                              calendars As IReadOnlyCollection(Of KeyValuePair(Of String, String)),
+                              jobListeners As IReadOnlyCollection(Of KeyValuePair(Of String, Type)),
+                              triggerListeners As IReadOnlyCollection(Of KeyValuePair(Of String, Type))) As XElement
         Return _
         <html>
             <head>
