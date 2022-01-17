@@ -13,3 +13,4 @@ packages/*
 QuartzNetWebConsole.Web/*.dll
 QuartzNetWebConsole/*.dll
 [Nn][Uu][Gg][Ee][Tt].[Ee][Xx][Ee]
+.idea
