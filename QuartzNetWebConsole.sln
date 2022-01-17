@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuartzNetWebConsole.Tests",
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "QuartzNetWebConsole.Views", "QuartzNetWebConsole.Views\QuartzNetWebConsole.Views.vbproj", "{7961AB01-1549-4340-8D3D-F0DA43B8C84F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp", "SampleApp\SampleApp.csproj", "{AA2D041C-4CDC-4055-8FC5-C0ECD4D8AE48}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuartzNetWebConsole.Web", "QuartzNetWebConsole.Web\QuartzNetWebConsole.Web.csproj", "{1F666487-F60B-4C8D-B632-58B24C37FEC1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp.Owin", "SampleApp.Owin\SampleApp.Owin.csproj", "{76153C2F-C591-417B-A9D9-38E7A2DFF5F3}"
@@ -33,10 +31,6 @@ Global
 		{7961AB01-1549-4340-8D3D-F0DA43B8C84F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7961AB01-1549-4340-8D3D-F0DA43B8C84F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7961AB01-1549-4340-8D3D-F0DA43B8C84F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AA2D041C-4CDC-4055-8FC5-C0ECD4D8AE48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA2D041C-4CDC-4055-8FC5-C0ECD4D8AE48}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA2D041C-4CDC-4055-8FC5-C0ECD4D8AE48}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA2D041C-4CDC-4055-8FC5-C0ECD4D8AE48}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1F666487-F60B-4C8D-B632-58B24C37FEC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1F666487-F60B-4C8D-B632-58B24C37FEC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F666487-F60B-4C8D-B632-58B24C37FEC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
