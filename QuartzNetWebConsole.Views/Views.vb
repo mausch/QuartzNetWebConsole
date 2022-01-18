@@ -56,22 +56,22 @@ Public Module Views
 
     Public Function LogRSS(thisUrl As String, logs As IEnumerable(Of LogEntry)) As XElement
         Return _
-<rss version="2.0">
-    <channel>
-        <title>Quartz.NET log</title>
-        <description>Quartz.NET log</description>
-        <link><%= thisUrl %></link>
-        <pubDate><%= DateTimeOffset.Now.ToString("R") %></pubDate>
-        <%= From r In logs
-            Select
-            <item>
-                <title><%= r.Timestamp %></title>
-                <description><%= r.Description %></description>
-                <pubDate><%= r.Timestamp.ToString("R") %></pubDate>
-            </item>
-        %>
-    </channel>
-</rss>
+            <rss version="2.0">
+                <channel>
+                    <title>Quartz.NET log</title>
+                    <description>Quartz.NET log</description>
+                    <link><%= thisUrl %></link>
+                    <pubDate><%= DateTimeOffset.Now.ToString("R") %></pubDate>
+                    <%= From r In logs
+                        Select
+                        <item>
+                            <title><%= r.Timestamp %></title>
+                            <description><%= r.Description %></description>
+                            <pubDate><%= r.Timestamp.ToString("R") %></pubDate>
+                        </item>
+                    %>
+                </channel>
+            </rss>
     End Function
 
     Public Function SchedulerStatus(schedulerName As String, inStandby As Boolean, metadata As SchedulerMetaData) As XElement
