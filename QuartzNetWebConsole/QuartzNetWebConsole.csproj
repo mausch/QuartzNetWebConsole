@@ -6,7 +6,7 @@
     <LangVersion>latest</LangVersion>
     <IsPackable>true</IsPackable>
     <PackageProjectUrl>https://github.com/mausch/QuartzNetWebConsole</PackageProjectUrl>
-    <PackageVersion>1.0.1</PackageVersion>
+    <PackageVersion>1.0.2</PackageVersion>
     <Authors>Mauricio Scheffer</Authors>
     <PackageLicenseUrl>https://raw.githubusercontent.com/mausch/QuartzNetWebConsole/master/license.txt</PackageLicenseUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
