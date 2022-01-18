@@ -52,7 +52,11 @@ Public Module X
     End Function
 
     Public Function Raw(xml As String) As XNode()
-        Return XDocument.Parse("<x>" + xml + "</x>", LoadOptions.PreserveWhitespace).Document.Root.Nodes().ToArray
+        Try
+            Return XDocument.Parse("<x>" + xml + "</x>", LoadOptions.PreserveWhitespace).Document.Root.Nodes().ToArray
+        Catch ex as Exception
+            Throw New Exception($"Error parsing '{xml}'")
+        End Try
     End Function
 
     <System.Runtime.CompilerServices.ExtensionAttribute()>
