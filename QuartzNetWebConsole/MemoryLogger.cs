@@ -102,7 +102,7 @@ namespace QuartzNetWebConsole {
         }
 
         private string Link(string href, string text) {
-            return string.Format("<a href='{0}{1}'>{2}</a>", partialQuartzConsoleUrl, href, text);
+            return string.Format("<a href='{0}{1}'>{2}</a>", partialQuartzConsoleUrl, WebUtility.HtmlEncode(href), WebUtility.HtmlEncode(text));
         }
 
         private string LinkTriggerGroup(string group) {
