@@ -1,5 +1,17 @@
 # Embeddable web admin for the Quartz.NET scheduler
 
-To set up the ASP.NET (System.Web) UI, use the [QuartzNetWebConsole](https://www.nuget.org/packages/QuartzNetWebConsole/) package and see http://bugsquash.blogspot.com/2010/06/embeddable-quartznet-web-consoles.html and the [sample app](https://github.com/mausch/QuartzNetWebConsole/tree/master/SampleApp).
+[Nuget package](https://www.nuget.org/packages/QuartzNetWebConsole/).
 
-To set up the OWIN UI, use the [QuartzNetWebConsole.Owin](https://www.nuget.org/packages/QuartzNetWebConsole.Owin) package and see the [sample app](https://github.com/mausch/QuartzNetWebConsole/blob/master/SampleApp.Owin/Program.cs#L42).
+[An old blog post that's still relevant about what the project does](http://bugsquash.blogspot.com/2010/06/embeddable-quartznet-web-consoles.html).
+
+To set this up in your ASP.NET Core (or any OWIN-compatible framework really), add to your Startup:
+
+```
+    app.UseOwin(m =>
+    {
+        m(Setup.Owin("/quartz/", () => Program.Scheduler));
+        Setup.Logger = new MemoryLogger(100, "/quartz/");
+    });
+```
+
+This repo also has a [reference sample app](SampleApp).
