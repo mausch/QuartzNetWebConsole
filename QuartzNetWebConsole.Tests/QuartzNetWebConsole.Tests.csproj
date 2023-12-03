@@ -7,7 +7,9 @@
 
   <ItemGroup>
     <PackageReference Include="Quartz" Version="3.3.3" />
-    <PackageReference Include="NUnit" Version="3.13.2" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />    
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.0" />
   </ItemGroup>
 
   <ItemGroup>

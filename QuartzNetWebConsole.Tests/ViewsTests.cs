@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
-using NUnit.Framework;
+using Xunit;
 using Quartz;
 using QuartzNetWebConsole.Views;
 
 namespace QuartzNetWebConsole.Tests {
-    [TestFixture]
     public class ViewsTests {
-        [Test]
+        [Fact]
         public void TrClassAlt() {
             var x = Views.Views.SchedulerCalendars(new[] {
                 Helpers.KV("one", "1"),
@@ -22,11 +21,11 @@ namespace QuartzNetWebConsole.Tests {
                 .WhereOdd();
             foreach (var tr in trs) {
                 Console.WriteLine(tr.ToString());
-                Assert.AreEqual("alt", tr.Attribute("class").Value);                
+                Assert.Equal("alt", tr.Attribute("class").Value);                
             }
         }
 
-        [Test]
+        [Fact]
         public void TriggerTable() {
             var trigger = new DummyTrigger {
                 Key = new TriggerKey("myCronTrigger", "DEFAULT"),
@@ -42,7 +41,7 @@ namespace QuartzNetWebConsole.Tests {
                     return false;
                 return id.Value == "DEFAULT.myCronTrigger";
             });
-            Assert.AreEqual("highlight", tr.Attribute("class").Value);
+            Assert.Equal("highlight", tr.Attribute("class").Value);
             //var html = x.MakeHTMLCompatible();
             //Console.WriteLine(html);
         }
