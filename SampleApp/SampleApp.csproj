@@ -6,7 +6,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Owin" Version="6.0.25" />
-        <PackageReference Include="Quartz" Version="3.3.3" />
+        <PackageReference Include="Quartz" Version="3.8.0" />
     </ItemGroup>
 
     <ItemGroup>
