@@ -1,4 +1,4 @@
-﻿Public Module Helpers
+Public Module Helpers
     Public Function SimpleForm(action As String, button As String) As XElement
         Return _
         <form method="post" action=<%= action %>>

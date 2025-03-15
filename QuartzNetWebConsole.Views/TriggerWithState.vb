@@ -1,4 +1,4 @@
-﻿Imports Quartz
+Imports Quartz
 
 Public Class TriggerWithState
     Public ReadOnly Trigger As ITrigger

@@ -1,4 +1,4 @@
-﻿namespace QuartzNetWebConsole.Utils {
+namespace QuartzNetWebConsole.Utils {
     public sealed class RelativeUri {
         public readonly string PathAndQuery;
 

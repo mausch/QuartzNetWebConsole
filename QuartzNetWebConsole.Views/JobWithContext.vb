@@ -1,4 +1,4 @@
-﻿Imports Quartz
+Imports Quartz
 
 Public Class JobWithContext
     Public ReadOnly Job As IJobDetail

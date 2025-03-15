@@ -1,4 +1,4 @@
-﻿Imports System.Runtime.CompilerServices
+Imports System.Runtime.CompilerServices
 
 Public Module EnumerableExtensions
     <Extension()>

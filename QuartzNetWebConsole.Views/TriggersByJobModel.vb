@@ -1,4 +1,4 @@
-﻿Public Class TriggersByJobModel
+Public Class TriggersByJobModel
     Public ReadOnly Triggers As IEnumerable(Of TriggerWithState)
     Public ReadOnly ThisUrl As String
     Public ReadOnly Group As String

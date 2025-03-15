@@ -1,4 +1,4 @@
-﻿Public Class LogEntry
+Public Class LogEntry
     Public ReadOnly Timestamp As DateTimeOffset
     Public ReadOnly Description As String
 

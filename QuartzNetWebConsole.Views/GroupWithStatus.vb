@@ -1,4 +1,4 @@
-﻿Public Class GroupWithStatus
+Public Class GroupWithStatus
     Public ReadOnly Name As String
     Public ReadOnly Paused As Boolean
 

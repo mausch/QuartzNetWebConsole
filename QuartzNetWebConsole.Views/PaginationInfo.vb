@@ -1,4 +1,4 @@
-﻿Public Class PaginationInfo
+Public Class PaginationInfo
     Public ReadOnly PageSlide As Integer
     Public ReadOnly PageSize As Integer
     Public ReadOnly TotalItemCount As Integer

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Quartz;
 
 namespace QuartzNetWebConsole.Tests {
