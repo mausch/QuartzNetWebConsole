@@ -5,8 +5,8 @@
   <ItemGroup>
     <PackageVersion Include="Quartz" Version="3.8.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Owin" Version="6.0.25" />
-    <PackageVersion Include="xunit" Version="2.4.1" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.1" />
+    <PackageVersion Include="xunit" Version="2.9.3" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.2" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.3.0" />
     <PackageVersion Include="QuartzNetWebConsole" Version="1.0.2" />
   </ItemGroup>
