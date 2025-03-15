@@ -43,7 +43,7 @@ Public Module Views
                         <%= From e In logs
                             Select
                             <tr>
-                                <td><%= e.Timestamp %></td>
+                                <td class="datetime"><%= e.Timestamp %></td>
                                 <td><%= X.Raw(e.Description) %></td>
                             </tr>
                         %>
@@ -82,7 +82,7 @@ Public Module Views
 				    Job store: <%= metadata.JobStoreType %><br/>
 				    Supports persistence: <%= YesNo(metadata.JobStoreSupportsPersistence) %><br/>
 				    Number of jobs executed: <%= metadata.NumberOfJobsExecuted %><br/>
-				    Running since: <%= metadata.RunningSince %><br/>
+				    Running since: <span class="datetime"><%= metadata.RunningSince %></span><br/>
 				    Status: <%= If(inStandby, "stand-by", "running") %>
                     <br/>
                     <a href="log.ashx">View log</a>
@@ -301,7 +301,7 @@ Public Module Views
                                 <td><%= YesNo(j.Job.PersistJobDataAfterExecution) %></td>
                                 <td><%= YesNo(j.Job.ConcurrentExecutionDisallowed) %></td>
                                 <td><%= YesNo(j.Job.RequestsRecovery) %></td>
-                                <td><%= If(j.JobContext IsNot Nothing, j.JobContext.FireTimeUtc, Nothing) %></td>
+                                <td class="datetime"><%= If(j.JobContext IsNot Nothing, j.JobContext.FireTimeUtc, Nothing) %></td>
                                 <td>
                                     <a href=<%= "triggersByJob.ashx?group=" + j.Job.Key.Group + "&job=" + j.Job.Key.Name %>>Triggers</a>
                                     <%= SimpleForm(op("DeleteJob"), "Delete") %>
@@ -382,10 +382,10 @@ Public Module Views
                                 <%= trigger.JobKey.Group %>
                             </a>
                         </td>
-                        <td><%= trigger.StartTimeUtc %></td>
-                        <td><%= trigger.EndTimeUtc %></td>
-                        <td><%= trigger.FinalFireTimeUtc %></td>
-                        <td><%= trigger.GetNextFireTimeUtc() %></td>
+                        <td class="datetime"><%= trigger.StartTimeUtc %></td>
+                        <td class="datetime"><%= trigger.EndTimeUtc %></td>
+                        <td class="datetime"><%= trigger.FinalFireTimeUtc %></td>
+                        <td class="datetime"><%= trigger.GetNextFireTimeUtc() %></td>
                         <td><%= If(simpleTrigger IsNot Nothing, simpleTrigger.RepeatCount.ToString, "") %></td>
                         <td><%= If(simpleTrigger IsNot Nothing, simpleTrigger.RepeatInterval.ToString, "") %></td>
                         <td><%= If(simpleTrigger IsNot Nothing, simpleTrigger.TimesTriggered.ToString, "") %></td>

@@ -32,5 +32,6 @@
   
   <ItemGroup>
     <EmbeddedResource Include="Resources\styles.css" />
+    <EmbeddedResource Include="Resources\time-toggle.js" />
   </ItemGroup>
 </Project>

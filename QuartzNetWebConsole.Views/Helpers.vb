@@ -6,7 +6,12 @@
         </form>
     End Function
 
-    Public ReadOnly Stylesheet As XElement = <link rel="stylesheet" type="text/css" href="static.ashx?r=styles.css&amp;t=text%2Fcss"/>
+    Public ReadOnly Stylesheet As XElement() = _
+        <x>
+            <link rel="stylesheet" type="text/css" href="static.ashx?r=styles.css&amp;t=text%2Fcss"/>
+            <button id="time-toggle" style="position: fixed; top: 10px; right: 10px;">Toogle local/UTC time</button>
+            <script src="static.ashx?r=time-toggle.js&amp;t=application%2Fjavascript"></script>
+        </x>.Elements.ToArray()
 
     Public Function YesNo(b As Boolean) As String
         Return If(b, "Yes", "No")
