@@ -25,7 +25,7 @@
         # packages.default = pkgs.hello;
         devShells.default = pkgs.mkShell {
           buildInputs = [
-            pkgs.dotnet-sdk_6
+            pkgs.dotnet-sdk_8
           ];
         };
       };
