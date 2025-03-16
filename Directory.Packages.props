@@ -9,6 +9,5 @@
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.2" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
-    <PackageVersion Include="QuartzNetWebConsole" Version="1.0.2" />
   </ItemGroup>
 </Project>
