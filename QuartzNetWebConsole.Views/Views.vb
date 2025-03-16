@@ -2,6 +2,8 @@ Imports System.Net
 Imports Quartz
 Imports Quartz.Impl.Triggers
 
+Imports CronExpressionDescriptor
+
 Public Module Views
     Public Function Pager(pagination As PaginationInfo) As XElement
         Return _
@@ -389,7 +391,14 @@ Public Module Views
                         <td><%= If(simpleTrigger IsNot Nothing, simpleTrigger.RepeatCount.ToString, "") %></td>
                         <td><%= If(simpleTrigger IsNot Nothing, simpleTrigger.RepeatInterval.ToString, "") %></td>
                         <td><%= If(simpleTrigger IsNot Nothing, simpleTrigger.TimesTriggered.ToString, "") %></td>
-                        <td><%= If(cronTrigger IsNot Nothing, X.SpacesToNbsp(cronTrigger.CronExpressionString), "") %></td>
+                        <td>
+                            <%= If(cronTrigger IsNot Nothing, 
+                                <span title=<%= CronExpressionDescriptor.ExpressionDescriptor.GetDescription(cronTrigger.CronExpressionString) %>>
+                                    <%= X.SpacesToNbsp(cronTrigger.CronExpressionString) %>
+                                </span>, 
+                                X.NoElements) 
+                            %>
+                        </td>
                         <td><%= trigger.CalendarName %></td>
                         <td><%= tr.State %></td>
                         <td>

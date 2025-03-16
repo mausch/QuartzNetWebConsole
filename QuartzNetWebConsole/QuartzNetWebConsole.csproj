@@ -24,6 +24,7 @@
   
   <ItemGroup>
     <PackageReference Include="Quartz" />
+    <PackageReference Include="CronExpressionDescriptor" />
   </ItemGroup>
   
   <ItemGroup>
