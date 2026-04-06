@@ -8,7 +8,7 @@
     <PackageProjectUrl>https://github.com/mausch/QuartzNetWebConsole</PackageProjectUrl>
     <PackageVersion>1.0.2</PackageVersion>
     <Authors>Mauricio Scheffer</Authors>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/mausch/QuartzNetWebConsole/master/license.txt</PackageLicenseUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
